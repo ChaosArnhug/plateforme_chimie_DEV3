@@ -1,0 +1,21 @@
+{
+  "name": "projet",
+  "version": "1.0.0",
+  "description": "plateforme",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "quiz",
+    "documents",
+    "education"
+  ],
+  "author": "groupe V04",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "express": "^4.17.3",
+    "mysql": "^2.18.1"
+  }
+}
