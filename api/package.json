@@ -1,0 +1,17 @@
+{
+  "name": "api_plateforme_chimie_dev3",
+  "version": "1.0.0",
+  "description": "api du projet de dev 3 concernant le projet de Mme Cuisinier",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "groupe V04",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "mysql": "^2.18.1"
+  }
+}
