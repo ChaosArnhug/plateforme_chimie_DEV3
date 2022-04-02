@@ -9,8 +9,10 @@ const app = express();
  * Importation des routes
  */
 const indexRouter = require ("./routes/index");
-//const quiz_listRouter = require ("./routes/quiz_list");
-//const quizRouter = require ("./routes/quiz");
+const coursRouter = require ("./routes/cours");
+const documentsRouter = require ("./routes/documents");
+const quizRouter = require ("./routes/quiz");
+const utilisateursRouter = require ("./routes/utilisateurs");
 
 /**
  * Lauch and make the app listening on the port : ${PORT}
@@ -26,5 +28,7 @@ app.use(cors())
 app.use(bodyParser.json()); //transforme toutes les reqêtes en json
 
 app.use("/", indexRouter);
-//app.use("/quiz_list",quiz_listRouter);
-//app.use("/quiz", quizRouter);
+app.use("/cours", coursRouter);
+app.use("/cours/{cours}/documents", documentsRouter);
+app.use("/cours/{cours}/quiz", quizRouter);
+app.use("/{utilisateur_id/tentatives}", utilisateursRouter);
