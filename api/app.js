@@ -29,6 +29,6 @@ app.use(bodyParser.json()); //transforme toutes les reqêtes en json
 
 app.use("/", indexRouter);
 app.use("/cours", coursRouter);
-app.use("/cours/{cours}/documents", documentsRouter);
-app.use("/cours/{cours}/quiz", quizRouter);
-app.use("/{utilisateur_id/tentatives}", utilisateursRouter);
+app.use("/cours/:cours/documents", documentsRouter);
+app.use("/quiz", quizRouter);
+app.use("/:utilisateur_id/tentatives}", utilisateursRouter);

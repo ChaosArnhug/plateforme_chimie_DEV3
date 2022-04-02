@@ -1,11 +1,24 @@
 const express = require("express");
 let router = express.Router();
+const database = require("../mySqlDb");
 
-router.get("/", (req, res) =>{
-    res.send({ title: 'QUIZ' });
+router.get("/:cours", (req, res) =>{
+
+    database.query(`
+        select quiz.titre, quiz.description, quiz.estVisible as disponnible from quiz
+        inner join cours on cours.idCours = quiz.idCours
+        where cours.nom = '${req.params.cours}'`, (err, rows, fields) => {
+
+        if (! err){
+            res.send(rows);
+        }else{
+            res.send("An error occured");
+            console.log(err);
+        }
+    })
 })
 
-router.get("/{quiz_id}", (req, res) =>{
+router.get("/:cours/:quiz_id", (req, res) =>{
     res.send({ title: 'QUIZ_ID' });
 })
 
