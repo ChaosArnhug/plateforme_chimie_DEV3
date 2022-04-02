@@ -5,7 +5,7 @@ let mysqlConnection = mysql.createConnection({
     host: 'localhost', 
     user: 'educuser',
     password: 'educ',
-    database: 'educdb'
+    database: 'educdb_v2'
 });
 
 mysqlConnection.connect((err) => {
