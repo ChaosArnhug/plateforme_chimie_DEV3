@@ -1,7 +1,7 @@
 const express = require("express");
 let router = express.Router();
 
-router.get("/", (req, res) =>{
+router.get("/:utilisateur_id", (req, res) =>{
     res.send({ title: 'TENTATIVES UTILISATEURS' });
 })
 
