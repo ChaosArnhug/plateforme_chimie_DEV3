@@ -28,7 +28,7 @@ router.get("/:cours/:quiz_id", (req, res) =>{
         "}"   ), ']') as questions from quiz 
         inner join questions as QQ on QQ.idQuiz = quiz.idQuiz
         inner join cours on cours.idCours = quiz.idCours
-        where cours.nom = '${req.params.cours}' and quiz.id = '${req.params.quiz_id}'
+        where cours.nom = '${req.params.cours}' and quiz.idQUIZ = '${req.params.quiz_id}'
         group by quiz.idQuiz `, (err, rows, fields) => {
 
         if (! err){
