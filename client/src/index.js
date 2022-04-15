@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import QuizBox from './components/QuizBox'
+
+import ListingCours from './components/ListingCours'
 
 
-import Pagination from '@mui/material/Pagination';
-import Container from '@mui/material/Container';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AppBar from '@mui/material/AppBar';
@@ -57,13 +57,14 @@ const element = (
         </Div>
 
         <Div sx={{ml:"auto", mr:3}}>
-          <Button variant="contained" sx={{ml:3, mr:4, my:2, py:2, bgcolor:"secondary.button", fontSize:20}}>Mes cours</Button>
+          
+          <ListingCours sx={{ml:3, mr:4, my:2, py:2, bgcolor:"secondary.button", fontSize:20}}/>
           <Button variant="contained" sx={{ml:3, mr:2, my:2, py:2, bgcolor:"secondary.button", fontSize:20}}>Mon compte</Button>
         </Div>
       </Box>
-      <Box sx={{ display: 'flex' }}>
+      <div>
         
-      </Box>
+      </div>
       <AppBar position="fixed" sx={{mt:"2", p:2, top: 'auto', bottom: 0, bgcolor:"secondary.main"}}> 
         <Div sx={{textAlign:"center"}}>
           Nous contacter: Responsable admin@admin.be
@@ -82,9 +83,14 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-//ReactDOM.render(<QuizBox/>,
-//  document.getElementById('root')
-//);
+ReactDOM.render(
+  <h1>Hello</h1>,
+  document.getElementById('main')
+);
+
+
+
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
