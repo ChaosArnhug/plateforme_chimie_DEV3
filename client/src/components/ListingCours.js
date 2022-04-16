@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+
+import HubCours from './HubCours'
 
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 class CoursButton extends Component{
-    render(){
-        return <MenuItem onClick={this.props.handleClose}>{this.props.nom}</MenuItem>
-    }
+  goToCours(e){
+    e.preventDefault();
+    this.props.handleClose();
+    alert ("salut "+this.props.nom)
+    ReactDOM.render(
+      <HubCours/>,
+      document.getElementById('main')
+    )
+  }
+  render(){
+      return <MenuItem onClick={this.goToCours.bind(this)}>{this.props.nom}</MenuItem>
+  }
 }
 
 class CoursButtonList extends Component{

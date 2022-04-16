@@ -6,7 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import ListingCours from './components/ListingCours'
 
 
-
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import AppBar from '@mui/material/AppBar';
@@ -62,7 +61,7 @@ const element = (
           <Button variant="contained" sx={{ml:3, mr:2, my:2, py:2, bgcolor:"secondary.button", fontSize:20}}>Mon compte</Button>
         </Div>
       </Box>
-      <div>
+      <div id="main">
         
       </div>
       <AppBar position="fixed" sx={{mt:"2", p:2, top: 'auto', bottom: 0, bgcolor:"secondary.main"}}> 
