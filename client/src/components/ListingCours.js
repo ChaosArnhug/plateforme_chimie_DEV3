@@ -11,9 +11,8 @@ class CoursButton extends Component{
   goToCours(e){
     e.preventDefault();
     this.props.handleClose();
-    alert ("salut "+this.props.nom)
     ReactDOM.render(
-      <HubCours/>,
+      <HubCours nom={this.props.nom}/>,
       document.getElementById('main')
     )
   }
@@ -55,6 +54,7 @@ function BasicMenu(props) {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
+        sx={{ml:3, mr:4, my:2, py:2, bgcolor:"secondary.button", fontSize:20, color:"#000000"}}
       >
         Mes cours
       </Button>
@@ -90,7 +90,7 @@ class ListingCours extends Component{
 
   render(){
     return(
-      <BasicMenu data={this.state.data}/>
+      <BasicMenu data={this.state.data} />
     )
     
   }

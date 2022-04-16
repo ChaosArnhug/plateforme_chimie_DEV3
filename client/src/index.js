@@ -20,6 +20,7 @@ import { unstable_styleFunctionSx, styled } from '@mui/system';
 const Div = styled('div')(unstable_styleFunctionSx);
 const Img = styled('img')(unstable_styleFunctionSx);
 
+
 // On définit un theme
 const theme = createTheme({
   palette: {
@@ -55,10 +56,13 @@ const element = (
           <Button variant="contained" sx={{ml:2, mr:20, my:2, py:2, bgcolor:"secondary.button", fontSize:20}}>Inscription au cours</Button>
         </Div>
 
-        <Div sx={{ml:"auto", mr:3}}>
+        <Div sx={{ml:"auto", mr:3, display: 'flex'}}>
           
           <ListingCours sx={{ml:3, mr:4, my:2, py:2, bgcolor:"secondary.button", fontSize:20}}/>
+          <div>
           <Button variant="contained" sx={{ml:3, mr:2, my:2, py:2, bgcolor:"secondary.button", fontSize:20}}>Mon compte</Button>
+          </div>
+          
         </Div>
       </Box>
       <div id="main">
@@ -95,3 +99,6 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+
+export default theme;
