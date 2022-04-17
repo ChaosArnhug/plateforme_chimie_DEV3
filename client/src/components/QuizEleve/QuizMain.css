@@ -1,0 +1,28 @@
+.Terminer {
+    background-color: #39b85d;
+    color: #fff;
+    padding: 10px 30px;
+    border: 0;
+    border-radius: 3px;
+    text-align: center;
+    cursor: pointer;
+}
+.Terminer:hover{
+    background-color: #39b85d;
+}
+.NextStep[disabled]{
+    display: none;
+}
+.finalPage {
+    text-align: center;
+}
+.finalPage h1{
+    text-align: center;
+    margin: 15px 0;
+    font-size: 25px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    color: #39b85d;
+    text-transform:none;
+    text-shadow: none; 
+}
