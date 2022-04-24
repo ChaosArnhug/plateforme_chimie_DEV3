@@ -59,9 +59,9 @@ CREATE INDEX `fk_idUtilisateur_idx` ON `educdb_v2`.`cours` (`responsable` ASC) V
 -- -----------------------------------------------------
 -- Table `educdb_v2`.`acces-cours`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `educdb_v2`.`acces-cours` ;
+DROP TABLE IF EXISTS `educdb_v2`.`acces_cours` ;
 
-CREATE TABLE IF NOT EXISTS `educdb_v2`.`acces-cours` (
+CREATE TABLE IF NOT EXISTS `educdb_v2`.`acces_cours` (
   `idUtilisateur` INT NOT NULL,
   `idCours` INT NOT NULL,
   PRIMARY KEY (`idUtilisateur`, `idCours`),

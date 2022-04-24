@@ -30,5 +30,9 @@ insert into reponses values (6, 'Zn', null, True, 3);
 insert into reponses values (7, 'vrai', null, False, 4);
 insert into reponses values (8, 'faux', null, True, 4);
 
+insert into acces_cours values (1, 1);
+insert into acces_cours values (2, 1);
+
+insert into scores values (1, 1, 1, 15, 20, 2022-2-2);
 
 commit; 
