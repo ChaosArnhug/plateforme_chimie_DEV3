@@ -1,11 +1,12 @@
 const express = require("express");
 let router = express.Router();
 const database = require("../mySqlDb");
+const domain = require("./domain");
 
 router.get("/:cours", (req, res) =>{
 
     database.query(`
-        select quiz.titre, quiz.description, quiz.estVisible as disponnible from quiz
+        select quiz.titre, quiz.description, quiz.estVisible as disponnible, concat('${domain}', 'quiz/',cours.nom ,'/', quiz.idQuiz) as toQuiz from quiz
         inner join cours on cours.idCours = quiz.idCours
         where cours.nom = '${req.params.cours}'`, (err, rows, fields) => {
 

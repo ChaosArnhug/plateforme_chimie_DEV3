@@ -31,4 +31,4 @@ app.use("/", indexRouter);
 app.use("/cours", coursRouter);
 app.use("/cours/:cours/documents", documentsRouter);
 app.use("/quiz", quizRouter);
-app.use("/tentatives", utilisateursRouter);
+app.use("/utilisateurs", utilisateursRouter);
