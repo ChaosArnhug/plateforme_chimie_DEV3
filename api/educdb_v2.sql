@@ -77,9 +77,9 @@ CREATE TABLE IF NOT EXISTS `educdb_v2`.`acces_cours` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_utilisateurs_has_cours_cours1_idx` ON `educdb_v2`.`acces-cours` (`idCours` ASC) VISIBLE;
+CREATE INDEX `fk_utilisateurs_has_cours_cours1_idx` ON `educdb_v2`.`acces_cours` (`idCours` ASC) VISIBLE;
 
-CREATE INDEX `fk_utilisateurs_has_cours_utilisateurs_idx` ON `educdb_v2`.`acces-cours` (`idUtilisateur` ASC) VISIBLE;
+CREATE INDEX `fk_utilisateurs_has_cours_utilisateurs_idx` ON `educdb_v2`.`acces_cours` (`idUtilisateur` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
