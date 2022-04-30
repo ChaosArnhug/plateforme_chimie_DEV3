@@ -1,6 +1,10 @@
 const bodyParser = require('body-parser');
 const express = require('express')
 const cors = require ('cors'); //débloque Allow-cross-originate ...
+const bcrypt = require ('bcrypt');
+const database = require('./mySqlDb'); 
+const passport = require('passport');
+const initializePassport = require('./passport-config');
 
 const PORT = "5000";
 const app = express();
@@ -15,11 +19,16 @@ const quizRouter = require ("./routes/quiz");
 const utilisateursRouter = require ("./routes/utilisateurs");
 
 /**
- * Lauch and make the app listening on the port : ${PORT}
+ * Lance l'app sur le port ${PORT}
  */
 app.listen(PORT, () => {
     console.log(`Le serveur est lancé sur le port : ${PORT} }`);
 });
+
+/**
+ * Setup de passport
+ */
+initializePassport(passport);
 
 /**
  * Traitement lors d'un callback sur le site
@@ -32,3 +41,44 @@ app.use("/cours", coursRouter);
 app.use("/cours/:cours/documents", documentsRouter);
 app.use("/quiz", quizRouter);
 app.use("/utilisateurs", utilisateursRouter);
+
+
+
+/**
+ * Connexion utilisateur sur le site 
+*/
+app.get('/inscription', (req, res) =>{
+    res.send({ title: 'INSCRIPTION' });
+});
+
+app.post('/inscription', async (req, res) =>{
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.motDePasse, 10);
+        database.query(`CALL ajoutUtilisateur(?,?,?,?,?,?)`, [req.body.nom, req.body.prenom, req.body.groupe, req.body.classe, req.body.email, hashedPassword], 
+        (err, rows) => {
+
+        if (!err){
+            rows.forEach(element => {
+                if (element.constructor == Array) {
+                    res.send(element);
+                }
+                
+            });
+        }else {
+            res.send('An error occured');
+            console.log(err);
+        }
+        })
+
+    } catch {
+        res.redirect('/inscription');
+    }
+});
+
+app.get('/connexion', (req, res) => {
+
+});
+
+app.post('/connexion', (req, res) => {
+
+});
