@@ -8,7 +8,7 @@ router.get("/:cours", (req, res) =>{
     database.query(`
         select quiz.titre, quiz.description, quiz.estVisible as disponnible, concat('${domain}', 'quiz/',cours.nom ,'/', quiz.idQuiz) as toQuiz from quiz
         inner join cours on cours.idCours = quiz.idCours
-        where cours.nom = '${req.params.cours}'`, (err, rows, fields) => {
+        where cours.nom = ?`,[req.params.cours], (err, rows, fields) => {
 
         if (! err){
             res.send(rows);
@@ -29,8 +29,8 @@ router.get("/:cours/:quiz_id", (req, res) =>{
         "}"   ), ']') as questions from quiz 
         inner join questions as QQ on QQ.idQuiz = quiz.idQuiz
         inner join cours on cours.idCours = quiz.idCours
-        where cours.nom = '${req.params.cours}' and quiz.idQUIZ = '${req.params.quiz_id}'
-        group by quiz.idQuiz `, (err, rows, fields) => {
+        where cours.nom = ? and quiz.idQUIZ = ?
+        group by quiz.idQuiz `,[req.params.cours, req.params.quiz_id], (err, rows, fields) => {
 
         if (! err){
             res.send(rows);

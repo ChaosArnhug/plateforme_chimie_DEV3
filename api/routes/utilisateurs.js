@@ -7,7 +7,7 @@ router.get("/:utilisateur_id/tentatives", (req, res) =>{
     database.query(`
     select titre, resultat, total from scores
     join quiz on quiz.idQuiz = scores.idQuizs
-    where scores.idUtilisateurs = '${req.params.utilisateur_id}'`, (err, rows) =>{
+    where scores.idUtilisateurs = ?`,[req.params.utilisateur_id], (err, rows) =>{
 
         if (! err){
             res.send(rows);
@@ -23,7 +23,7 @@ router.get("/:utilisateur_id/cours", (req, res) =>{
     select cours.nom, concat('${domain}', 'cours/',cours.nom) as url from acces_cours
     join cours on cours.idCours = acces_cours.idCours
     join utilisateurs on utilisateurs.idUtilisateur = acces_cours.idUtilisateur
-    where utilisateurs.idUtilisateur = '${req.params.utilisateur_id}'`, (err, rows) => {
+    where utilisateurs.idUtilisateur = ?`,[req.params.utilisateur_id], (err, rows) => {
 
         if (! err){
             res.send(rows);
