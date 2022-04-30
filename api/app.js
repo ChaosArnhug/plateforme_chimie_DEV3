@@ -28,7 +28,7 @@ app.listen(PORT, () => {
 /**
  * Setup de passport
  */
-initializePassport(passport);
+//initializePassport(passport);
 
 /**
  * Traitement lors d'un callback sur le site
