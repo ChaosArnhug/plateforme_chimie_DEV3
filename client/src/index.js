@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
@@ -13,6 +14,7 @@ import AppBar from '@mui/material/AppBar';
 
 import {ThemeProvider, createTheme } from '@mui/material/styles';
 import { unstable_styleFunctionSx, styled } from '@mui/system';
+import HubCours from './components/HubCours';
 
 
 //Les balises HTML de base ne peuvent pas être modifiée avec sx={{.....}}. On doit créer un nouveau 
@@ -35,8 +37,36 @@ const theme = createTheme({
 });
 
 
+class Acceuil extends Component{
+  render(){
+    return(<h1>Hello</h1>)
+  }
+}
+
+class CreationQuiz extends Component{
+  render(){
+    return(<h1>Bienvenue dans la création de quiz</h1>)
+  }
+}
+
+class InsideStructure extends Component{
+  render(){
+    return(
+      <Router>
+        <Routes>
+          <Route path="/" element={<Acceuil/>}> </Route>
+          <Route path="/quiz/cours/creation" element={<CreationQuiz/>}> </Route>
+        </Routes>
+      </Router>
+    )
+  }
+  
+}
+
+
 
 const element = (
+  
   <ThemeProvider theme={theme} >
     <Box width="100%" height="100%" backgroundColor="primary.main" >
       <AppBar position="static"> 
@@ -67,6 +97,8 @@ const element = (
       </Box>
       <div id="main">
         
+        
+        
       </div>
       <AppBar position="fixed" sx={{mt:"2", p:2, top: 'auto', bottom: 0, bgcolor:"secondary.main"}}> 
         <Div sx={{textAlign:"center"}}>
@@ -78,6 +110,7 @@ const element = (
     </Box>
   </ThemeProvider>
   
+  
 
 );
 
@@ -87,7 +120,7 @@ ReactDOM.render(
 );
 
 ReactDOM.render(
-  <h1>Hello</h1>,
+  <InsideStructure/>,
   document.getElementById('main')
 );
 
