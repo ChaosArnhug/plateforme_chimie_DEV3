@@ -113,7 +113,7 @@ DROP TABLE IF EXISTS `educdb_v2`.`questions` ;
 CREATE TABLE IF NOT EXISTS `educdb_v2`.`questions` (
   `idQuestions` INT NOT NULL AUTO_INCREMENT,
   `titre` VARCHAR(45) NOT NULL,
-  `enonce` VARCHAR(300) NULL DEFAULT 'Pas d\'énonce',
+  `enonce` VARCHAR(300) NULL DEFAULT "Pas d'énonce",
   `estQCM` TINYINT NOT NULL DEFAULT 0,
   `points` FLOAT NOT NULL DEFAULT 0,
   `img` BLOB NULL,
