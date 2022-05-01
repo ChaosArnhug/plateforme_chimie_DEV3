@@ -1,103 +1,110 @@
 import React, {Component } from 'react';
-import Question from './question/Question';
 import './QuizMain.css';
-
+import Question from "./question/question";
+import Result from "./question/Result"
 
 
 export default class Quiz extends Component {
 
     // Initiating the local state
+   
     state = {
-       
-              titre: "Quiz1",
-              description: "quiz du chap1",
-              estVisible: 1,
-              questions: [
-                {
-                  titreQuestion: "Q1",
-                  enonce: "Quelle est la formule de l'eau?",
-                  estQCM: "0",
-                  points: 1,
-                  reponses: [
-                    {
-                      texteReponse: "H2O",
-                      estCorrecte: 1
-                    }
-                  ]
-                },
-                {
-                  titreQuestion: "Q2",
-                  enonce: "Quelle est la formule de l'oxygène?",
-                  estQCM: "1",
-                  points: 1,
-                  reponses: [
-                    {
-                      texteReponse: "CO2",
-                      estCorrecte: 0
-                    },
-                    {
-                      texteReponse: "HH",
-                      estCorrecte: 0
-                    },
-                    {
-                      texteReponse: "O2",
-                      estCorrecte: 1
-                    },
-                    {
-                      texteReponse: "O",
-                      estCorrecte: 0
-                    }
-                  ]
-                },
-                {
-                  titreQuestion: "Q3",
-                  enonce: "Quelle est la formule du zinc?",
-                  estQCM: "0",
-                  points: 2,
-                  reponses: [
-                    {
-                      texteReponse: "Zn",
-                      estCorrecte: 1
-                    }
-                  ]
-                },
-                {
-                  titreQuestion: "Q4",
-                  enonce: "Ces associations de molécules d'eau voisines sont elles possibles?",
-                  estQCM: "1",
-                  points: 2,
-                  reponses: [
-                    {
-                      texteReponse: "vrai",
-                      estCorrecte: 0
-                    },
-                    {
-                      texteReponse: "faux",
-                      estCorrecte: 1
-                    }
-                  ]
-                }
-              ]
-            }
+            questionList: [],
+            titre: '',
+            description:'',
+            estVisible: 0,
+            score:0,
+            responses:0,
+            loading:true
+    };
+    
+    //recuperation des questions d'un quiz (appel de l'API) ex: http://localhost:5000/quiz/les%20molécules/1
+    async getQuestions (cour, quizid)  {  
+      const url = "http://localhost:5000/quiz/"+cour+"/"+quizid;
+      const response = await fetch(url);
+      const data = await response.json();
+      this.setState({loading : false, questionList : JSON.parse(data[0].questions), titre: data[0].titre, description:data[0].description, estVisible:data[0].estVisible });
+    };
 
-    render(){
-        let { questions, titre, description }= this.state
+    //calcul de la note 
+   computeAnswer = (answer, correctAnswer) => {         
+       if (answer === correctAnswer) {
+           this.setState({
+               score: this.state.score + 1
+           });
+       }
+       this.setState({
+           responses: this.state.responses <5 ? this.state.responses +1:5
+       });
+   };
+
+   //refaire le quiz
+   playAgain = () => {
+       this.getQuestions();
+       this.setState({
+           score:0,
+           responses:0
+       })
+   }
+
+   //récupération des questions au chargement du composant 
+   async componentDidMount ()  {
+      
+      //console.log("test"+this.state.questionList)
+       this.getQuestions("les%20molécules",1);
+   }
+  
+ 
+
+
+   render(){
+
+      let { questionList, titre, description }= this.state
+      //const qst=JSON.parse(questions)
         return(
-        <div className="Content">
-            {(<>
-                <Question 
-                    titre={titre}
-                    questions={questions}
-                />
-                <button
-                    className="Terminer"
-                >
-                    Terminer
+        
+            <div className="container">
+                <div className="title">{titre}: {description}</div>
                 
-                </button>
-            </>)
-            } 
-        </div>
+                {
+                
+                questionList.map(
+                  (question,i) => (
+                  
+                  //<h1>{question.titreQuestion}</h1>
+                  <Question 
+                      titreQuestion={question.titreQuestion} 
+                      isQCM={question.estQCM}
+                      enonce={question.enonce}
+                      points={question.points}
+                      reponses={question.reponses}
+                      
+                  />
+                  )
+              )
+                
+                    
+                }
+                
+                <button
+                        className="Terminer" 
+                        onClick={() => {
+                        ( <Result 
+                                score={this.state.score} 
+                                playAgain={this.playAgain} 
+                            />)
+                        }}
+                    >
+                        Terminer
+                    
+                    </button>
+                
+                {this.state.responses === 5 ? (<Result score={this.state.score} playAgain={this.playAgain} />):null}
+                
+                
+            </div>
+            
+
         );
     }
 }
