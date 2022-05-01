@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
-import ListingCours from './components/ListingCours'
-
+import ListingCours from './components/ListingCours';
+import InsideStructure from './components/InsideStructure';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -14,7 +14,7 @@ import AppBar from '@mui/material/AppBar';
 
 import {ThemeProvider, createTheme } from '@mui/material/styles';
 import { unstable_styleFunctionSx, styled } from '@mui/system';
-import HubCours from './components/HubCours';
+
 
 
 //Les balises HTML de base ne peuvent pas être modifiée avec sx={{.....}}. On doit créer un nouveau 
@@ -33,35 +33,14 @@ const theme = createTheme({
       main: '#1E943C',
       button: '#10812D'
     },
+    box: {
+      main: "#BED005",
+      secondary: "#D4E522"
+    }
   },
 });
 
 
-class Acceuil extends Component{
-  render(){
-    return(<h1>Hello</h1>)
-  }
-}
-
-class CreationQuiz extends Component{
-  render(){
-    return(<h1>Bienvenue dans la création de quiz</h1>)
-  }
-}
-
-class InsideStructure extends Component{
-  render(){
-    return(
-      <Router>
-        <Routes>
-          <Route path="/" element={<Acceuil/>}> </Route>
-          <Route path="/quiz/cours/creation" element={<CreationQuiz/>}> </Route>
-        </Routes>
-      </Router>
-    )
-  }
-  
-}
 
 
 

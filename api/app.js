@@ -103,3 +103,17 @@ app.delete('/deconnexion', (req, res) =>{
     req.logOut();
     res.redirect('/connexion');
 })
+
+
+
+app.post('/quiz/:cours/creation', async (req, res) =>{
+    try {
+        database.query(
+            `CALL ajoutQuiz(?,?,?,?)`, [titre, description, estVisible, idCours]
+        )
+
+    }
+    catch{
+        alert("Erreur lors de la création"); // Mettre un meilleur catch
+    }
+});

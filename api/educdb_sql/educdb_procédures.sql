@@ -81,30 +81,30 @@ CREATE PROCEDURE `ajoutQuiz` (
 IN _titre varchar(45),
 IN _description varchar(300),
 IN _estVisible tinyint,
-IN _idCours int,
-IN _titreQuestion varchar(45),
-IN _enonce varchar(300),
-IN _estQCM tinyint,
-IN _points float,
-IN _texteReponse varchar(300),
-IN _estCorrect tinyint
+IN _idCours int
+-- IN _titreQuestion varchar(45),
+-- IN _enonce varchar(300),
+-- IN _estQCM tinyint,
+-- IN _points float,
+-- IN _texteReponse varchar(300),
+-- IN _estCorrect tinyint
 )
 -- NO RESULT SET
 BEGIN
-	DECLARE idQuiz int ;
-	DECLARE idQuestion int ;
+	-- DECLARE idQuiz int ;
+	-- DECLARE idQuestion int ;
 
     -- Création d'un nouveau quiz, problème avec la colonne nommée "description"
 	insert into quiz (titre, description, estVisible, idCours)
     values (_titre, _description, _estVisible, _idCours);
 
-    SET idQuiz = (SELECT distinct max(idQuiz) FROM educdb_v2.quiz);
+    -- SET idQuiz = (SELECT distinct max(idQuiz) FROM educdb_v2.quiz);
 
-    CALL ajoutQuestion(_titreQuestion, _enonce, _estQCM, _points, idQuiz);
+    -- CALL ajoutQuestion(_titreQuestion, _enonce, _estQCM, _points, idQuiz);
 
-    SET idQuestion = (SELECT distinct max(idQuestions) FROM educdb_v2.questions);
+    -- SET idQuestion = (SELECT distinct max(idQuestions) FROM educdb_v2.questions);
 
-    CALL ajoutReponse(_texteReponse, _estCorrect, idQuestion);
+    -- CALL ajoutReponse(_texteReponse, _estCorrect, idQuestion);
 
     -- Normalement ne pose pas de problème lorsqu'on va SELECT idQuiz et idQuestion. On va chercher la plus grande valeur et comme celle-ci
     -- est autoincrement on devrait prendre l'id du quiz/la question qu'on vient de créer.
