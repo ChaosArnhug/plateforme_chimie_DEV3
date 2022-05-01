@@ -18,7 +18,7 @@ export default class Quiz extends Component {
             loading:true
     };
     
-    //recuperation des questions d'un quiz (appel de l'api) ex: http://localhost:5000/quiz/les%20molécules/1
+    //recuperation des questions d'un quiz (appel de l'API) ex: http://localhost:5000/quiz/les%20molécules/1
     async getQuestions (cour, quizid)  {  
       const url = "http://localhost:5000/quiz/"+cour+"/"+quizid;
       const response = await fetch(url);
