@@ -24,7 +24,7 @@ async function authenticateUser (email, motDePasse, done) {
     try { 
         const user = await queryPromiseAuthenticateUser(email);
             
-        if(user == null || user.lenght === 0) {
+        if(user == null || user[0] === undefined) {
             return done(null, false, { message: "L'utilisateur n'a pas été trouvé" });
         }
     
