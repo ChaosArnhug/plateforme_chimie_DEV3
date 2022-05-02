@@ -19,8 +19,8 @@ class CoursPage extends Component{
         return (
             <div>
                 {this.props.data.map(item => (
-                    <h1 key={item.idQuizs}>
-                        <Link to=`http://localhost:5000/quiz/${item.idQuizs}/${idCours}`>{item.titreQuizs}</Link>
+                    <h1>
+                        <Link to={`http://localhost:5000/quiz/${item.idQuizs}`}>{item.titreQuizs}</Link>
                     </h1>
                 ))}
             </div>
@@ -37,8 +37,8 @@ class PageCours extends Component{
     }
 
     async componentDidMount() {
-        const {cours} = useParams()
-        const url = "http://localhost:5000/quiz/"+{cours};
+ //       const {cours} = useParams()
+        const url = "http://localhost:5000/quiz/";//+{cours};
         const response = await fetch(url);
         const data = await response.json();
         this.setState({loading : false, data : data});
