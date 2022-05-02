@@ -20,7 +20,7 @@ class CoursPage extends Component{
             <div>
                 {this.props.data.map(item => (
                     <h1 key={item.idQuizs}>
-                        <Link to={'http://localhost:5000/quiz/'+{item.idQuizs}+'/'+{idCours}}>{item.titreQuizs}</Link>
+                        <Link to=`http://localhost:5000/quiz/${item.idQuizs}/${idCours}`>{item.titreQuizs}</Link>
                     </h1>
                 ))}
             </div>
