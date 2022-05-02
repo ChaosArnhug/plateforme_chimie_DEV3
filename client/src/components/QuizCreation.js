@@ -78,6 +78,7 @@ class ReponseQCM extends Component{
     render(){
         return(
             <Div sx={{display:"flex"}}>
+                <h1>{this.props.numQuestion}</h1>
                 <TextField
                 required
                 id="outlined-required"
@@ -93,24 +94,81 @@ class ReponseQCM extends Component{
     }
 }
 
+class MultReponsesQCM extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            totReponseArr : ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
+        }
+        
+    }
+    
+
+    render(){
+        return(
+            // Générer un certain nombre de <ReponseQCM/> en fonction du nombre de réponses qu'on veut mettre
+            this.state.totReponseArr.slice(0, this.props.nmbreQCMReponses+1).map(item =>(
+                <ReponseQCM numQuestion={item} />
+              ))
+            
+        )
+    }
+}
+
 class ParamQCM extends Component{
-    ajoutReponse(){
+    constructor(props){
+        super(props);
+        this.state={nmbreQCMReponses:2}; 
+        // On mets l'id de début de question à 0, on l'incrémente pour donner un nouvel id à chaque question.
+    }
+
+    async ajoutRetraitReponse(action){
+        if(action === "ajout"){
+            await this.setState((state)=> ({
+                nmbreQCMReponses: state.nmbreQCMReponses+1
+            }));
+            ReactDOM.render(
+                <MultReponsesQCM nmbreQCMReponses={this.state.nmbreQCMReponses}/>,
+                document.getElementById('reponsesQCM')
+            );
+        }
+        else if(action === "retrait"){
+            if(this.state.nmbreQCMReponses < 2 ){
+                alert("Pas moins de deux solutions svp!")  // Mettre qqchose MUI
+            }
+            else{
+                await this.setState((state)=> ({
+                    nmbreQCMReponses: state.nmbreQCMReponses-1
+                }));
+                ReactDOM.render(
+                    <MultReponsesQCM nmbreQCMReponses={this.state.nmbreQCMReponses} />,
+                    document.getElementById('reponsesQCM')
+                );
+            }
+        }
+        
+    }
+
+    componentDidMount(){
         ReactDOM.render(
-            <ReponseQCM/>,
-            document.getElementById('reponseQCM')
+            <MultReponsesQCM nmbreQCMReponses={2} />,
+            document.getElementById('reponsesQCM')
         );
     }
+
+
     render(){
         return(
             
             <Div>
-                <ReponseQCM/>
-                <ReponseQCM/>
                 <Div id="reponsesQCM">
-
+                    
+                    
                 </Div>
-                <Button variant="outlined" sx={{ml:9, mr:2, mt:2}}>+</Button>
-
+                <Div sx={{display:"flex"}}>
+                    <Button variant="outlined" sx={{ml:9, mr:2, mt:2}} onClick={()=> this.ajoutRetraitReponse("ajout")}>+</Button>
+                    <Button variant="outlined" sx={{ml:1, mr:2, mt:2}} onClick={()=> this.ajoutRetraitReponse("retrait")}>-</Button>
+                </Div>
             </Div>
             
             
@@ -206,9 +264,10 @@ class CreationQuiz extends Component{
     render(){
         return(
             <div>
-                <h1>Bienvenue dans la création de quiz</h1>
+                <ThemeProvider theme={theme}>
+                    <h1>Bienvenue dans la création de quiz</h1>
 
-                <Stack spacing={2}>
+                    <Stack spacing={2}>
 
                         <TextField
                         required
@@ -229,10 +288,15 @@ class CreationQuiz extends Component{
                         />
                     
                         <ParamQuestion lastQuestionId={this.state.lastQuestionId}/>
-                    
-                </Stack>
-                
 
+            
+        
+                    </Stack>
+
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> this.ajoutRetraitReponse("ajout")}>Terminer</Button>
+
+                </ThemeProvider>
+                
             </div>
         
 
