@@ -113,3 +113,90 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+
+-- ============================================= COURS =============================================
+
+-- ----------------------------------------- endpoint /cours ---------------------------------------
+DROP procedure IF EXISTS `educdb_v2`.`liste_cours`;
+;
+
+DELIMITER $$
+USE `educdb_v2`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `liste_cours`(
+IN _domaine varchar(45)
+)
+BEGIN
+
+	select cours.nom, DATE_FORMAT(cours.dateCreation, '%Y-%m-%d') as dateCreation, CONCAT(utilisateurs.nom,' ',utilisateurs.prenom) as responsable, concat( _domaine, 'cours/',urlencode(cours.nom)) as url from cours
+	inner join utilisateurs on cours.responsable = utilisateurs.idUtilisateur; 
+    
+END$$
+
+DELIMITER ;
+;
+
+
+-- --------------------------------------- endpoint /cours/{cours} -----------------------------------
+DROP procedure IF EXISTS `educdb_v2`.`data_cours`;
+;
+
+DELIMITER $$
+USE `educdb_v2`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `data_cours`(
+IN _domaine varchar(45),
+IN _nom_cours varchar(45)
+)
+BEGIN
+		select cours.nom, DATE_FORMAT(cours.dateCreation, '%Y-%m-%d') as dateCreation, CONCAT(utilisateurs.nom,' ',utilisateurs.prenom) as responsable, concat(_domaine, 'cours/',urlencode(cours.nom),'/quiz') as quiz from cours
+        inner join utilisateurs on cours.responsable = utilisateurs.idUtilisateur
+        where cours.nom = _nom_cours;
+END$$
+
+DELIMITER ;
+;
+
+
+
+-- ---------------------------------------- endpoint /quiz/{cours} ------------------------------------
+DROP procedure IF EXISTS `educdb_v2`.`liste_quiz`;
+;
+
+DELIMITER $$
+USE `educdb_v2`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `liste_quiz`(
+IN _domaine varchar(45),
+IN _nom_cours varchar(45) 
+)
+BEGIN
+		select quiz.titre, quiz.description, quiz.estVisible as disponnible, concat(_domaine, 'quiz/', quiz.idQuiz) as toQuiz from quiz
+        inner join cours on cours.idCours = quiz.idCours
+        where cours.nom = _nom_cours;
+
+END$$
+
+DELIMITER ;
+;
+
+-- ----------------------------------------- endpoint /quiz/{id_quiz} ----------------------------------
+DROP procedure IF EXISTS `data_quiz`;
+
+DELIMITER $$
+USE `educdb_v2`$$
+CREATE PROCEDURE `data_quiz` (
+IN _idQuiz int
+)
+BEGIN
+	 select quiz.titre, quiz.description, quiz.estVisible, concat('[', group_concat('{', '"titreQuestion":"', QQ.titre, '",', '"enonce":"', QQ.enonce, '",', '"estQCM":"', QQ.estQCM, '",', '"points":', QQ.points, ',', '"reponses":',
+	        (select concat('[',group_concat('{','"texteReponse":"',reponses.texteResponse,'",', '"estCorrecte":',reponses.estCorrecte, '}'), ']' ) from questions QR
+	        inner join reponses on reponses.idQuestions = QR.idQuestions
+	        where QR.idQuestions = QQ.idQuestions
+	        group by QR.enonce),
+        "}"   ), ']') as questions from quiz 
+        inner join questions as QQ on QQ.idQuiz = quiz.idQuiz
+        inner join cours on cours.idCours = quiz.idCours
+        where quiz.idQUIZ = _idQuiz
+        group by quiz.idQuiz;
+END$$
+
+DELIMITER ;

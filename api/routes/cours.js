@@ -5,13 +5,16 @@ const domain = require("./domain");
 
 router.get("/", (req, res) =>{
     database.query(`
-        select cours.nom, DATE_FORMAT(cours.dateCreation, '%Y-%m-%d') as dateCreation, CONCAT(utilisateurs.nom,' ',utilisateurs.prenom) as responsable, concat('${domain}', 'cours/',cours.nom) as url from cours
-        inner join utilisateurs on cours.responsable = utilisateurs.idUtilisateur`, (err, rows) => {
+        CALL liste_cours(?)`, [domain], (err, rows) => {
 
         if (! err){
-            res.send(rows);
+            rows.forEach(element => {
+                if (element.constructor == Array) {
+                    res.send(element);
+                }
+            });
 
-        }else{
+        } else{
             res.send("An error occured");
             console.log(err);
         }
@@ -20,12 +23,14 @@ router.get("/", (req, res) =>{
 
 router.get("/:cours", (req, res) =>{
     database.query(`
-        select cours.nom, DATE_FORMAT(cours.dateCreation, '%Y-%m-%d') as dateCreation, CONCAT(utilisateurs.nom,' ',utilisateurs.prenom) as responsable, concat('${domain}', 'quiz/',cours.nom) as quiz from cours
-        inner join utilisateurs on cours.responsable = utilisateurs.idUtilisateur
-        where cours.nom = ?`,[req.params.cours], (err, rows, fields) => {
+        CALL data_cours(?, ?)`, [domain, req.params.cours], (err, rows) => {
 
             if (! err){
-                res.send(rows);
+                rows.forEach(element => {
+                    if (element.constructor == Array) {
+                        res.send(element);
+                    }
+                });
     
             }else{
                 res.send("An error occured");
@@ -34,5 +39,26 @@ router.get("/:cours", (req, res) =>{
         }
     )
 })
+
+router.get("/:cours/quiz", (req, res) =>{
+
+    database.query(`
+        call liste_quiz(?,?)`, [domain, req.params.cours], (err, rows) => {
+
+        if (! err){
+            rows.forEach(element => {
+                if (element.constructor == Array) {
+                    res.send(element);
+                }
+            });
+
+        }else{
+            res.send("An error occured");
+            console.log(err);
+        }
+    })
+})
+
+router.post("/:cours/inscription")
 
 module.exports = router;

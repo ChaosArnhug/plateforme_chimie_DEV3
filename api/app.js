@@ -75,7 +75,8 @@ app.post('/inscription', async (req, res) =>{
                             res.send(element);
                         }
                         
-                    });
+                    })
+                    
                 }else {
                     res.send('An error occured');
                     console.log(err);
