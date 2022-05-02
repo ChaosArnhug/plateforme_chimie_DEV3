@@ -51,6 +51,7 @@ class InsideStructure extends Component{
           <Routes>
             <Route path="/" exact element={<Acceuil/>}> </Route>
             <Route path="/quiz/cours/creation" element={<CreationQuiz/>}> </Route>
+            <Route path="/cours/:cours" element={<PageCours/>}> </Route>
           </Routes>
         </Router>
       )
