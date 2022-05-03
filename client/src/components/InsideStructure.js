@@ -8,6 +8,8 @@ import { unstable_styleFunctionSx, styled } from '@mui/system';
 import CreationQuiz from './QuizCreation.js'
 import theme from '../index.js'
 
+import PageCours from './PageCours.js'
+
 /*
 const theme = createTheme({
     palette: {
@@ -49,7 +51,7 @@ class InsideStructure extends Component{
       return(
         <Router>
           <Routes>
-            <Route path="/" exact element={<Acceuil/>}> </Route>
+            <Route path="/" element={<Acceuil/>}> </Route>
             <Route path="/quiz/cours/creation" element={<CreationQuiz/>}> </Route>
             <Route path="/cours/:cours" element={<PageCours/>}> </Route>
           </Routes>

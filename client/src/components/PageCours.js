@@ -1,27 +1,16 @@
+import { MenuItem } from '@mui/material';
 import React, {useState, useEffect, Component} from 'react';
 import {Link, useParams} from 'react-router-dom';
 
 class CoursPage extends Component{
 
-//    useEffect(() => {
-//        fetchItems();
-//    }, []);
-
-//    const [quizs, setItems] = useState([]);
-
-//    const fetchItems = async () => {
-//        const data = await fetch('http://localhost:5000/quiz/'+{idCours});
-
-//        const quizs = await data.json();
-//        setItems(quizs.quizs);
-//    }
     render() {
         return (
+ //           <h1>Hi</h1>
             <div>
+                <h1>Hi</h1>
                 {this.props.data.map(item => (
-                    <h1>
-                        <Link to={`http://localhost:5000/quiz/${item.idQuizs}`}>{item.titreQuizs}</Link>
-                    </h1>
+                    <MenuItem >{item.titre}</MenuItem>
                 ))}
             </div>
         );
@@ -31,14 +20,18 @@ class CoursPage extends Component{
 }
 
 class PageCours extends Component{
-    state = {
-        loading : true,
-        data : null
+    constructor(props){
+        super(props)
+        this.state = {
+            loading : true,
+            data : null
+        }
     }
+    
 
-    async componentDidMount() {
- //       const {cours} = useParams()
-        const url = "http://localhost:5000/quiz/";//+{cours};
+    async componentDidMount() {   
+             
+        const url = "http://localhost:5000/les%20molécules/quiz";
         const response = await fetch(url);
         const data = await response.json();
         this.setState({loading : false, data : data});
@@ -53,3 +46,7 @@ class PageCours extends Component{
 }
 
 export default PageCours;
+
+// const {cours} = useParams();
+
+//href={`http://localhost:5000/quiz/${item.idQuizs}`}
