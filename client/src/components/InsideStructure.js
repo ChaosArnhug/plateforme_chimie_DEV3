@@ -6,6 +6,7 @@ import { unstable_styleFunctionSx, styled } from '@mui/system';
 //import { styled } from '@mui/material/styles';
 
 import CreationQuiz from './QuizCreation.js'
+import PageCours from './PageCours.js';
 import theme from '../index.js'
 
 /*
