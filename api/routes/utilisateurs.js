@@ -2,15 +2,19 @@ const express = require("express");
 let router = express.Router();
 const database = require("../mySqlDb");
 const domain = require("./domain");
+const passport = require('passport');
 
-router.get("/:utilisateur_id/tentatives", (req, res) =>{
+router.get("/:utilisateur_id/quiz", (req, res) =>{
     database.query(`
-    select titre, resultat, total from scores
-    join quiz on quiz.idQuiz = scores.idQuizs
-    where scores.idUtilisateurs = ?`,[req.params.utilisateur_id], (err, rows) =>{
+        call resultats_utilisateurs(?, ?) `,[domain, req.params.utilisateur_id], (err, rows) =>{
 
         if (! err){
-            res.send(rows);
+            rows.forEach(element => {
+                if (element.constructor == Array) {
+                    res.send(element); 
+                }
+            });
+
         }else{
             res.send("An error occured");
             console.log(err);
@@ -20,18 +24,69 @@ router.get("/:utilisateur_id/tentatives", (req, res) =>{
 
 router.get("/:utilisateur_id/cours", (req, res) =>{
     database.query(`
-    select cours.nom, concat('${domain}', 'cours/',cours.nom) as url from acces_cours
-    join cours on cours.idCours = acces_cours.idCours
-    join utilisateurs on utilisateurs.idUtilisateur = acces_cours.idUtilisateur
-    where utilisateurs.idUtilisateur = ?`,[req.params.utilisateur_id], (err, rows) => {
+        call cours_utilisateurs(?, ?)`,[domain, req.params.utilisateur_id], (err, rows) => {
 
         if (! err){
-            res.send(rows);
+            rows.forEach(element => {
+                if (element.constructor == Array) {
+                    res.send(element); 
+                }
+            });
+
         }else{
             res.send("An error occured");
             console.log(err);
         }
     })
 })
+
+router.get('/inscription', (req, res) =>{
+    res.send({ title: 'INSCRIPTION' });
+});
+
+router.post('/inscription', async (req, res) =>{
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.motDePasse, 10);
+        database.query(
+            `CALL ajoutUtilisateur(?,?,?,?,?,?)`, [req.body.nom, req.body.prenom, req.body.groupe, req.body.classe, req.body.email, hashedPassword], 
+            (err, rows) => {
+
+                if (!err){
+                    rows.forEach(element => {
+                        if (element.constructor == Array) {
+                            res.send(element);
+                        }
+                        
+                    })
+                    
+                }else {
+                    res.send('An error occured');
+                    console.log(err);
+                }
+                })
+
+    } catch {
+        res.redirect('/utilisateurs/inscription');
+    }
+});
+
+router.get('/connexion', (req, res) => {
+    res.send({ title: 'CONNEXION' });
+
+});
+
+router.post('/connexion', passport.authenticate('local',{
+    successRedirect: '/',
+    failureRedirect: '/utilisateurs/connexion',
+    failureFlash : true
+}));
+
+router.delete('/deconnexion', (req, res) =>{
+    //Pour que ça marche le formulaire doir => action="deconnexion?_method=DELETE"
+    req.logOut();
+    res.redirect('/utilisateurs/connexion');
+})
+
+
 
 module.exports = router;

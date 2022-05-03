@@ -200,3 +200,41 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- -------------------------------- endpoint /utilisateurs/{utilisateur_id}/quiz -----------------------------
+DROP procedure IF EXISTS `resultats_utilisateurs`;
+
+DELIMITER $$
+USE `educdb_v2`$$
+CREATE PROCEDURE `resultats_utilisateurs` (
+IN _domaine varchar(45),
+IN _idUtilisateur INT
+)
+BEGIN
+	select titre, resultat, total, concat(_domaine, 'quiz/', quiz.idQuiz) as quiz from scores
+    join quiz on quiz.idQuiz = scores.idQuizs
+    where scores.idUtilisateurs = _idUtilisateur;
+
+END$$
+
+DELIMITER ;
+
+-- ---------------------------------- endpoint /utilisateurs/{utilisateur_id}/cours --------------------------
+DROP procedure IF EXISTS `cours_utilisateurs`;
+
+DELIMITER $$
+USE `educdb_v2`$$
+CREATE PROCEDURE `cours_utilisateurs` (
+IN _domaine varchar(45),
+IN _idUtilisateurs INT
+)
+BEGIN
+
+	select cours.nom, concat(_domaine, 'cours/',urlencode(cours.nom)) as url from acces_cours
+    join cours on cours.idCours = acces_cours.idCours
+    join utilisateurs on utilisateurs.idUtilisateur = acces_cours.idUtilisateur
+    where utilisateurs.idUtilisateur = _idUtilisateurs;
+    
+END$$
+
+DELIMITER ;

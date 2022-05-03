@@ -48,7 +48,7 @@ router.get("/:cours/quiz", (req, res) =>{
         if (! err){
             rows.forEach(element => {
                 if (element.constructor == Array) {
-                    res.send(element);
+                    res.send(element); 
                 }
             });
 
