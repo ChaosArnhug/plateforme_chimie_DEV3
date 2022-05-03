@@ -54,59 +54,6 @@ app.use("/quiz", quizRouter);
 app.use("/utilisateurs", utilisateursRouter);
 
 
-
-/**
- * Connexion utilisateur sur le site 
-*/
-app.get('/inscription', (req, res) =>{
-    res.send({ title: 'INSCRIPTION' });
-});
-
-app.post('/inscription', async (req, res) =>{
-    try {
-        const hashedPassword = await bcrypt.hash(req.body.motDePasse, 10);
-        database.query(
-            `CALL ajoutUtilisateur(?,?,?,?,?,?)`, [req.body.nom, req.body.prenom, req.body.groupe, req.body.classe, req.body.email, hashedPassword], 
-            (err, rows) => {
-
-                if (!err){
-                    rows.forEach(element => {
-                        if (element.constructor == Array) {
-                            res.send(element);
-                        }
-                        
-                    })
-                    
-                }else {
-                    res.send('An error occured');
-                    console.log(err);
-                }
-                })
-
-    } catch {
-        res.redirect('/inscription');
-    }
-});
-
-app.get('/connexion', (req, res) => {
-    res.send({ title: 'CONNEXION' });
-
-});
-
-app.post('/connexion', passport.authenticate('local',{
-    successRedirect: '/',
-    failureRedirect: '/connexion',
-    failureFlash : true
-}));
-
-app.delete('/deconnexion', (req, res) =>{
-    //Pour que ça marche le formulaire doir => action="deconnexion?_method=DELETE"
-    req.logOut();
-    res.redirect('/connexion');
-})
-
-
-
 app.post('/quiz/:cours/creation', async (req, res) =>{
     try {
         database.query(

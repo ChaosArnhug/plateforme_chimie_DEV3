@@ -65,6 +65,9 @@ DROP TABLE IF EXISTS `educdb_v2`.`acces_cours` ;
 CREATE TABLE IF NOT EXISTS `educdb_v2`.`acces_cours` (
   `idUtilisateur` INT NOT NULL,
   `idCours` INT NOT NULL,
+  `accepte` TINYINT NOT NULL DEFAULT 0,
+  `date_demande` DATE NULL DEFAULT NULL,
+
   PRIMARY KEY (`idUtilisateur`, `idCours`),
   CONSTRAINT `fk_utilisateurs_has_cours_utilisateurs`
     FOREIGN KEY (`idUtilisateur`)

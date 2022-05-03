@@ -200,3 +200,78 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- -------------------------------- endpoint /utilisateurs/{utilisateur_id}/quiz -----------------------------
+DROP procedure IF EXISTS `resultats_utilisateurs`;
+
+DELIMITER $$
+USE `educdb_v2`$$
+CREATE PROCEDURE `resultats_utilisateurs` (
+IN _domaine varchar(45),
+IN _idUtilisateur INT
+)
+BEGIN
+	select titre, resultat, total, concat(_domaine, 'quiz/', quiz.idQuiz) as quiz from scores
+    join quiz on quiz.idQuiz = scores.idQuizs
+    where scores.idUtilisateurs = _idUtilisateur;
+
+END$$
+
+DELIMITER ;
+
+-- ---------------------------------- endpoint /utilisateurs/{utilisateur_id}/cours --------------------------
+DROP procedure IF EXISTS `cours_utilisateurs`;
+
+DELIMITER $$
+USE `educdb_v2`$$
+CREATE PROCEDURE `cours_utilisateurs` (
+IN _domaine varchar(45),
+IN _idUtilisateurs INT
+)
+BEGIN
+
+	select cours.nom, concat(_domaine, 'cours/',urlencode(cours.nom)) as url from acces_cours
+    join cours on cours.idCours = acces_cours.idCours
+    join utilisateurs on utilisateurs.idUtilisateur = acces_cours.idUtilisateur
+    where utilisateurs.idUtilisateur = _idUtilisateurs;
+    
+END$$
+
+DELIMITER ;
+
+-- --------------------------------------------- endpoint /cours/utilisateurs --------------------------------
+DROP procedure IF EXISTS `liste_demande_cours`;
+;
+
+DELIMITER $$
+USE `educdb_v2`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `liste_demande_cours`(
+IN _domaine varchar(45),
+IN _responsable int
+)
+BEGIN
+	select concat(utilisateurs.nom, ' ', utilisateurs.prenom) as utilisateur, groupe, classe, cours.nom as cours, date_demande, concat(_domaine, 'cours/utilisateurs?idUtilisateur=',utilisateurs.idUtilisateur) from acces_cours
+	join utilisateurs on utilisateurs.idUtilisateur = acces_cours.idUtilisateur
+	join cours on cours.idCours = acces_cours.idCours
+	where accepte = 0 and responsable = _responsable;
+END$$
+
+DELIMITER ;
+;
+
+-- ----------------------------------------- endpoint /cours/utilisateurs?idUtilisateur= -------------------------
+DROP procedure IF EXISTS `confirmation_inscription`;
+
+DELIMITER $$
+USE `educdb_v2`$$
+CREATE PROCEDURE `confirmation_inscription` (
+IN _idUtilisateur int
+)
+BEGIN	
+	update acces_cours
+    set accepte = 1
+    where idUtilisateur = _idUtilisateur;
+    
+END$$
+
+DELIMITER ;
