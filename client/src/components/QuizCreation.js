@@ -263,47 +263,42 @@ class CreationQuiz extends Component{
         // myQuestionsData est un Array vide qui contiendra des objets représentant les données de chaque question (énoncé, réponses, réponses justes, ...)
     }
 
+    
+    /*
     updateTitre(previousState, newTitre){
-        //let newState = {...previousState.myQuizData};  // ... nous permets de créer un nouvel objet de la même forme (même données) -> spread
-        //newState.titre = titre;  // On change ensuite les données qu'on veut
-        //return(newState)
         let newState = {...previousState.myQuizData, titre : newTitre};
         return(newState)
         // à mettre dans le onChange du titre : (e)=>{this.setState({myQuizData:this.updateTitre(this.state,e.target.value)})}
     }
+    */
 
-    async updateDataInObject(previousState, objetcToChange, dataToChange, newData){
-        //await alert(this.state.myQuizData.titre);
-        // let newState = await {...previousState[objetcToChange], dataToChange : newData};
-        let newObject = await {...previousState[objetcToChange]};
-        newObject[dataToChange] = await newData;
-        //await alert(this.state.myQuizData);
-        //await alert(newObject.titre);
-        return(newObject)
-        // à mettre dans le onChange du titre : (event)=>{this.setState({myQuizData:this.updateDataInObject(this.state,"myQuizData","titre",event.target.value)})}
-        // à mettre dans le onChange de la description : (event)=>{this.setState({myQuizData:this.updateDataInObject(this.state,"myQuizData","description",event.target.value)})}
-    }
-
+     /*
+    
     async updateDataInObject2(){
         await alert(this.state.myQuizData.titre);
         let previousState = await this.state;
 
-        
-        await this.setState(previousState => {
-                let newQuizData = Object.assign({}, previousState.myQuizData);  // creating copy of state variable jasper
+        await this.setState((previousState => {
+                let newQuizData = Object.assign({}, previousState.myQuizData);  
                 alert(newQuizData.titre);
-                newQuizData.titre = 'someothername';                     // update the name property, assign a new value        
+                newQuizData.titre = 'someothername';          
                 alert(newQuizData.titre);         
-                return  (newQuizData) ;                                 // return new object jasper object
-                //return ( {"titre":"new titre", "description":"", "myQuestionsData":[]} );
-                // renvoyer un objet à uiliser dans le setState  ne change rien
-            }
+                return  (newQuizData) ;    
+                
+            })
         )
-        
-        
-        await alert(this.state.myQuizData.titre);
+        // https://stackoverflow.com/questions/43638938/updating-an-object-with-setstate-in-react -> piste suivie
     }
+    */
 
+
+    async updateDataInObject(previousState, objectToChange, dataToChange, newData){
+        let newObject = await {...previousState[objectToChange]};
+        newObject[dataToChange] = await newData;
+        await this.setState({[objectToChange] : newObject});
+        // à mettre dans le onChange du titre : (event)=>{this.setState({myQuizData:this.updateDataInObject(this.state,"myQuizData","titre",event.target.value)})}
+        // à mettre dans le onChange de la description : (event)=>{this.setState({myQuizData:this.updateDataInObject(this.state,"myQuizData","description",event.target.value)})}
+    }
 
     render(){
         return(
@@ -319,7 +314,7 @@ class CreationQuiz extends Component{
                         label="Titre du quiz"
                         defaultValue=""
                         sx={{ml:3, mr:4, my:2}}
-                        onBlur={ (event)=>{this.updateDataInObject2()}}  
+                        onBlur={ (event)=>{this.updateDataInObject(this.state, "myQuizData", "titre", event.target.value)} }  
                         />
 
                     
@@ -330,7 +325,7 @@ class CreationQuiz extends Component{
                         rows={4}
                         defaultValue=""
                         sx={{ml:3, mr:4, my:2}}
-                        onBlur={ (event)=>{this.setState({myQuizData:this.updateDataInObject(this.state,"myQuizData","description",event.target.value)})} }
+                        onBlur={ (event)=>{this.updateDataInObject(this.state, "myQuizData", "description", event.target.value )} }
                         />
                     
                         <ParamQuestion lastQuestionId={this.state.lastQuestionId}/>
@@ -339,7 +334,7 @@ class CreationQuiz extends Component{
         
                     </Stack>
 
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert(this.state.myQuizData.titre)}}>Terminer</Button>
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert(this.state.myQuizData.titre, this.state.myQuizData.description)}}>Terminer</Button>
 
                 </ThemeProvider>
                 
