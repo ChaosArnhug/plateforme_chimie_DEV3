@@ -10,7 +10,7 @@ class CoursPage extends Component{
             <div>
                 <h1>Hi</h1>
                 {this.props.data.map(item => (
-                    <h1 >{item.titre}</h1>
+                    <Link to="1" >{item.titre}</Link>
                 ))}
             </div>
         );
@@ -31,20 +31,22 @@ class PageCours extends Component{
 
     async componentDidMount() {   
         const {cours} = this.props.params;
-        const url = "http://localhost:5000/cours/"+{cours}+"/quiz";
+        const url = `http://localhost:5000/cours/${cours}/quiz`;
+ //       const url = `http://localhost:5000/cours/les%20molécules/quiz`;
         console.log(url);
         const response = await fetch(url);
         const data = await response.json();
-        console.log("++==============================================================================================="+{response})
-        console.log("--"+{data})
-        console.log(url)
-        this.setState({loading : false, data : data});
+ //       console.log("reponse "+response)
+   //     console.log("data "+data.titre)
+ //       console.log("url "+url)
+        await this.setState({loading : false, data : data});
+//        console.log("titre "+this.state.data[0].titre)
     }
 
     render(){
         return(
             <div>
-            {this.state.loading || !this.state.basicData || !this.state.quizData ? (
+            {this.state.loading || !this.state.data ? (
                 <div> Loading ... </div>
             ) : (
                 <CoursPage data={this.state.data} />     
