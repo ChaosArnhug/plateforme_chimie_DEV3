@@ -78,6 +78,7 @@ class ReponseQCM extends Component{
     render(){
         return(
             <Div sx={{display:"flex"}}>
+                <h1>{this.props.numQuestion}</h1>
                 <TextField
                 required
                 id="outlined-required"
@@ -93,24 +94,81 @@ class ReponseQCM extends Component{
     }
 }
 
+class MultReponsesQCM extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            totReponseArr : ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
+        }
+        
+    }
+    
+
+    render(){
+        return(
+            // Générer un certain nombre de <ReponseQCM/> en fonction du nombre de réponses qu'on veut mettre
+            this.state.totReponseArr.slice(0, this.props.nmbreQCMReponses+1).map(item =>(
+                <ReponseQCM numQuestion={item} />
+              ))
+            
+        )
+    }
+}
+
 class ParamQCM extends Component{
-    ajoutReponse(){
+    constructor(props){
+        super(props);
+        this.state={nmbreQCMReponses:2}; 
+        // On mets l'id de début de question à 0, on l'incrémente pour donner un nouvel id à chaque question.
+    }
+
+    async ajoutRetraitReponse(action){
+        if(action === "ajout"){
+            await this.setState((state)=> ({
+                nmbreQCMReponses: state.nmbreQCMReponses+1
+            }));
+            ReactDOM.render(
+                <MultReponsesQCM nmbreQCMReponses={this.state.nmbreQCMReponses}/>,
+                document.getElementById('reponsesQCM')
+            );
+        }
+        else if(action === "retrait"){
+            if(this.state.nmbreQCMReponses < 2 ){
+                alert("Pas moins de deux solutions svp!")  // Mettre qqchose MUI
+            }
+            else{
+                await this.setState((state)=> ({
+                    nmbreQCMReponses: state.nmbreQCMReponses-1
+                }));
+                ReactDOM.render(
+                    <MultReponsesQCM nmbreQCMReponses={this.state.nmbreQCMReponses} />,
+                    document.getElementById('reponsesQCM')
+                );
+            }
+        }
+        
+    }
+
+    componentDidMount(){
         ReactDOM.render(
-            <ReponseQCM/>,
-            document.getElementById('reponseQCM')
+            <MultReponsesQCM nmbreQCMReponses={2} />,
+            document.getElementById('reponsesQCM')
         );
     }
+
+
     render(){
         return(
             
             <Div>
-                <ReponseQCM/>
-                <ReponseQCM/>
                 <Div id="reponsesQCM">
-
+                    
+                    
                 </Div>
-                <Button variant="outlined" sx={{ml:9, mr:2, mt:2}}>+</Button>
-
+                <Div sx={{display:"flex"}}>
+                    <Button variant="outlined" sx={{ml:9, mr:2, mt:2}} onClick={()=> this.ajoutRetraitReponse("ajout")}>+</Button>
+                    <Button variant="outlined" sx={{ml:1, mr:2, mt:2}} onClick={()=> this.ajoutRetraitReponse("retrait")}>-</Button>
+                </Div>
             </Div>
             
             
@@ -200,15 +258,60 @@ class ParamQuestion extends Component{
 class CreationQuiz extends Component{
     constructor(props){
         super(props);
-        this.state={lastQuestionId: 0}; 
+        this.state={lastQuestionId: 0, myQuizData:{"titre":"titre de base", "description":"", "myQuestionsData":[]} }; 
         // On mets l'id de début de question à 0, on l'incrémente pour donner un nouvel id à chaque question.
+        // myQuestionsData est un Array vide qui contiendra des objets représentant les données de chaque question (énoncé, réponses, réponses justes, ...)
     }
+
+    updateTitre(previousState, newTitre){
+        //let newState = {...previousState.myQuizData};  // ... nous permets de créer un nouvel objet de la même forme (même données) -> spread
+        //newState.titre = titre;  // On change ensuite les données qu'on veut
+        //return(newState)
+        let newState = {...previousState.myQuizData, titre : newTitre};
+        return(newState)
+        // à mettre dans le onChange du titre : (e)=>{this.setState({myQuizData:this.updateTitre(this.state,e.target.value)})}
+    }
+
+    async updateDataInObject(previousState, objetcToChange, dataToChange, newData){
+        //await alert(this.state.myQuizData.titre);
+        // let newState = await {...previousState[objetcToChange], dataToChange : newData};
+        let newObject = await {...previousState[objetcToChange]};
+        newObject[dataToChange] = await newData;
+        //await alert(this.state.myQuizData);
+        //await alert(newObject.titre);
+        return(newObject)
+        // à mettre dans le onChange du titre : (event)=>{this.setState({myQuizData:this.updateDataInObject(this.state,"myQuizData","titre",event.target.value)})}
+        // à mettre dans le onChange de la description : (event)=>{this.setState({myQuizData:this.updateDataInObject(this.state,"myQuizData","description",event.target.value)})}
+    }
+
+    async updateDataInObject2(){
+        await alert(this.state.myQuizData.titre);
+        let previousState = await this.state;
+
+        
+        await this.setState(previousState => {
+                let newQuizData = Object.assign({}, previousState.myQuizData);  // creating copy of state variable jasper
+                alert(newQuizData.titre);
+                newQuizData.titre = 'someothername';                     // update the name property, assign a new value        
+                alert(newQuizData.titre);         
+                return  (newQuizData) ;                                 // return new object jasper object
+                //return ( {"titre":"new titre", "description":"", "myQuestionsData":[]} );
+                // renvoyer un objet à uiliser dans le setState  ne change rien
+            }
+        )
+        
+        
+        await alert(this.state.myQuizData.titre);
+    }
+
+
     render(){
         return(
             <div>
-                <h1>Bienvenue dans la création de quiz</h1>
+                <ThemeProvider theme={theme}>
+                    <h1>Bienvenue dans la création de quiz</h1>
 
-                <Stack spacing={2}>
+                    <Stack spacing={2}>
 
                         <TextField
                         required
@@ -216,6 +319,7 @@ class CreationQuiz extends Component{
                         label="Titre du quiz"
                         defaultValue=""
                         sx={{ml:3, mr:4, my:2}}
+                        onBlur={ (event)=>{this.updateDataInObject2()}}  
                         />
 
                     
@@ -226,13 +330,19 @@ class CreationQuiz extends Component{
                         rows={4}
                         defaultValue=""
                         sx={{ml:3, mr:4, my:2}}
+                        onBlur={ (event)=>{this.setState({myQuizData:this.updateDataInObject(this.state,"myQuizData","description",event.target.value)})} }
                         />
                     
                         <ParamQuestion lastQuestionId={this.state.lastQuestionId}/>
-                    
-                </Stack>
-                
 
+            
+        
+                    </Stack>
+
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert(this.state.myQuizData.titre)}}>Terminer</Button>
+
+                </ThemeProvider>
+                
             </div>
         
 

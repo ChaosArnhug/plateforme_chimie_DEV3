@@ -48,7 +48,7 @@ const theme = createTheme({
 const element = (
   
   <ThemeProvider theme={theme} >
-    <Box width="100%" height="100%" backgroundColor="primary.main" >
+    <Box width="auto" height="100%" backgroundColor="primary.main" >
       <AppBar position="static"> 
         <Box width="auto" height="auto"  sx={{ display: 'flex' }}>
           
@@ -80,7 +80,7 @@ const element = (
         
         
       </div>
-      <AppBar position="fixed" sx={{mt:"2", p:2, top: 'auto', bottom: 0, bgcolor:"secondary.main"}}> 
+      <AppBar position="absolute" sx={{mt:"2", p:2, top: 'auto', bottom: 0, bgcolor:"secondary.main"}}> 
         <Div sx={{textAlign:"center"}}>
           Nous contacter: Responsable admin@admin.be
           <br/><br/>
