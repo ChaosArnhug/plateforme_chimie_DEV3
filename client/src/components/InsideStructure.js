@@ -9,7 +9,6 @@ import CreationQuiz from './QuizCreation.js'
 import PageCours from './PageCours.js';
 import theme from '../index.js'
 
-import PageCours from './PageCours.js'
 
 /*
 const theme = createTheme({

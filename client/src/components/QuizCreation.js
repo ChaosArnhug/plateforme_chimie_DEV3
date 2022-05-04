@@ -258,9 +258,53 @@ class ParamQuestion extends Component{
 class CreationQuiz extends Component{
     constructor(props){
         super(props);
-        this.state={lastQuestionId: 0}; 
+        this.state={lastQuestionId: 0, myQuizData:{"titre":"titre de base", "description":"", "myQuestionsData":[]} }; 
         // On mets l'id de début de question à 0, on l'incrémente pour donner un nouvel id à chaque question.
+        // myQuestionsData est un Array vide qui contiendra des objets représentant les données de chaque question (énoncé, réponses, réponses justes, ...)
     }
+
+    updateTitre(previousState, newTitre){
+        //let newState = {...previousState.myQuizData};  // ... nous permets de créer un nouvel objet de la même forme (même données) -> spread
+        //newState.titre = titre;  // On change ensuite les données qu'on veut
+        //return(newState)
+        let newState = {...previousState.myQuizData, titre : newTitre};
+        return(newState)
+        // à mettre dans le onChange du titre : (e)=>{this.setState({myQuizData:this.updateTitre(this.state,e.target.value)})}
+    }
+
+    async updateDataInObject(previousState, objetcToChange, dataToChange, newData){
+        //await alert(this.state.myQuizData.titre);
+        // let newState = await {...previousState[objetcToChange], dataToChange : newData};
+        let newObject = await {...previousState[objetcToChange]};
+        newObject[dataToChange] = await newData;
+        //await alert(this.state.myQuizData);
+        //await alert(newObject.titre);
+        return(newObject)
+        // à mettre dans le onChange du titre : (event)=>{this.setState({myQuizData:this.updateDataInObject(this.state,"myQuizData","titre",event.target.value)})}
+        // à mettre dans le onChange de la description : (event)=>{this.setState({myQuizData:this.updateDataInObject(this.state,"myQuizData","description",event.target.value)})}
+    }
+
+    async updateDataInObject2(){
+        await alert(this.state.myQuizData.titre);
+        let previousState = await this.state;
+
+        
+        await this.setState(previousState => {
+                let newQuizData = Object.assign({}, previousState.myQuizData);  // creating copy of state variable jasper
+                alert(newQuizData.titre);
+                newQuizData.titre = 'someothername';                     // update the name property, assign a new value        
+                alert(newQuizData.titre);         
+                return  (newQuizData) ;                                 // return new object jasper object
+                //return ( {"titre":"new titre", "description":"", "myQuestionsData":[]} );
+                // renvoyer un objet à uiliser dans le setState  ne change rien
+            }
+        )
+        
+        
+        await alert(this.state.myQuizData.titre);
+    }
+
+
     render(){
         return(
             <div>
@@ -275,6 +319,7 @@ class CreationQuiz extends Component{
                         label="Titre du quiz"
                         defaultValue=""
                         sx={{ml:3, mr:4, my:2}}
+                        onBlur={ (event)=>{this.updateDataInObject2()}}  
                         />
 
                     
@@ -285,6 +330,7 @@ class CreationQuiz extends Component{
                         rows={4}
                         defaultValue=""
                         sx={{ml:3, mr:4, my:2}}
+                        onBlur={ (event)=>{this.setState({myQuizData:this.updateDataInObject(this.state,"myQuizData","description",event.target.value)})} }
                         />
                     
                         <ParamQuestion lastQuestionId={this.state.lastQuestionId}/>
@@ -293,7 +339,7 @@ class CreationQuiz extends Component{
         
                     </Stack>
 
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> this.ajoutRetraitReponse("ajout")}>Terminer</Button>
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert(this.state.myQuizData.titre)}}>Terminer</Button>
 
                 </ThemeProvider>
                 
