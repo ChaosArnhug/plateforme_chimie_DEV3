@@ -181,20 +181,12 @@ class ParamQCM extends Component{
 
 // Composant React pour la structure de param. de question
 class ParamQuestion extends Component{
-    generateRandomId(lastQuestionId){
-        var idPrefix = "Q";
-        var id = String(lastQuestionId);
-        return (idPrefix+id);
-    }
-
     constructor(props){
         super(props);
-        //this.state={isQCM:true};
-        this.state={isQCM:true, questionId: generateRandomId(this.props.lastQuestionId) }; // problème avec fonction
+        this.state={isQCM:true }; // problème avec fonction
     }
 
     choixParam(isQCM){
-    
         if (isQCM == false){
             this.setState({isQCM:true})
             ReactDOM.render(
@@ -209,7 +201,11 @@ class ParamQuestion extends Component{
                 document.getElementById('param_reponse')
               );
         }
-        
+    }
+
+    componentDidMount(){
+        // this.props.addQuestionInDataArray();  // rien n'est render
+        // Ajout d'une question dans l'objet de données 
     }
 
     render(){
@@ -258,12 +254,16 @@ class ParamQuestion extends Component{
 class CreationQuiz extends Component{
     constructor(props){
         super(props);
-        this.state={lastQuestionId: 0, myQuizData:{"titre":"titre de base", "description":"", "myQuestionsData":[]} }; 
-        // On mets l'id de début de question à 0, on l'incrémente pour donner un nouvel id à chaque question.
-        // myQuestionsData est un Array vide qui contiendra des objets représentant les données de chaque question (énoncé, réponses, réponses justes, ...)
+        this.state={ myQuizData:{"titre":"titre de base", "description":"", "myQuestionsArray": new Array()} }; 
+        
+        this.updateDataInObject = this.updateDataInObject.bind(this);
+        this.addQuestionInDataArray = this.addQuestionInDataArray.bind(this);
+
+        // dans myQuestionsArray: liste d'objets : {"titreQuestion" : "", "enonce" : "", "estQCM" : 0, "points" : 1, "myReponsesArray" : []}
+        // dans myReponsesArray: liste d'objets : {"texteReponse" : "", "estCorrect" : false}
     }
 
-    
+
     /*
     updateTitre(previousState, newTitre){
         let newState = {...previousState.myQuizData, titre : newTitre};
@@ -300,6 +300,16 @@ class CreationQuiz extends Component{
         // à mettre dans le onChange de la description : (event)=>{this.setState({myQuizData:this.updateDataInObject(this.state,"myQuizData","description",event.target.value)})}
     }
 
+    async addQuestionInDataArray(){
+        // Ajoute un objet représentant une question dans myQuestionsArray de myQuizData
+        let newObject = await {...this.state.myQuizData}; // copie l'objet myQuizData
+        let newArray = await newObject.myQuestionsArray.slice(); // copie l'array myQuestionsData 
+        await newArray.push({"titreQuestion" : "", "enonce" : "", "estQCM" : 0, "points" : 1, "myReponsesArray" : []}); // ajouté un nouvel objet représentant une question
+        newObject.myQuestionsArray = await newArray;
+        await this.setState({myQuizData:newObject});
+
+    }
+
     render(){
         return(
             <div>
@@ -328,13 +338,16 @@ class CreationQuiz extends Component{
                         onBlur={ (event)=>{this.updateDataInObject(this.state, "myQuizData", "description", event.target.value )} }
                         />
                     
-                        <ParamQuestion lastQuestionId={this.state.lastQuestionId}/>
+                        <ParamQuestion addQuestionInDataArray={this.state.addQuestionInDataArray}/>
+                        <ParamQuestion addQuestionInDataArray={this.state.addQuestionInDataArray}/>
 
             
         
                     </Stack>
 
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert(this.state.myQuizData.titre, this.state.myQuizData.description)}}>Terminer</Button>
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert(this.state.myQuizData.titre+" "+ this.state.myQuizData.description)}}>Terminer</Button>
+
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {this.addQuestionInDataArray()}}>ajout question dans data</Button>
 
                 </ThemeProvider>
                 
