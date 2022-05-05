@@ -17,9 +17,12 @@ class CoursButton extends Component{
     )
   }
   render(){
-      return <MenuItem onClick={this.goToCours.bind(this)}>{this.props.nom}</MenuItem>
+      return <Button href={`http://localhost:3000/cours/${this.props.nom}`}>{this.props.nom}</Button>
+//    return <MenuItem onClick={this.goToCours.bind(this)}>{this.props.nom}</MenuItem>
   }
 }
+
+//
 
 class CoursButtonList extends Component{
   render(){

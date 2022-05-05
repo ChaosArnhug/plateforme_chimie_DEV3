@@ -1,16 +1,21 @@
 //import { MenuItem } from '@mui/material';
+import { Button } from '@mui/material';
 import React, {Component} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 
 class CoursPage extends Component{
 
     render() {
         return (
- //           <h1>Hi</h1>
             <div>
                 <h1>Hi</h1>
-                {this.props.data.map(item => (
-                    <Link to="1" >{item.titre}</Link>
+                {this.props.data.map((item) => (
+                    item.disponnible == 1 &&
+                        <div>
+                            <h3>{item.description}</h3>
+                            <Button href={`http://localhost:3000`} >{item.titre}</Button>
+                        </div>
+                    
                 ))}
             </div>
         );
