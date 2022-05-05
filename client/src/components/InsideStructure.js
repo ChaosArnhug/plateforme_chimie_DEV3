@@ -8,6 +8,8 @@ import { unstable_styleFunctionSx, styled } from '@mui/system';
 import CreationQuiz from './QuizCreation.js'
 import PageCours from './PageCours.js';
 import theme from '../index.js'
+import Question from './QuizEleve/question/question.js';
+import Answer from './QuizEleve/answer/Answer.js';
 
 
 /*
@@ -54,6 +56,7 @@ class InsideStructure extends Component{
             <Route path="/" element={<Acceuil/>}> </Route>
             <Route path="/quiz/cours/creation" element={<CreationQuiz/>}> </Route>
             <Route path="/cours/:cours" element={<PageCours/>}> </Route>
+            <Route path="/cours/:cours/quiz/:quiz" element={<Answer/>}></Route>
           </Routes>
         </Router>
       )
