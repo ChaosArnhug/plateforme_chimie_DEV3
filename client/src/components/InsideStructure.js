@@ -10,6 +10,7 @@ import PageCours from './PageCours.js';
 import theme from '../index.js'
 import Question from './QuizEleve/question/question.js';
 import Answer from './QuizEleve/answer/Answer.js';
+import Quiz from './QuizEleve/QuizMain.js';
 
 
 /*
@@ -56,7 +57,7 @@ class InsideStructure extends Component{
             <Route path="/" element={<Acceuil/>}> </Route>
             <Route path="/quiz/cours/creation" element={<CreationQuiz/>}> </Route>
             <Route path="/cours/:cours" element={<PageCours/>}> </Route>
-            <Route path="/cours/:cours/quiz/:quiz" element={<Answer/>}></Route>
+            <Route path="/cours/:cours/quiz/:quiz" element={<Quiz/>}></Route>
           </Routes>
         </Router>
       )

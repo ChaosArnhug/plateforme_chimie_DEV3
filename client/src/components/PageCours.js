@@ -15,7 +15,7 @@ class CoursPage extends Component{
                     item.disponnible == 1 &&
                         <div>
                             <p>{item.description}</p>
-                            <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item.titre}`} >{item.titre}</Button>                              
+                            <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item.idQuizs}`} >{item.titre}</Button>                              
                         </div>                   
                 ))}
                 </fieldset>
