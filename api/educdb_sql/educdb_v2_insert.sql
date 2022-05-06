@@ -7,10 +7,10 @@ insert into cours values (1, 1, 'les molécules', now());
 insert into cours values (2, 1, 'l\'ADN', now());
 insert into cours values (3, 1, 'les centrales nucléaires', now());
 
-insert into quiz values (1, 'Quiz1', 'quiz du chap1', True, 1, 1); 
-insert into quiz values (2, 'Quiz1','quiz du chap2', True, 2, 2);
-insert into quiz values (3, 'Quiz1', 'quiz du chap3', False, 3, 3);
-insert into quiz values (4, 'Quiz2', 'quiz du chap3', True, 3, 4);
+insert into quiz values (1, 'Quiz1', 'quiz du chap1', True, 1); 
+insert into quiz values (2, 'Quiz1','quiz du chap2', True, 2);
+insert into quiz values (3, 'Quiz1', 'quiz du chap3', False, 3);
+insert into quiz values (4, 'Quiz2', 'quiz du chap3', True, 4);
 
 insert into chapitre values (1, 'chapitre1', True, 1); 
 insert into chapitre values (2, 'chapitre2', True, 2);
