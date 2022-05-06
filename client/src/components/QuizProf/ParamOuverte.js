@@ -35,17 +35,36 @@ const Div = styled('div')(unstable_styleFunctionSx);
 
 
 class ParamOuverte extends Component{
-    render(){
-        return(
-            <TextField
-            required
-            id="outlined-required"
-            label="Réponse"
-            defaultValue=""
-            sx={{ml:9, mr:4, mt:2}}
-            />
-        )
-    }
+  constructor(props){
+    super(props);
+    
+  }
+
+  async componentDidMount(){
+    let reponseId = await this.props.addReponseInDataArray(this.props.questionId); // La fonction renvoie l'id de réponse qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
+    alert("reponseId "+reponseId)
+    await this.setState({"reponseId" : reponseId}); // ici this.state est celui du composant ParamOuverte
+    alert(this.state.reponseId);
+
+    // Quand on render une nouvelle question -> ok, nouvel questionId, quand on en render plusieurs -> ont tous le même questionId
+}
+
+  render(){
+      return(
+          <TextField
+          required
+          id="outlined-required"
+          label="Réponse"
+          defaultValue=""
+          sx={{ml:9, mr:4, mt:2}}
+          onBlur={ (event)=>{
+            this.props.updateQuestionData(
+                this.state.questionId, "texteReponse", event.target.value
+            )   
+          }}
+          />
+      )
+  }
 }
 
 

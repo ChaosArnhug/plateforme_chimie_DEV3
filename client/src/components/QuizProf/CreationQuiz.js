@@ -57,53 +57,38 @@ const Item = styled(Paper)(({ theme }) => ({
 class CreationQuiz extends Component{
     constructor(props){
         super(props);
-        this.state={ nmbreQuestions:0, myQuizData:{"titre":"titre de base", "description":"", "myQuestionsArray": new Array()} }; 
+        this.state={ 
+            nmbreQuestions:0, 
+            nmbreTotReponses:0, 
+            myQuizData:{"titre":"titre de base", "description":"", "myQuestionsArray": new Array()} }; 
         this.updateQuestionData = this.updateQuestionData.bind(this);
         this.addQuestionInDataArray = this.addQuestionInDataArray.bind(this);
+        this.addReponseInDataArray = this.addReponseInDataArray.bind(this);
         this.remQuestionInDataArray = this.remQuestionInDataArray.bind(this);
         this.generateQuestionId = this.generateQuestionId.bind(this);
+        this.generateReponseId = this.generateReponseId.bind(this);
 
         // dans myQuestionsArray: liste d'objets : {"titreQuestion" : "", "enonce" : "", "estQCM" : 0, "points" : 1, "myReponsesArray" : []}
         // dans myReponsesArray: liste d'objets : {"texteReponse" : "", "estCorrect" : false}
     }
 
 
-    /*
-    updateTitre(previousState, newTitre){
-        let newState = {...previousState.myQuizData, titre : newTitre};
-        return(newState)
-        // à mettre dans le onChange du titre : (e)=>{this.setState({myQuizData:this.updateTitre(this.state,e.target.value)})}
-    }
-    */
-
-     /*
-    
-    async updateDataInObject2(){
-        await alert(this.state.myQuizData.titre);
-        let previousState = await this.state;
-
-        await this.setState((previousState => {
-                let newQuizData = Object.assign({}, previousState.myQuizData);  
-                alert(newQuizData.titre);
-                newQuizData.titre = 'someothername';          
-                alert(newQuizData.titre);         
-                return  (newQuizData) ;    
-                
-            })
-        )
-        // https://stackoverflow.com/questions/43638938/updating-an-object-with-setstate-in-react -> piste suivie
-    }
-    */
-
     async generateQuestionId(){
-
         let num = await this.state.nmbreQuestions;
         
-        let newNombre = await this.state.nmbreQuestions +1;  
+        let newNombre = await num +1;  
         //alert("num puis newNombre "+num+" "+newNombre);
         this.setState({nmbreQuestions : newNombre});
-        
         return(`Q${num}`)
+    }
+
+    async generateReponseId(){
+        let num = await this.state.nmbreTotReponses;
+        
+        let newNombre = await num +1;  
+        //alert("num puis newNombre "+num+" "+newNombre);
+        this.setState({nmbreTotReponses : newNombre});
+        return(`R${num}`)
     }
 
     async updateQuizData(dataToChange, newData){
@@ -120,7 +105,6 @@ class CreationQuiz extends Component{
         
         newObject.myQuestionsArray[questionNum][questionDataToChange] = await newData;
         await this.setState({"myQuizData" : newObject});
-        alert(this.state.myQuizData.myQuestionsArray[0][questionDataToChange]);
     }
 
     async addQuestionInDataArray(){
@@ -136,8 +120,27 @@ class CreationQuiz extends Component{
         await newArray.push({"questionId": questionId,"titreQuestion" : "", "enonce" : "", "estQCM" : 0, "points" : 1, "myReponsesArray" : new Array}); // ajouté un nouvel objet représentant une question
         newObject.myQuestionsArray = await newArray;
         await this.setState({myQuizData:newObject});
+        alert(this.state.myQuizData.myQuestionsArray[0].enonce)
 
         return(questionId)
+    }
+
+    async addReponseInDataArray(questionId){
+        let questionNum = parseInt(questionId.substring(1));
+        let reponseId = await this.generateReponseId();
+        //alert("in addReponseInDataArray "+reponseId)
+
+        let newNombre = await this.state.nmbreTotReponses +1;  
+        await this.setState({nmbreReponses : newNombre});
+
+        // Ajoute un objet représentant une réponse dans myReponsesArray de myQuestionsArray
+        let newObject = await {...this.state.myQuizData}; // copie l'objet myQuizData
+        let newArray = await newObject.myQuestionsArray[questionNum].myReponsesArray.slice(); // copie l'array myReponsesArray
+        await newArray.push({"texteReponse" : "", "estCorrect" : false}); // ajouté un nouvel objet représentant une question
+        newObject.myQuestionsArray[questionNum].myReponsesArray = await newArray;
+        await this.setState({myQuizData:newObject});
+
+        return(reponseId)
     }
 
     async remQuestionInDataArray(){
@@ -181,7 +184,9 @@ class CreationQuiz extends Component{
                         updateQuestionData={this.updateQuestionData}
                         addQuestionInDataArray={this.addQuestionInDataArray} 
                         remQuestionInDataArray={this.remQuestionInDataArray}
+                        addReponseInDataArray={this.addReponseInDataArray} 
                         generateQuestionId={this.generateQuestionId}
+                        generateReponseId={this.generateReponseId}
                         />
                         <div id='ajoutTest'>
                             
@@ -197,6 +202,7 @@ class CreationQuiz extends Component{
                             updateQuestionData={this.updateQuestionData}
                             addQuestionInDataArray={this.addQuestionInDataArray} 
                             remQuestionInDataArray={this.remQuestionInDataArray}
+                            addReponseInDataArray={this.addReponseInDataArray} 
                             generateQuestionId={this.generateQuestionId}
                             />
                         ,
