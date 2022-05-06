@@ -93,8 +93,8 @@ class ParamQuestion extends Component{
                         defaultValue=""
                         sx={{ml:3, mr:4}}
                         onBlur={ (event)=>{
-                            this.props.updateDataInObject2(
-                                "myQuizData", "myQuestionsArray",this.state.questionId, "titreQuestion", event.target.value
+                            this.props.updateQuestionData(
+                                this.state.questionId, "titreQuestion", event.target.value
                             )   
                         }}
                         />
@@ -106,8 +106,8 @@ class ParamQuestion extends Component{
                         defaultValue=""
                         sx={{ml:3, mr:4}}
                         onBlur={ (event)=>{
-                            this.props.updateDataInObject2(
-                                "myQuizData", "myQuestionsArray",this.state.questionId, "enonce", event.target.value
+                            this.props.updateQuestionData(
+                                this.state.questionId, "enonce", event.target.value
                             )   
                         }}
                         />

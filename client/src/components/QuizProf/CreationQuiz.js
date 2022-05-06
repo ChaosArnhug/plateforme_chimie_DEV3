@@ -58,7 +58,7 @@ class CreationQuiz extends Component{
     constructor(props){
         super(props);
         this.state={ nmbreQuestions:0, myQuizData:{"titre":"titre de base", "description":"", "myQuestionsArray": new Array()} }; 
-        this.updateDataInObject2 = this.updateDataInObject2.bind(this);
+        this.updateQuestionData = this.updateQuestionData.bind(this);
         this.addQuestionInDataArray = this.addQuestionInDataArray.bind(this);
         this.remQuestionInDataArray = this.remQuestionInDataArray.bind(this);
         this.generateQuestionId = this.generateQuestionId.bind(this);
@@ -106,21 +106,21 @@ class CreationQuiz extends Component{
         return(`Q${num}`)
     }
 
-    async updateDataInObject(objectToChange, dataToChange, newData){
-        let newObject = await {...this.state[objectToChange]};
+    async updateQuizData(dataToChange, newData){
+        // Fonction changeant la valeur d'une clé dans myQuizData (ex: titre, description), 
+        // dataToChange représente la clé dont on doit changer la valeur, newData la nouvelle valeur
+        let newObject = await {...this.state.myQuizData};
         newObject[dataToChange] = await newData;
-        await this.setState({[objectToChange] : newObject});
-        // à mettre dans le onChange du titre : (event)=>{this.setState({myQuizData:this.updateDataInObject(this.state,"myQuizData","titre",event.target.value)})}
-        // à mettre dans le onChange de la description : (event)=>{this.setState({myQuizData:this.updateDataInObject(this.state,"myQuizData","description",event.target.value)})}
+        await this.setState({"myQuizData" : newObject});
     }
 
-    async updateDataInObject2(objectToChange, dataToChange, questionId, secondDegreeDataToChange, newData){
+    async updateQuestionData(questionId, questionDataToChange, newData){
         let questionNum = parseInt(questionId.substring(1));
-        let newObject = await {...this.state[objectToChange]};
+        let newObject = await {...this.state.myQuizData};
         
-        newObject[dataToChange][questionNum][secondDegreeDataToChange] = await newData;
-        await this.setState({[objectToChange] : newObject});
-        //alert(this.state.myQuizData.myQuestionsArray[0].enonce);
+        newObject.myQuestionsArray[questionNum][questionDataToChange] = await newData;
+        await this.setState({"myQuizData" : newObject});
+        alert(this.state.myQuizData.myQuestionsArray[0][questionDataToChange]);
     }
 
     async addQuestionInDataArray(){
@@ -163,7 +163,7 @@ class CreationQuiz extends Component{
                         label="Titre du quiz"
                         defaultValue=""
                         sx={{ml:3, mr:4, my:2}}
-                        onBlur={ (event)=>{this.updateDataInObject("myQuizData", "titre", event.target.value)} }  
+                        onBlur={ (event)=>{this.updateQuizData("titre", event.target.value)} }  
                         />
 
                     
@@ -174,11 +174,11 @@ class CreationQuiz extends Component{
                         rows={4}
                         defaultValue=""
                         sx={{ml:3, mr:4, my:2}}
-                        onBlur={ (event)=>{this.updateDataInObject("myQuizData", "description", event.target.value )} }
+                        onBlur={ (event)=>{this.updateQuizData("description", event.target.value )} }
                         />
                     
                         <ParamQuestion 
-                        updateDataInObject2={this.updateDataInObject2}
+                        updateQuestionData={this.updateQuestionData}
                         addQuestionInDataArray={this.addQuestionInDataArray} 
                         remQuestionInDataArray={this.remQuestionInDataArray}
                         generateQuestionId={this.generateQuestionId}
@@ -194,7 +194,7 @@ class CreationQuiz extends Component{
                     <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {
                         ReactDOM.render(
                             <ParamQuestion 
-                            updateDataInObject2={this.updateDataInObject2}
+                            updateQuestionData={this.updateQuestionData}
                             addQuestionInDataArray={this.addQuestionInDataArray} 
                             remQuestionInDataArray={this.remQuestionInDataArray}
                             generateQuestionId={this.generateQuestionId}
