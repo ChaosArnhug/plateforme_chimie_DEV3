@@ -41,6 +41,7 @@ class ParamOuverte extends Component{
   }
 
   async componentDidMount(){
+    alert("ParamOuverte se monte")
     let reponseId = await this.props.addReponseInDataArray(this.props.questionId); // La fonction renvoie l'id de réponse qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
     alert("reponseId "+reponseId)
     await this.setState({"reponseId" : reponseId}); // ici this.state est celui du composant ParamOuverte

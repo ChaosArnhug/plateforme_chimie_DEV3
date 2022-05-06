@@ -120,7 +120,6 @@ class CreationQuiz extends Component{
         await newArray.push({"questionId": questionId,"titreQuestion" : "", "enonce" : "", "estQCM" : 0, "points" : 1, "myReponsesArray" : new Array}); // ajouté un nouvel objet représentant une question
         newObject.myQuestionsArray = await newArray;
         await this.setState({myQuizData:newObject});
-        alert(this.state.myQuizData.myQuestionsArray[0].enonce)
 
         return(questionId)
     }

@@ -79,7 +79,8 @@ class ParamQuestion extends Component{
         let questionId = await this.props.addQuestionInDataArray(); // La fonction renvoie l'id de question qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
         //alert("questionId "+questionId)
         await this.setState({"questionId" : questionId});
-        //alert(this.state.questionId);
+        alert("ParamQuestion se monte")
+        alert(this.state.questionId);
 
         // Quand on render une nouvelle question -> ok, nouvel questionId, quand on en render plusieurs -> ont tous le même questionId
     }
@@ -128,13 +129,14 @@ class ParamQuestion extends Component{
                     </Div>
 
                     <Div id="param_reponse">
-                        <TextField
-                        required
-                        id="outlined-required"
-                        label="Réponse"
-                        defaultValue=""
-                        sx={{ml:9, mr:4, mt:2}}
+                        <ParamOuverte 
+                        questionId={this.state.questionId}
+                        updateQuestionData={this.props.updateQuestionData} 
+                        generateReponseId={this.props.generateQuestionId}
+                        addReponseInDataArray={this.props.addReponseInDataArray} 
                         />
+                        
+
                     </Div>
                     
                     
