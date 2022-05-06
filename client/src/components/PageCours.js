@@ -55,7 +55,7 @@ class PageCours extends Component{
     render(){
         return(
             <div>
-            {this.state.loading || !this.state.data ? (  //rajouter !this.state.dataEleve
+            {this.state.loading || !this.state.data ? (  //rajouter || !this.state.dataEleve
                 <div> Loading ... </div>
             ) : (
                 <CoursPage data={this.state.data} cours={this.state.cours}/>  //rajouter dataEleve={this.props.dataEleve}   

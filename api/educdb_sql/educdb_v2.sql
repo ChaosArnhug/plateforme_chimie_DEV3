@@ -97,16 +97,35 @@ CREATE TABLE IF NOT EXISTS `educdb_v2`.`quiz` (
   `description` VARCHAR(300) NULL DEFAULT 'Pas de description',
   `estVisible` TINYINT NOT NULL DEFAULT 0,
   `idCours` INT NOT NULL,
+  `idChapitre` INT NOT NULL,
   PRIMARY KEY (`idQuiz`),
-  CONSTRAINT `fk_cours_quizs`
-    FOREIGN KEY (`idCours`)
-    REFERENCES `educdb_v2`.`cours` (`idCours`)
+  CONSTRAINT `fk_chapitre_quizs`
+    FOREIGN KEY (`idChapitre`)
+    REFERENCES `educdb_v2`.`chapitre` (`idChapitre`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 CREATE INDEX `fk_idCours_idx` ON `educdb_v2`.`quiz` (`idCours` ASC) VISIBLE;
 
+
+-- -----------------------------------------------------
+-- Table `educdb_v2`.`chapitre`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `educdb_v2`.`chapitre` ;
+
+CREATE TABLE IF NOT EXISTS `educdb_v2`.`chapitre` (
+  `idChapitre` INT NOT NULL AUTO_INCREMENT,
+  `titreChapitre` VARCHAR(45) NOT NULL,
+  `estVisible` TINYINT NOT NULL DEFAULT 0,
+  `idCours` INT NOT NULL,
+  PRIMARY KEY (`idChapitre`),
+  CONSTRAINT `fk_cours_chapitres`
+    FOREIGN KEY (`idCours`)
+    REFERENCES `educdb_v2`.`cours` (`idCours`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `educdb_v2`.`questions`
