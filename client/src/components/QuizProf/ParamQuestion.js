@@ -81,7 +81,6 @@ class ParamQuestion extends Component{
 
     async componentDidMount(){
         let questionId = await this.props.addQuestionInDataArray(); // La fonction renvoie l'id de question qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
-        //alert("questionId "+questionId)
         await this.setState({"questionId" : questionId});
         //alert(this.state.questionId);
 

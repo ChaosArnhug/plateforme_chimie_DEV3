@@ -40,6 +40,26 @@ const Div = styled('div')(unstable_styleFunctionSx);
 
 
 class ReponseQCM extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            totReponseArr : ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
+        }
+    }
+
+
+    async componentDidMount(){
+        let reponseId = await this.props.addReponseInDataArray(this.props.questionId, true); // La fonction renvoie l'id de réponse qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
+        await this.setState({"reponseId" : reponseId}); // ici this.state est celui du composant ParamOuverte
+        alert(this.state.reponseId);
+        alert(this.props.questionId);
+    
+        // Quand on render une nouvelle question -> ok, nouvel questionId, quand on en render plusieurs -> ont tous le même questionId
+    }
+
+
+
+
     render(){
         return(
             <Div sx={{display:"flex"}}>
@@ -50,6 +70,11 @@ class ReponseQCM extends Component{
                 label="Réponse QCM"
                 defaultValue=""
                 sx={{ml:9, mr:2, mt:2}}
+                onBlur={ (event)=>{
+                    this.props.updateReponseData(
+                        this.props.questionId, this.state.reponseId, "texteReponse", event.target.value
+                    )   
+                  }}
                 />
                 <FormGroup sx={{mr:4, my:"auto"}}>
                     <FormControlLabel control={<Checkbox onClick={() => {alert("c'est une bonne réponse")}}/>} label="Est une bonne réponse" />
@@ -65,15 +90,18 @@ class MultReponsesQCM extends Component{
         this.state={
             totReponseArr : ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
         }
-        
     }
     
 
     render(){
         return(
             // Générer un certain nombre de <ReponseQCM/> en fonction du nombre de réponses qu'on veut mettre
-            this.state.totReponseArr.slice(0, this.props.nmbreQCMReponses+1).map(item =>(
-                <ReponseQCM numQuestion={item} />
+            this.state.totReponseArr.slice(0, this.props.nmbreQCMReponses).map(item =>(
+                <ReponseQCM 
+                questionId={this.props.questionId}
+                addReponseInDataArray={this.props.addReponseInDataArray}
+                updateReponseData={this.props.updateReponseData}
+                />
               ))
             
         )
