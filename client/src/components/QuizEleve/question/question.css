@@ -26,7 +26,8 @@
     border-left: 4px solid #515352;
     background-color: #bbb;
     /*background-color: rgba(255,255,255,.5);*/
-    margin: 0 0 5px;
+    margin: auto;
+    
    
     border-radius: 5px;
 }
@@ -46,9 +47,6 @@
     background-color: #a2a2a2
 }
 
-.Answers li:active{
-    background-color: #494646
-}
 
 .Answers .correct, 
 .Answers .correct:hover{
@@ -69,4 +67,19 @@
     pointer-events: none;
     opacity:0.7;
 }
+
+.custom-checkbox input[type="checkbox"],
+            .custom-checkbox .checked {
+            display: none;
+        }
+ 
+.custom-checkbox input[type="checkbox"]:checked ~ .checked
+        {
+            display: inline-block;
+        }
+ 
+.custom-checkbox input[type="checkbox"]:checked ~ .unchecked
+        {
+            display: none;
+        }
 
