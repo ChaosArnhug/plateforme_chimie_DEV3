@@ -45,12 +45,12 @@ const Div = styled('div')(unstable_styleFunctionSx);
 class ParamQuestion extends Component{
     constructor(props){
         super(props);
-        this.state={isQCM:true }; // problème avec fonction
+        this.state={isQCM:false }; // problème avec fonction
     }
 
     choixParam(isQCM){
-        if (isQCM == false){
-            this.setState({isQCM:true})
+        if (isQCM === true){
+            this.setState({isQCM:false});
             ReactDOM.render(
                 <ParamOuverte 
                 questionId={this.state.questionId}
@@ -59,10 +59,11 @@ class ParamQuestion extends Component{
                 addReponseInDataArray={this.props.addReponseInDataArray} 
                 />,
                 document.getElementById('param_reponse')
-              );
+            );
+            this.props.questionType(this.state.questionId, false);
         }
-        else if (isQCM == true){
-            this.setState({isQCM:false})
+        else if (isQCM === false){
+            this.setState({isQCM:true});
             ReactDOM.render(
                 <ParamQCM 
                 questionId={this.state.questionId}
@@ -71,7 +72,8 @@ class ParamQuestion extends Component{
                 addReponseInDataArray={this.props.addReponseInDataArray} 
                 />,
                 document.getElementById('param_reponse')
-              );
+            );
+            this.props.questionType(this.state.questionId, true);
         }
     }
 
@@ -135,7 +137,12 @@ class ParamQuestion extends Component{
                         />
 
                         <FormGroup sx={{ml:3, mr:4, my:"auto"}}>
-                            <FormControlLabel control={<Checkbox onClick={() => {this.choixParam(this.state.isQCM)}}/>} label="QCM" />
+                            <FormControlLabel 
+                            control={<Checkbox onClick={() => {
+                                this.choixParam(this.state.isQCM)}
+                            }/>} 
+                            label="QCM" 
+                            />
                         </FormGroup>
                     </Div>
 
