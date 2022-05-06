@@ -87,29 +87,6 @@ CREATE INDEX `fk_utilisateurs_has_cours_utilisateurs_idx` ON `educdb_v2`.`acces_
 
 
 -- -----------------------------------------------------
--- Table `educdb_v2`.`quiz`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `educdb_v2`.`quiz` ;
-
-CREATE TABLE IF NOT EXISTS `educdb_v2`.`quiz` (
-  `idQuiz` INT NOT NULL AUTO_INCREMENT,
-  `titre` VARCHAR(45) NOT NULL,
-  `description` VARCHAR(300) NULL DEFAULT 'Pas de description',
-  `estVisible` TINYINT NOT NULL DEFAULT 0,
-  `idCours` INT NOT NULL,
-  `idChapitre` INT NOT NULL,
-  PRIMARY KEY (`idQuiz`),
-  CONSTRAINT `fk_chapitre_quizs`
-    FOREIGN KEY (`idChapitre`)
-    REFERENCES `educdb_v2`.`chapitre` (`idChapitre`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_idCours_idx` ON `educdb_v2`.`quiz` (`idCours` ASC) VISIBLE;
-
-
--- -----------------------------------------------------
 -- Table `educdb_v2`.`chapitre`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `educdb_v2`.`chapitre` ;
@@ -126,6 +103,28 @@ CREATE TABLE IF NOT EXISTS `educdb_v2`.`chapitre` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `educdb_v2`.`quiz`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `educdb_v2`.`quiz` ;
+
+CREATE TABLE IF NOT EXISTS `educdb_v2`.`quiz` (
+  `idQuiz` INT NOT NULL AUTO_INCREMENT,
+  `titre` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(300) NULL DEFAULT 'Pas de description',
+  `estVisible` TINYINT NOT NULL DEFAULT 0,
+  `idChapitre` INT NOT NULL,
+  PRIMARY KEY (`idQuiz`),
+  CONSTRAINT `fk_chapitre_quizs`
+    FOREIGN KEY (`idChapitre`)
+    REFERENCES `educdb_v2`.`chapitre` (`idChapitre`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_idCours_idx` ON `educdb_v2`.`quiz` (`idCours` ASC) VISIBLE;
+
 
 -- -----------------------------------------------------
 -- Table `educdb_v2`.`questions`
