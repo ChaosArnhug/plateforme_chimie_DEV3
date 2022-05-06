@@ -8,8 +8,7 @@ import { unstable_styleFunctionSx, styled } from '@mui/system';
 import CreationQuiz from './QuizProf/CreationQuiz.js'
 import PageCours from './PageCours.js';
 import theme from '../index.js'
-import Question from './QuizEleve/question/question.js';
-import Answer from './QuizEleve/answer/Answer.js';
+import Question from './QuizEleve/Question/Question.js';
 import Quiz from './QuizEleve/QuizMain.js';
 
 
