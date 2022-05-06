@@ -15,13 +15,14 @@ class CoursPage extends Component{
                     item.disponnible == 1 &&
                         <div>
                             <p>{item.description}</p>
-                            <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item.idQuizs}`} >{item.titre}</Button>                              
+                            <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item.titre}`} >{item.titre}</Button>                              
                         </div>                   
                 ))}
                 </fieldset>
             </div>
         );
     }
+    // remplacer dans href item.titre par item.idQuiz
 
 
 }
@@ -73,3 +74,55 @@ export default (props) => (
 
 
 //{this.props.dataEleve.map((item2) =>(item2.idQuizs == item.idQuiz && <p>✅</p>))} 
+/*
+
+compteurChapitre = 0;
+suiviCompteurChapitre = 0;
+return (
+    <div>
+        <h1>{this.props.cours}</h1>  
+        {this.props.data.map((item) => (
+                {item.idChapitre != compteurChapitre && item.estvisible ==1 &&
+                    <fieldset>
+                        <legend>{item.idChapitre}</legend>
+                        {compteurChapitre = item.idChapitre}
+                }
+                {item.disponnible == 1 &&
+                    <div>
+                        <p>{item.description}</p>
+                        <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item.titre}`} >{item.titre}</Button>                              
+                    </div>   
+                } 
+                {suiviCompteurChapitre++} 
+                {item.idChapitre != this.props.data[suiviCompteurChapitre].idChapitre &&
+                    </fieldset>   
+                }                 
+            ))}
+        
+    </div>
+);
+
+*/
+
+
+/*
+        return (
+            <div>
+                <h1>{this.props.cours}</h1>
+                <fieldset>
+                    <legend>{this.props.cours}</legend>
+                {this.props.data.map((item) => (
+                    item.disponnible == 1 &&
+                        <div>
+                            <p>{item.description}</p>
+                            <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item.titre}`} >{item.titre}</Button>                              
+                        </div>                   
+                ))}
+                </fieldset>
+            </div>
+        );
+    }
+
+
+
+*/
