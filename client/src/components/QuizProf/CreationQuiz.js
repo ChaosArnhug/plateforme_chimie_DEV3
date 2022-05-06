@@ -67,9 +67,10 @@ class CreationQuiz extends Component{
         this.remQuestionInDataArray = this.remQuestionInDataArray.bind(this);
         this.generateQuestionId = this.generateQuestionId.bind(this);
         this.generateReponseId = this.generateReponseId.bind(this);
+        this.questionType = this.questionType.bind(this);
 
-        // dans myQuestionsArray: liste d'objets : {"titreQuestion" : "", "enonce" : "", "estQCM" : 0, "points" : 1, "myReponsesArray" : []}
-        // dans myReponsesArray: liste d'objets : {"texteReponse" : "", "estCorrect" : false}
+        // dans myQuestionsArray: liste d'objets : {"titreQuestion" : "", "enonce" : "", "isQCM" : false, "points" : 1, "myReponsesArray" : []}
+        // dans myReponsesArray: liste d'objets : {"texteReponse" : "", "isCorrect" : false}
     }
 
 
@@ -117,10 +118,9 @@ class CreationQuiz extends Component{
         // Ajoute un objet représentant une question dans myQuestionsArray de myQuizData
         let newObject = await {...this.state.myQuizData}; // copie l'objet myQuizData
         let newArray = await newObject.myQuestionsArray.slice(); // copie l'array myQuestionsData 
-        await newArray.push({"questionId": questionId,"titreQuestion" : "", "enonce" : "", "estQCM" : 0, "points" : 1, "myReponsesArray" : new Array}); // ajouté un nouvel objet représentant une question
+        await newArray.push({"questionId": questionId,"titreQuestion" : "", "enonce" : "", "isQCM" : false, "points" : 1, "myReponsesArray" : new Array}); // ajouté un nouvel objet représentant une question
         newObject.myQuestionsArray = await newArray;
         await this.setState({myQuizData:newObject});
-        alert(this.state.myQuizData.myQuestionsArray[0].enonce)
 
         return(questionId)
     }
@@ -136,7 +136,7 @@ class CreationQuiz extends Component{
         // Ajoute un objet représentant une réponse dans myReponsesArray de myQuestionsArray
         let newObject = await {...this.state.myQuizData}; // copie l'objet myQuizData
         let newArray = await newObject.myQuestionsArray[questionNum].myReponsesArray.slice(); // copie l'array myReponsesArray
-        await newArray.push({"texteReponse" : "", "estCorrect" : false}); // ajouté un nouvel objet représentant une question
+        await newArray.push({"reponseId" : reponseId, "texteReponse" : "", "estCorrect" : false}); // ajouté un nouvel objet représentant une question
         newObject.myQuestionsArray[questionNum].myReponsesArray = await newArray;
         await this.setState({myQuizData:newObject});
 
@@ -149,6 +149,16 @@ class CreationQuiz extends Component{
         await newArray.pop(); // ajouté un nouvel objet représentant une question
         newObject.myQuestionsArray = await newArray;
         await this.setState({myQuizData:newObject});
+    }
+
+
+    async questionType(questionId, isQCM){
+        // Change l'état de isQCM dans l'objet représentant une question
+        let questionNum = parseInt(questionId.substring(1));
+        let newObject = await {...this.state.myQuizData};
+        
+        newObject.myQuestionsArray[questionNum].isQCM = await isQCM;
+        await this.setState({"myQuizData" : newObject});
     }
 
 
@@ -187,6 +197,7 @@ class CreationQuiz extends Component{
                         addReponseInDataArray={this.addReponseInDataArray} 
                         generateQuestionId={this.generateQuestionId}
                         generateReponseId={this.generateReponseId}
+                        questionType={this.questionType}
                         />
                         <div id='ajoutTest'>
                             
@@ -204,6 +215,7 @@ class CreationQuiz extends Component{
                             remQuestionInDataArray={this.remQuestionInDataArray}
                             addReponseInDataArray={this.addReponseInDataArray} 
                             generateQuestionId={this.generateQuestionId}
+                            questionType={this.questionType}
                             />
                         ,
                             document.getElementById('ajoutTest')
@@ -212,8 +224,9 @@ class CreationQuiz extends Component{
                     
                     <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert(this.state.myQuizData.titre+" "+ this.state.myQuizData.description +" "+this.state.nmbreQuestions)}}>Terminer</Button>
 
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert((this.state.myQuizData.myQuestionsArray).length)} }>affiche longueur data array</Button>
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> { alert(this.state.myQuizData.myQuestionsArray[0].questionId)} }>ajout</Button>
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert((this.state.myQuizData.myQuestionsArray).length)} }>affiche longueur data array Questions</Button>
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert((this.state.myQuizData.myQuestionsArray[0].myReponsesArray).length)} }>affiche longueur data array Réponses</Button>
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> { alert(this.state.myQuizData.myQuestionsArray[0].isQCM)} }>affiche réponse id</Button>
                     
                     
 

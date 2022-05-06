@@ -45,12 +45,12 @@ const Div = styled('div')(unstable_styleFunctionSx);
 class ParamQuestion extends Component{
     constructor(props){
         super(props);
-        this.state={isQCM:true }; // problème avec fonction
+        this.state={isQCM:false }; // problème avec fonction
     }
 
     choixParam(isQCM){
-        if (isQCM == false){
-            this.setState({isQCM:true})
+        if (isQCM === true){
+            this.setState({isQCM:false});
             ReactDOM.render(
                 <ParamOuverte 
                 questionId={this.state.questionId}
@@ -59,10 +59,11 @@ class ParamQuestion extends Component{
                 addReponseInDataArray={this.props.addReponseInDataArray} 
                 />,
                 document.getElementById('param_reponse')
-              );
+            );
+            this.props.questionType(this.state.questionId, false);
         }
-        else if (isQCM == true){
-            this.setState({isQCM:false})
+        else if (isQCM === false){
+            this.setState({isQCM:true});
             ReactDOM.render(
                 <ParamQCM 
                 questionId={this.state.questionId}
@@ -71,7 +72,8 @@ class ParamQuestion extends Component{
                 addReponseInDataArray={this.props.addReponseInDataArray} 
                 />,
                 document.getElementById('param_reponse')
-              );
+            );
+            this.props.questionType(this.state.questionId, true);
         }
     }
 
@@ -79,9 +81,21 @@ class ParamQuestion extends Component{
         let questionId = await this.props.addQuestionInDataArray(); // La fonction renvoie l'id de question qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
         //alert("questionId "+questionId)
         await this.setState({"questionId" : questionId});
-        //alert(this.state.questionId);
+        alert("ParamQuestion se monte")
+        alert(this.state.questionId);
 
         // Quand on render une nouvelle question -> ok, nouvel questionId, quand on en render plusieurs -> ont tous le même questionId
+    
+        ReactDOM.render(
+            <ParamOuverte 
+            questionId={this.state.questionId}
+            updateQuestionData={this.props.updateQuestionData} 
+            generateReponseId={this.props.generateQuestionId}
+            addReponseInDataArray={this.props.addReponseInDataArray} 
+            />,
+            document.getElementById('param_reponse')
+          );
+    
     }
     
     componentWillUnmount(){
@@ -123,18 +137,17 @@ class ParamQuestion extends Component{
                         />
 
                         <FormGroup sx={{ml:3, mr:4, my:"auto"}}>
-                            <FormControlLabel control={<Checkbox onClick={() => {this.choixParam(this.state.isQCM)}}/>} label="QCM" />
+                            <FormControlLabel 
+                            control={<Checkbox onClick={() => {
+                                this.choixParam(this.state.isQCM)}
+                            }/>} 
+                            label="QCM" 
+                            />
                         </FormGroup>
                     </Div>
 
                     <Div id="param_reponse">
-                        <TextField
-                        required
-                        id="outlined-required"
-                        label="Réponse"
-                        defaultValue=""
-                        sx={{ml:9, mr:4, mt:2}}
-                        />
+                        
                     </Div>
                     
                     
