@@ -41,11 +41,10 @@ class ParamOuverte extends Component{
   }
 
   async componentDidMount(){
-    alert("ParamOuverte se monte")
     let reponseId = await this.props.addReponseInDataArray(this.props.questionId); // La fonction renvoie l'id de réponse qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
-    alert("reponseId "+reponseId)
+    //alert("reponseId "+reponseId);
     await this.setState({"reponseId" : reponseId}); // ici this.state est celui du composant ParamOuverte
-    alert(this.state.reponseId);
+    //alert(this.state.reponseId);
 
     // Quand on render une nouvelle question -> ok, nouvel questionId, quand on en render plusieurs -> ont tous le même questionId
 }
@@ -59,8 +58,8 @@ class ParamOuverte extends Component{
           defaultValue=""
           sx={{ml:9, mr:4, mt:2}}
           onBlur={ (event)=>{
-            this.props.updateQuestionData(
-                this.state.questionId, "texteReponse", event.target.value
+            this.props.updateReponseData(
+                this.props.questionId, this.state.reponseId, "texteReponse", event.target.value
             )   
           }}
           />

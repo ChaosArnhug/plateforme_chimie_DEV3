@@ -62,6 +62,7 @@ class CreationQuiz extends Component{
             nmbreTotReponses:0, 
             myQuizData:{"titre":"titre de base", "description":"", "myQuestionsArray": new Array()} }; 
         this.updateQuestionData = this.updateQuestionData.bind(this);
+        this.updateReponseData = this.updateReponseData.bind(this);
         this.addQuestionInDataArray = this.addQuestionInDataArray.bind(this);
         this.addReponseInDataArray = this.addReponseInDataArray.bind(this);
         this.remQuestionInDataArray = this.remQuestionInDataArray.bind(this);
@@ -106,6 +107,16 @@ class CreationQuiz extends Component{
         
         newObject.myQuestionsArray[questionNum][questionDataToChange] = await newData;
         await this.setState({"myQuizData" : newObject});
+    }
+
+    async updateReponseData(questionId, reponseId, reponseDataToChange, newData){
+        let questionNum = parseInt(questionId.substring(1));
+        let reponseNum = parseInt(reponseId.substring(1));
+        //alert(questionId)
+        let newObject = await {...this.state.myQuizData};
+        newObject.myQuestionsArray[questionNum].myReponsesArray[reponseNum][reponseDataToChange] = await newData;
+        await this.setState({"myQuizData" : newObject});
+
     }
 
     async addQuestionInDataArray(){
@@ -192,6 +203,7 @@ class CreationQuiz extends Component{
                     
                         <ParamQuestion 
                         updateQuestionData={this.updateQuestionData}
+                        updateReponseData={this.updateReponseData}
                         addQuestionInDataArray={this.addQuestionInDataArray} 
                         remQuestionInDataArray={this.remQuestionInDataArray}
                         addReponseInDataArray={this.addReponseInDataArray} 
@@ -211,6 +223,7 @@ class CreationQuiz extends Component{
                         ReactDOM.render(
                             <ParamQuestion 
                             updateQuestionData={this.updateQuestionData}
+                            updateReponseData={this.updateReponseData}
                             addQuestionInDataArray={this.addQuestionInDataArray} 
                             remQuestionInDataArray={this.remQuestionInDataArray}
                             addReponseInDataArray={this.addReponseInDataArray} 
@@ -226,7 +239,7 @@ class CreationQuiz extends Component{
 
                     <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert((this.state.myQuizData.myQuestionsArray).length)} }>affiche longueur data array Questions</Button>
                     <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert((this.state.myQuizData.myQuestionsArray[0].myReponsesArray).length)} }>affiche longueur data array Réponses</Button>
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> { alert(this.state.myQuizData.myQuestionsArray[0].isQCM)} }>affiche réponse id</Button>
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> { alert(this.state.myQuizData.myQuestionsArray[0].myReponsesArray[0].texteReponse)} }>affiche réponse id</Button>
                     
                     
 
