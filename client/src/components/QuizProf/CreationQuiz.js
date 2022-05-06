@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 
 
 import ParamQuestion from "./ParamQuestion.js"
+import { Alert } from '@mui/material';
 
 
 // import theme from '../index.js'
@@ -56,10 +57,11 @@ const Item = styled(Paper)(({ theme }) => ({
 class CreationQuiz extends Component{
     constructor(props){
         super(props);
-        this.state={ nmbreQuestions:1, myQuizData:{"titre":"titre de base", "description":"", "myQuestionsArray": new Array()} }; 
-        this.updateDataInObject = this.updateDataInObject.bind(this);
+        this.state={ nmbreQuestions:0, myQuizData:{"titre":"titre de base", "description":"", "myQuestionsArray": new Array()} }; 
+        this.updateDataInObject2 = this.updateDataInObject2.bind(this);
         this.addQuestionInDataArray = this.addQuestionInDataArray.bind(this);
         this.remQuestionInDataArray = this.remQuestionInDataArray.bind(this);
+        this.generateQuestionId = this.generateQuestionId.bind(this);
 
         // dans myQuestionsArray: liste d'objets : {"titreQuestion" : "", "enonce" : "", "estQCM" : 0, "points" : 1, "myReponsesArray" : []}
         // dans myReponsesArray: liste d'objets : {"texteReponse" : "", "estCorrect" : false}
@@ -93,22 +95,49 @@ class CreationQuiz extends Component{
     }
     */
 
+    async generateQuestionId(){
 
-    async updateDataInObject(previousState, objectToChange, dataToChange, newData){
-        let newObject = await {...previousState[objectToChange]};
+        let num = await this.state.nmbreQuestions;
+        
+        let newNombre = await this.state.nmbreQuestions +1;  
+        //alert("num puis newNombre "+num+" "+newNombre);
+        this.setState({nmbreQuestions : newNombre});
+        
+        return(`Q${num}`)
+    }
+
+    async updateDataInObject(objectToChange, dataToChange, newData){
+        let newObject = await {...this.state[objectToChange]};
         newObject[dataToChange] = await newData;
         await this.setState({[objectToChange] : newObject});
         // à mettre dans le onChange du titre : (event)=>{this.setState({myQuizData:this.updateDataInObject(this.state,"myQuizData","titre",event.target.value)})}
         // à mettre dans le onChange de la description : (event)=>{this.setState({myQuizData:this.updateDataInObject(this.state,"myQuizData","description",event.target.value)})}
     }
 
+    async updateDataInObject2(objectToChange, dataToChange, questionId, secondDegreeDataToChange, newData){
+        let questionNum = parseInt(questionId.substring(1));
+        let newObject = await {...this.state[objectToChange]};
+        
+        newObject[dataToChange][questionNum][secondDegreeDataToChange] = await newData;
+        await this.setState({[objectToChange] : newObject});
+        //alert(this.state.myQuizData.myQuestionsArray[0].enonce);
+    }
+
     async addQuestionInDataArray(){
+        let questionId = await this.generateQuestionId();
+        //alert("in addQuestionInDataArray "+questionId)
+
+        let newNombre = await this.state.nmbreQuestions +1;  
+        await this.setState({nmbreQuestions : newNombre});
+
         // Ajoute un objet représentant une question dans myQuestionsArray de myQuizData
         let newObject = await {...this.state.myQuizData}; // copie l'objet myQuizData
         let newArray = await newObject.myQuestionsArray.slice(); // copie l'array myQuestionsData 
-        await newArray.push({"titreQuestion" : "", "enonce" : "", "estQCM" : 0, "points" : 1, "myReponsesArray" : []}); // ajouté un nouvel objet représentant une question
+        await newArray.push({"questionId": questionId,"titreQuestion" : "", "enonce" : "", "estQCM" : 0, "points" : 1, "myReponsesArray" : new Array}); // ajouté un nouvel objet représentant une question
         newObject.myQuestionsArray = await newArray;
         await this.setState({myQuizData:newObject});
+
+        return(questionId)
     }
 
     async remQuestionInDataArray(){
@@ -134,7 +163,7 @@ class CreationQuiz extends Component{
                         label="Titre du quiz"
                         defaultValue=""
                         sx={{ml:3, mr:4, my:2}}
-                        onBlur={ (event)=>{this.updateDataInObject(this.state, "myQuizData", "titre", event.target.value)} }  
+                        onBlur={ (event)=>{this.updateDataInObject("myQuizData", "titre", event.target.value)} }  
                         />
 
                     
@@ -145,21 +174,41 @@ class CreationQuiz extends Component{
                         rows={4}
                         defaultValue=""
                         sx={{ml:3, mr:4, my:2}}
-                        onBlur={ (event)=>{this.updateDataInObject(this.state, "myQuizData", "description", event.target.value )} }
+                        onBlur={ (event)=>{this.updateDataInObject("myQuizData", "description", event.target.value )} }
                         />
                     
-                        <ParamQuestion addQuestionInDataArray={this.addQuestionInDataArray} remQuestionInDataArray={this.remQuestionInDataArray}/>
+                        <ParamQuestion 
+                        updateDataInObject2={this.updateDataInObject2}
+                        addQuestionInDataArray={this.addQuestionInDataArray} 
+                        remQuestionInDataArray={this.remQuestionInDataArray}
+                        generateQuestionId={this.generateQuestionId}
+                        />
+                        <div id='ajoutTest'>
+                            
+                        </div>
+                        
                         
         
                     </Stack>
 
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {
+                        ReactDOM.render(
+                            <ParamQuestion 
+                            updateDataInObject2={this.updateDataInObject2}
+                            addQuestionInDataArray={this.addQuestionInDataArray} 
+                            remQuestionInDataArray={this.remQuestionInDataArray}
+                            generateQuestionId={this.generateQuestionId}
+                            />
+                        ,
+                            document.getElementById('ajoutTest')
+                        );
+                        }}>ajout question</Button>
                     
-                    
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert(this.state.myQuizData.titre+" "+ this.state.myQuizData.description)}}>Terminer</Button>
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert(this.state.myQuizData.titre+" "+ this.state.myQuizData.description +" "+this.state.nmbreQuestions)}}>Terminer</Button>
 
                     <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert((this.state.myQuizData.myQuestionsArray).length)} }>affiche longueur data array</Button>
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> { this.addQuestionInDataArray()} }>ajout</Button>
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> { this.remQuestionInDataArray()} }>retrait</Button>
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> { alert(this.state.myQuizData.myQuestionsArray[0].questionId)} }>ajout</Button>
+                    
                     
 
                 </ThemeProvider>

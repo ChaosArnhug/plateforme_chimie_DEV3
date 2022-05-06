@@ -65,14 +65,20 @@ class ParamQuestion extends Component{
         }
     }
 
-    componentDidMount(){
-        this.props.addQuestionInDataArray();  // rien ne render
-        // Ajout d'une question dans l'objet de données 
+    async componentDidMount(){
+        let questionId = await this.props.addQuestionInDataArray(); // La fonction renvoie l'id de question qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
+        //alert("questionId "+questionId)
+        await this.setState({"questionId" : questionId});
+        //alert(this.state.questionId);
+
+        // Quand on render une nouvelle question -> ok, nouvel questionId, quand on en render plusieurs -> ont tous le même questionId
     }
     
     componentWillUnmount(){
         this.props.remQuestionInDataArray();
     }
+
+
 
     render(){
         return(
@@ -80,6 +86,18 @@ class ParamQuestion extends Component{
                 <ThemeProvider theme={theme}>
                 <Box sx={{ml:3, mr:4, my:2, py:2, bgcolor:"box.main", fontSize:20}}>
                     <Div sx={{ml:3, mr:4, my:2, display:"flex"}}>
+                        <TextField
+                        required
+                        id="outlined-required"
+                        label="titre de la question"
+                        defaultValue=""
+                        sx={{ml:3, mr:4}}
+                        onBlur={ (event)=>{
+                            this.props.updateDataInObject2(
+                                "myQuizData", "myQuestionsArray",this.state.questionId, "titreQuestion", event.target.value
+                            )   
+                        }}
+                        />
 
                         <TextField
                         required
@@ -87,6 +105,11 @@ class ParamQuestion extends Component{
                         label="Enoncé de la question"
                         defaultValue=""
                         sx={{ml:3, mr:4}}
+                        onBlur={ (event)=>{
+                            this.props.updateDataInObject2(
+                                "myQuizData", "myQuestionsArray",this.state.questionId, "enonce", event.target.value
+                            )   
+                        }}
                         />
 
                         <FormGroup sx={{ml:3, mr:4, my:"auto"}}>
