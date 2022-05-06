@@ -83,6 +83,17 @@ class ParamQuestion extends Component{
         alert(this.state.questionId);
 
         // Quand on render une nouvelle question -> ok, nouvel questionId, quand on en render plusieurs -> ont tous le même questionId
+    
+        ReactDOM.render(
+            <ParamOuverte 
+            questionId={this.state.questionId}
+            updateQuestionData={this.props.updateQuestionData} 
+            generateReponseId={this.props.generateQuestionId}
+            addReponseInDataArray={this.props.addReponseInDataArray} 
+            />,
+            document.getElementById('param_reponse')
+          );
+    
     }
     
     componentWillUnmount(){
@@ -129,14 +140,7 @@ class ParamQuestion extends Component{
                     </Div>
 
                     <Div id="param_reponse">
-                        <ParamOuverte 
-                        questionId={this.state.questionId}
-                        updateQuestionData={this.props.updateQuestionData} 
-                        generateReponseId={this.props.generateQuestionId}
-                        addReponseInDataArray={this.props.addReponseInDataArray} 
-                        />
                         
-
                     </Div>
                     
                     

@@ -135,7 +135,7 @@ class CreationQuiz extends Component{
         // Ajoute un objet représentant une réponse dans myReponsesArray de myQuestionsArray
         let newObject = await {...this.state.myQuizData}; // copie l'objet myQuizData
         let newArray = await newObject.myQuestionsArray[questionNum].myReponsesArray.slice(); // copie l'array myReponsesArray
-        await newArray.push({"texteReponse" : "", "estCorrect" : false}); // ajouté un nouvel objet représentant une question
+        await newArray.push({"reponseId" : reponseId, "texteReponse" : "", "estCorrect" : false}); // ajouté un nouvel objet représentant une question
         newObject.myQuestionsArray[questionNum].myReponsesArray = await newArray;
         await this.setState({myQuizData:newObject});
 
@@ -211,8 +211,9 @@ class CreationQuiz extends Component{
                     
                     <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert(this.state.myQuizData.titre+" "+ this.state.myQuizData.description +" "+this.state.nmbreQuestions)}}>Terminer</Button>
 
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert((this.state.myQuizData.myQuestionsArray).length)} }>affiche longueur data array</Button>
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> { alert(this.state.myQuizData.myQuestionsArray[0].questionId)} }>ajout</Button>
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert((this.state.myQuizData.myQuestionsArray).length)} }>affiche longueur data array Questions</Button>
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert((this.state.myQuizData.myQuestionsArray[0].myReponsesArray).length)} }>affiche longueur data array Réponses</Button>
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> { alert(this.state.myQuizData.myQuestionsArray[0].myReponsesArray[0].reponseId)} }>affiche réponse id</Button>
                     
                     
 
