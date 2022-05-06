@@ -52,14 +52,24 @@ class ParamQuestion extends Component{
         if (isQCM == false){
             this.setState({isQCM:true})
             ReactDOM.render(
-                <ParamOuverte/>,
+                <ParamOuverte 
+                questionId={this.state.questionId}
+                updateQuestionData={this.props.updateQuestionData} 
+                generateReponseId={this.props.generateQuestionId}
+                addReponseInDataArray={this.props.addReponseInDataArray} 
+                />,
                 document.getElementById('param_reponse')
               );
         }
         else if (isQCM == true){
             this.setState({isQCM:false})
             ReactDOM.render(
-                <ParamQCM/>,
+                <ParamQCM 
+                questionId={this.state.questionId}
+                updateQuestionData={this.props.updateQuestionData} 
+                generateReponseId={this.props.generateQuestionId}
+                addReponseInDataArray={this.props.addReponseInDataArray} 
+                />,
                 document.getElementById('param_reponse')
               );
         }
