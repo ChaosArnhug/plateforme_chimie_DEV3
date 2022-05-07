@@ -4,11 +4,13 @@ import React, {Component} from 'react';
 import {useParams} from 'react-router-dom';
 
 function tabForm (dataTraitement){
+    data = dataTraitement
     startChap = 0;
     tableauData = [];
     for (i=0; i<dataTraitement.length; i++){
         if (dataTraitement[i].idChapitre != dataTraitement[i-1].idChapitre && i!= 0 && i==dataTraitement.length-1) {
-            tableauData.add(dataTraitement.slice(startChap, i-1));
+            implement = data.slice(startChap, i);
+            tableauData.add(implement);
             startChap = i;
         }
     }
