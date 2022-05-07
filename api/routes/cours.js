@@ -59,6 +59,18 @@ router.get("/:cours/quiz", (req, res) =>{
     })
 })
 
-router.post("/:cours/inscription")
+router.post("/:cours/inscription", async (req, res) =>{
+    database.query(`
+        CALL demande_cours(?, ?) `, [req.user.idUtilisateur, req.params.cours], (err, rows) => {
+            if (! err){
+                 res.status(201);
+
+            }else{
+                res.send("An error occured");
+                console.log(err);
+            }
+        }
+    )
+});
 
 module.exports = router;

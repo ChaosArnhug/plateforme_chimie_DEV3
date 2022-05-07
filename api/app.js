@@ -1,7 +1,6 @@
 const bodyParser = require('body-parser');
 const express = require('express')
 const cors = require ('cors'); //débloque Allow-cross-originate ...
-const bcrypt = require ('bcrypt');
 const database = require('./mySqlDb'); 
 const passport = require('passport'); 
 const initializePassport = require('./authentication/passport-config');
@@ -39,6 +38,7 @@ app.use(session({   // !!!!!! SECU A FAIRE ICI !!!!!!!
     saveUninitialized : false  
 }));
 app.use(passport.session());  
+
 /**
  * Traitement lors d'un callback sur le site
  */

@@ -3,22 +3,44 @@ import { Button } from '@mui/material';
 import React, {Component} from 'react';
 import {useParams} from 'react-router-dom';
 
+function tabForm (dataTraitement){
+    data = dataTraitement
+    startChap = 0;
+    tableauData = [];
+    for (i=0; i<dataTraitement.length; i++){
+        if (dataTraitement[i].idChapitre != dataTraitement[i-1].idChapitre && i!= 0 && i==dataTraitement.length-1) {
+            implement = data.slice(startChap, i);
+            tableauData.add(implement);
+            startChap = i;
+        }
+    }
+    return tableauData;
+}
+
 class CoursPage extends Component{
     
-    render() {       
+    render() { 
+
+        tabData = tabForm(this.props.data);
+        
         return (
             <div>
-                <h1>{this.props.cours}</h1>
-                <fieldset>
-                    <legend>{this.props.cours}</legend>
-                {this.props.data.map((item) => (
-                    item.disponnible == 1 &&
-                        <div>
-                            <p>{item.description}</p>
-                            <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item.titre}`} >{item.titre}</Button>                              
-                        </div>                   
+                <h1>{this.props.cours}</h1>  
+                {tabData.map((item) => (
+                    (item[0].estVisible == 1 &&
+                        <fieldset>
+                            <legend>{item[0].titreChapitre}</legend>
+                            {item.map((item2) => (
+                                (item2.disponnible == 1 &&
+                                <div>
+                                    <p>{item2.description}</p>
+                                    <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.titre}`} >{item2.titre}</Button>                              
+                                </div>   
+                                )
+                            ))}
+                        </fieldset>
+                    )
                 ))}
-                </fieldset>
             </div>
         );
     }
@@ -74,38 +96,35 @@ export default (props) => (
 
 
 //{this.props.dataEleve.map((item2) =>(item2.idQuizs == item.idQuiz && <p>✅</p>))} 
-/*
 
-compteurChapitre = 0;
-suiviCompteurChapitre = 0;
-return (
-    <div>
-        <h1>{this.props.cours}</h1>  
-        {this.props.data.map((item) => (
-                {item.idChapitre != compteurChapitre && item.estvisible ==1 &&
+
+
+
+
+
+
+/*
+                (item.idChapitre != compteurChapitre && item.estvisible ==1 &&
                     <fieldset>
                         <legend>{item.idChapitre}</legend>
                         {compteurChapitre = item.idChapitre}
-                }
-                {item.disponnible == 1 &&
-                    <div>
-                        <p>{item.description}</p>
-                        <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item.titre}`} >{item.titre}</Button>                              
-                    </div>   
-                } 
-                {suiviCompteurChapitre++} 
-                {item.idChapitre != this.props.data[suiviCompteurChapitre].idChapitre &&
+                )
+                 
+                (suiviCompteurChapitre++)
+                (item.idChapitre != this.props.data[suiviCompteurChapitre].idChapitre &&
                     </fieldset>   
-                }                 
+                )                 
             ))}
         
     </div>
 );
 
+
 */
 
-
 /*
+
+   render() {       
         return (
             <div>
                 <h1>{this.props.cours}</h1>
@@ -123,6 +142,4 @@ return (
         );
     }
 
-
-
-*/
+    */

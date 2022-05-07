@@ -52,7 +52,12 @@ class ParamQCM extends Component{
                 nmbreQCMReponses: state.nmbreQCMReponses+1
             }));
             ReactDOM.render(
-                <MultReponsesQCM nmbreQCMReponses={this.state.nmbreQCMReponses}/>,
+                <MultReponsesQCM 
+                nmbreQCMReponses={this.state.nmbreQCMReponses} 
+                questionId={this.props.questionId}
+                addReponseInDataArray={this.props.addReponseInDataArray} 
+                updateReponseData={this.props.updateReponseData}
+                />,
                 document.getElementById('reponsesQCM')
             );
         }
@@ -65,7 +70,12 @@ class ParamQCM extends Component{
                     nmbreQCMReponses: state.nmbreQCMReponses-1
                 }));
                 ReactDOM.render(
-                    <MultReponsesQCM nmbreQCMReponses={this.state.nmbreQCMReponses} />,
+                    <MultReponsesQCM 
+                    nmbreQCMReponses={this.state.nmbreQCMReponses} 
+                    questionId={this.props.questionId}
+                    addReponseInDataArray={this.props.addReponseInDataArray} 
+                    updateReponseData={this.props.updateReponseData}
+                    />,
                     document.getElementById('reponsesQCM')
                 );
             }
@@ -75,7 +85,12 @@ class ParamQCM extends Component{
 
     componentDidMount(){
         ReactDOM.render(
-            <MultReponsesQCM nmbreQCMReponses={2} />,
+            <MultReponsesQCM 
+            nmbreQCMReponses={2} 
+            questionId={this.props.questionId}
+            addReponseInDataArray={this.props.addReponseInDataArray} 
+            updateReponseData={this.props.updateReponseData}
+            />,
             document.getElementById('reponsesQCM')
         );
     }

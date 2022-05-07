@@ -3,6 +3,7 @@ let router = express.Router();
 const database = require("../mySqlDb");
 const domain = require("./domain");
 const passport = require('passport');
+const bcrypt = require ('bcrypt');
 
 router.get("/:utilisateur_id/quiz", (req, res) =>{
     database.query(`
@@ -52,12 +53,7 @@ router.post('/inscription', async (req, res) =>{
             (err, rows) => {
 
                 if (!err){
-                    rows.forEach(element => {
-                        if (element.constructor == Array) {
-                            res.send(element);
-                        }
-                        
-                    })
+                    res.status(201);
                     
                 }else {
                     res.send('An error occured');
@@ -65,8 +61,9 @@ router.post('/inscription', async (req, res) =>{
                 }
                 })
 
-    } catch {
+    } catch (err){
         res.redirect('/utilisateurs/inscription');
+        console.log(err);
     }
 });
 

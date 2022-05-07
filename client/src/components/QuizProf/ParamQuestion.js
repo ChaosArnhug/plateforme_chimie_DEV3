@@ -55,6 +55,7 @@ class ParamQuestion extends Component{
                 <ParamOuverte 
                 questionId={this.state.questionId}
                 updateQuestionData={this.props.updateQuestionData} 
+                updateReponseData={this.props.updateReponseData}
                 generateReponseId={this.props.generateQuestionId}
                 addReponseInDataArray={this.props.addReponseInDataArray} 
                 />,
@@ -68,6 +69,7 @@ class ParamQuestion extends Component{
                 <ParamQCM 
                 questionId={this.state.questionId}
                 updateQuestionData={this.props.updateQuestionData} 
+                updateReponseData={this.props.updateReponseData}
                 generateReponseId={this.props.generateQuestionId}
                 addReponseInDataArray={this.props.addReponseInDataArray} 
                 />,
@@ -79,10 +81,8 @@ class ParamQuestion extends Component{
 
     async componentDidMount(){
         let questionId = await this.props.addQuestionInDataArray(); // La fonction renvoie l'id de question qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
-        //alert("questionId "+questionId)
         await this.setState({"questionId" : questionId});
-        alert("ParamQuestion se monte")
-        alert(this.state.questionId);
+        //alert(this.state.questionId);
 
         // Quand on render une nouvelle question -> ok, nouvel questionId, quand on en render plusieurs -> ont tous le même questionId
     
@@ -90,6 +90,7 @@ class ParamQuestion extends Component{
             <ParamOuverte 
             questionId={this.state.questionId}
             updateQuestionData={this.props.updateQuestionData} 
+            updateReponseData={this.props.updateReponseData}
             generateReponseId={this.props.generateQuestionId}
             addReponseInDataArray={this.props.addReponseInDataArray} 
             />,

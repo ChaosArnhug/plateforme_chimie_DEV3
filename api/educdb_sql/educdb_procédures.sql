@@ -118,7 +118,7 @@ DELIMITER ;
 -- ============================================= COURS =============================================
 
 -- ----------------------------------------- endpoint /cours ---------------------------------------
-DROP procedure IF EXISTS `educdb_v2`.`liste_cours`;
+DROP procedure IF EXISTS `liste_cours`;
 ;
 
 DELIMITER $$
@@ -128,14 +128,12 @@ IN _domaine varchar(45)
 )
 BEGIN
 
-	select cours.nom, DATE_FORMAT(cours.dateCreation, '%Y-%m-%d') as dateCreation, CONCAT(utilisateurs.nom,' ',utilisateurs.prenom) as responsable, concat( _domaine, 'cours/',urlencode(cours.nom)) as url from cours
+	select cours.nom, DATE_FORMAT(cours.dateCreation, '%Y-%m-%d') as dateCreation, CONCAT(utilisateurs.nom,' ',utilisateurs.prenom) as responsable, concat( _domaine, 'cours/',urlencode(cours.nom)) as url, concat( _domaine, 'cours/',urlencode(cours.nom), '/inscription') as inscription   from cours
 	inner join utilisateurs on cours.responsable = utilisateurs.idUtilisateur; 
     
 END$$
 
 DELIMITER ;
-;
-
 
 -- --------------------------------------- endpoint /cours/{cours} -----------------------------------
 DROP procedure IF EXISTS `educdb_v2`.`data_cours`;
@@ -275,3 +273,25 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- ---------------------------------- endpoint /cours/{cours}/inscription ---------------------------------
+DROP procedure IF EXISTS `demande_cours`;
+;
+
+DELIMITER $$
+USE `educdb_v2`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `demande_cours`(
+IN _idUtilisateur int,
+IN _nomCours varchar(45)
+)
+BEGIN
+	# Gestion si utilisateur déjà existant
+	declare exit handler for 1062 select "La demande a déjà été effectuée" Erreur ;
+    
+    # Nouvelle demande
+    insert into acces_cours (idUtilisateur, idCours, accepte, date_demande)
+    values (_idUtilisateur, (select idCours from cours where nom = _nomCours) , 0, now());
+END$$
+
+DELIMITER ;
+;

@@ -62,14 +62,13 @@ async function getUserById (id){
     try {
         const user =  await queryPromiseGetUserById(id);
     
-        if(user == null || user.lenght === 0) {
-            return done(null, false, { message: "Une erreur inatendue est survenue" });
+        if(user == null || user[0] === undefined) {
+            return null
         }
-
-        return done(null, user[0]);
+        return user[0];
 
     } catch(err) {
-        return done(err);
+        return err;
     }
      
 
@@ -79,7 +78,7 @@ function initialize (passport){
     
     passport.use(new localStrategy ({usernameField: 'email' , passwordField: 'motDePasse'}, authenticateUser));
     passport.serializeUser((user, done) => done(null,user.id));
-    passport.deserializeUser((id, done) => { return done(null, getUserById(id)) });
+    passport.deserializeUser(async (id, done) => { return done(null, await getUserById(id)) });
 }
 
 module.exports = initialize
