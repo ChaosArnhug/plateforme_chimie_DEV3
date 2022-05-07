@@ -18,8 +18,8 @@ export default class Quiz extends Component {
     };
     
        //recuperation des questions d'un quiz (appel de l'API) ex: http://localhost:5000/quiz/les%20molécules/1
-    async getQuestions (cour, quizid)  {  
-        const url = "http://localhost:5000/quiz/"+cour+"/"+quizid;
+    async getQuestions (quizid)  {  
+        const url = "http://localhost:5000/quiz/"+quizid;
         const response = await fetch(url);
         console.log(response);
         const data = await response.json();
@@ -83,7 +83,7 @@ export default class Quiz extends Component {
             responses:[]
 
         });
-        this.getQuestions("les%20molécules",1);
+        this.getQuestions(1);
           
     }
    
@@ -91,7 +91,7 @@ export default class Quiz extends Component {
     async componentDidMount ()  {
       
         //console.log("test"+this.state.questionList)
-         this.getQuestions("les%20molécules",1);
+         this.getQuestions(1);
      }
   
      
