@@ -104,6 +104,8 @@ CREATE TABLE IF NOT EXISTS `educdb_v2`.`chapitre` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+CREATE INDEX `fk_idCours_idx` ON `educdb_v2`.`quiz` (`idCours` ASC) VISIBLE;
+
 -- -----------------------------------------------------
 -- Table `educdb_v2`.`quiz`
 -- -----------------------------------------------------
@@ -123,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `educdb_v2`.`quiz` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_idCours_idx` ON `educdb_v2`.`quiz` (`idCours` ASC) VISIBLE;
+CREATE INDEX `fk_idCours_idx` ON `educdb_v2`.`quiz` (`idChapitre` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
