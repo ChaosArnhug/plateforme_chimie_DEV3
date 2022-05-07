@@ -8,7 +8,7 @@ function tabForm (dataTraitement){
     tableauData = [];
     for (i=0; i<dataTraitement.length; i++){
         if (dataTraitement[i].idChapitre != dataTraitement[i-1].idChapitre && i!= 0 && i==dataTraitement.length-1) {
-            tabData.add(dataTraitement.slice(startChap, i-1));
+            tableauData.add(dataTraitement.slice(startChap, i-1));
             startChap = i;
         }
     }
@@ -34,7 +34,7 @@ class CoursPage extends Component{
                                     <p>{item2.description}</p>
                                     <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.titre}`} >{item2.titre}</Button>                              
                                 </div>   
-                            )
+                                )
                             ))}
                         </fieldset>
                     )
