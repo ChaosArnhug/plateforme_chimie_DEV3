@@ -6,7 +6,7 @@ import {useParams} from 'react-router-dom';
 function tabForm (dataTraitement){
     startChap = 0;
     tableauData = [];
-    for (i=0, i<dataTraitement.length, i++){
+    for (i=0; i<dataTraitement.length; i++){
         if (dataTraitement[i].idChapitre != dataTraitement[i-1].idChapitre && i!= 0 && i==dataTraitement.length-1) {
             tabData.add(dataTraitement.slice(startChap, i-1));
             startChap = i;
@@ -25,7 +25,7 @@ class CoursPage extends Component{
             <div>
                 <h1>{this.props.cours}</h1>  
                 {tabData.map((item) => (
-                    {item[0].estVisible == 1 &&
+                    (item[0].estVisible == 1 &&
                         <fieldset>
                             <legend>{item[0].titreChapitre}</legend>
                             {item.map((item2) => (
@@ -37,7 +37,7 @@ class CoursPage extends Component{
                             )
                             ))}
                         </fieldset>
-                    }
+                    )
                 ))}
             </div>
         );
