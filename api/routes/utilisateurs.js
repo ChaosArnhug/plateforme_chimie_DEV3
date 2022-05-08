@@ -4,10 +4,11 @@ const database = require("../mySqlDb");
 const domain = require("./domain");
 const passport = require('passport');
 const bcrypt = require ('bcrypt');
+const permission = require("../authentication/permission");
 
-router.get("/:utilisateur_id/quiz", (req, res) =>{
+router.get("/quiz", permission.checkAuthentification, (req, res) =>{
     database.query(`
-        call resultats_utilisateurs(?, ?) `,[domain, req.params.utilisateur_id], (err, rows) =>{
+        call resultats_utilisateurs(?, ?) `,[domain, req.user.idUtilisateur], (err, rows) =>{
 
         if (! err){
             rows.forEach(element => {
@@ -23,9 +24,9 @@ router.get("/:utilisateur_id/quiz", (req, res) =>{
     })
 })
 
-router.get("/:utilisateur_id/cours", (req, res) =>{
+router.get("/cours", permission.checkAuthentification, (req, res) =>{
     database.query(`
-        call cours_utilisateurs(?, ?)`,[domain, req.params.utilisateur_id], (err, rows) => {
+        call cours_utilisateurs(?, ?)`,[domain, req.user.idUtilisateur], (err, rows) => {
 
         if (! err){
             rows.forEach(element => {
@@ -41,11 +42,11 @@ router.get("/:utilisateur_id/cours", (req, res) =>{
     })
 })
 
-router.get('/inscription', (req, res) =>{
+router.get('/inscription',permission.checkNotAuthentification, (req, res) =>{
     res.send({ title: 'INSCRIPTION' });
 });
 
-router.post('/inscription', async (req, res) =>{
+router.post('/inscription',permission.checkNotAuthentification, async (req, res) =>{
     try {
         const hashedPassword = await bcrypt.hash(req.body.motDePasse, 10);
         database.query(
@@ -67,7 +68,7 @@ router.post('/inscription', async (req, res) =>{
     }
 });
 
-router.get('/connexion', (req, res) => {
+router.get('/connexion', permission.checkNotAuthentification, (req, res) => {
     res.send({ title: 'CONNEXION' });
 
 });
@@ -78,7 +79,7 @@ router.post('/connexion', passport.authenticate('local',{
     failureFlash : true
 }));
 
-router.delete('/deconnexion', (req, res) =>{
+router.delete('/deconnexion', permission.checkAuthentification, (req, res) =>{
     //Pour que ça marche le formulaire doir => action="deconnexion?_method=DELETE"
     req.logOut();
     res.redirect('/utilisateurs/connexion');

@@ -253,16 +253,26 @@ DELIMITER ;
 DROP procedure IF EXISTS `resultats_utilisateurs`;
 
 DELIMITER $$
-USE `educdb_v2`$$
-CREATE PROCEDURE `resultats_utilisateurs` (
+CREATE  PROCEDURE `resultats_utilisateurs`(
 IN _domaine varchar(45),
 IN _idUtilisateur INT
 )
 BEGIN
-	select titre, resultat, total, concat(_domaine, 'quiz/', quiz.idQuiz) as quiz from scores
-    join quiz on quiz.idQuiz = scores.idQuizs
-    where scores.idUtilisateurs = _idUtilisateur;
+	declare status varchar(45) default null;
+    select statut into status from utilisateurs
+    where idUtilisateur = _idUtilisateur;
+    
+    if status = 'prof' then
+		select concat(utilisateurs.nom, ' ', utilisateurs.prenom) as utilisateur, titre, resultat, total, concat(_domaine, 'quiz/', quiz.idQuiz) as quiz from scores
+		join quiz on quiz.idQuiz = scores.idQuizs
+		join utilisateurs on utilisateurs.idUtilisateur = scores.idUtilisateurs;
+        
+    else
+		select titre, resultat, total, concat(_domaine, 'quiz/', quiz.idQuiz) as quiz from scores
+		join quiz on quiz.idQuiz = scores.idQuizs
+		where scores.idUtilisateurs = _idUtilisateur;
 
+	end if;
 END$$
 
 DELIMITER ;
@@ -367,6 +377,7 @@ END$$
 DELIMITER ;
 ;
 
+-- --------------------------- enpoint /quiz/{quiz_id}
 DROP procedure IF EXISTS `ajoutResultat`;
 
 DELIMITER $$
