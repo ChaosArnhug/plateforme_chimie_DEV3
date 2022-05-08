@@ -8,7 +8,7 @@ function checkAuthentification (req, res, next){
         return next();
     }
 
-    return res.redirect('/connexion');
+    return res.redirect('/utilisateurs/connexion');
 }
 
 //Redirige si user déjà connecté
@@ -26,4 +26,10 @@ function checkStatut(req, res, next, statut){
         return next();
     }
     return res.statut(403);
+}
+
+module.exports = {
+    checkAuthentification,
+    checkNotAuthentification,
+    checkStatut
 }

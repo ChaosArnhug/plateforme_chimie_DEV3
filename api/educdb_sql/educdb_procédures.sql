@@ -123,7 +123,7 @@ DROP procedure IF EXISTS `liste_cours`;
 
 DELIMITER $$
 USE `educdb_v2`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `liste_cours`(
+CREATE PROCEDURE `liste_cours`(
 IN _domaine varchar(45)
 )
 BEGIN
@@ -141,14 +141,30 @@ DROP procedure IF EXISTS `educdb_v2`.`data_cours`;
 
 DELIMITER $$
 USE `educdb_v2`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `data_cours`(
+CREATE PROCEDURE `data_cours`(
 IN _domaine varchar(45),
-IN _nom_cours varchar(45)
+IN _nom_cours varchar(45),
+IN _idUtilisateur int
 )
 BEGIN
+	declare acces tinyint default null;
+    
+	select accepte into acces from acces_cours
+	join cours on cours.idCours = acces_cours.idCours
+	where idUtilisateur = _idUtilisateur and nom = _nom_cours;
+
+	if acces = 1 then
 		select cours.nom, DATE_FORMAT(cours.dateCreation, '%Y-%m-%d') as dateCreation, CONCAT(utilisateurs.nom,' ',utilisateurs.prenom) as responsable, concat(_domaine, 'cours/',urlencode(cours.nom),'/quiz') as quiz from cours
-        inner join utilisateurs on cours.responsable = utilisateurs.idUtilisateur
-        where cours.nom = _nom_cours;
+		inner join utilisateurs on cours.responsable = utilisateurs.idUtilisateur
+		where cours.nom = _nom_cours;
+
+	elseif acces is null then
+		select "Le cours n'existe pas" as Erreur1;
+
+	else
+		select "Vous n'avez pas accès au cours" as Erreur2;
+        
+	end if;
 END$$
 
 DELIMITER ;
@@ -161,15 +177,32 @@ DROP procedure IF EXISTS `educdb_v2`.`liste_quiz`;
 ;
 
 DELIMITER $$
-USE `educdb_v2`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `liste_quiz`(
+CREATE PROCEDURE `liste_quiz`(
 IN _domaine varchar(45),
-IN _nom_cours varchar(45) 
+IN _nom_cours varchar(45), 
+IN _idUtilisateur int
 )
 BEGIN
-		select quiz.titre, quiz.description, quiz.estVisible as disponnible, concat(_domaine, 'quiz/', quiz.idQuiz) as toQuiz from quiz
-        inner join cours on cours.idCours = quiz.idCours
-        where cours.nom = _nom_cours;
+	declare acces tinyint default null;
+    
+	select accepte into acces from acces_cours
+	join cours on cours.idCours = acces_cours.idCours
+	where idUtilisateur = _idUtilisateur and nom = _nom_cours;
+
+	if acces = 1 then
+    
+		select quiz.idQuiz, quiz.titre, quiz.description, quiz.estVisible as disponnible, concat(_domaine, 'quiz/', quiz.idQuiz) as toQuiz, chapitre.idChapitre, chapitre.titreChapitre, chapitre.estVisible as chapEstVisible from quiz
+		inner join chapitre on chapitre.idChapitre = quiz.idChapitre
+		inner join cours on cours.idCours = chapitre.idCours
+		where cours.nom = _nom_cours
+		order by idChapitre;
+	
+	elseif acces is null then
+		select "Le cours n'existe pas" as Erreur1;
+    else
+		select "Vous n'avez pas accès au cours" as Erreur2;
+        
+	end if;
 
 END$$
 
@@ -243,12 +276,12 @@ DROP procedure IF EXISTS `liste_demande_cours`;
 
 DELIMITER $$
 USE `educdb_v2`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `liste_demande_cours`(
+CREATE PROCEDURE `liste_demande_cours`(
 IN _domaine varchar(45),
 IN _responsable int
 )
 BEGIN
-	select concat(utilisateurs.nom, ' ', utilisateurs.prenom) as utilisateur, groupe, classe, cours.nom as cours, date_demande, concat(_domaine, 'cours/utilisateurs?idUtilisateur=',utilisateurs.idUtilisateur) from acces_cours
+	select concat(utilisateurs.nom, ' ', utilisateurs.prenom) as utilisateur, groupe, classe, cours.nom as cours, date_demande, concat(_domaine, 'cours/utilisateurs/demande?idUtilisateur=',utilisateurs.idUtilisateur, '&idCours=', cours.idCours) as confirmation from acces_cours
 	join utilisateurs on utilisateurs.idUtilisateur = acces_cours.idUtilisateur
 	join cours on cours.idCours = acces_cours.idCours
 	where accepte = 0 and responsable = _responsable;
@@ -263,13 +296,32 @@ DROP procedure IF EXISTS `confirmation_inscription`;
 DELIMITER $$
 USE `educdb_v2`$$
 CREATE PROCEDURE `confirmation_inscription` (
-IN _idUtilisateur int
+IN _idUtilisateur int,
+IN _idCours int,
+IN _responsable int
 )
 BEGIN	
-	update acces_cours
-    set accepte = 1
-    where idUtilisateur = _idUtilisateur;
+	declare isUtilisateur int default null;
+    declare isResponsable int default null;
     
+    select idUtilisateur into isUtilisateur from acces_cours
+    where idUtilisateur = _idUtilisateur and acces_cours.idCours = _idCours;
+    
+    select responsable into isResponsable from cours
+    inner join acces_cours on acces_cours.idCours = cours.idCours
+    where acces_cours.idUtilisateur = _idUtilisateur and acces_cours.idCours = _idCours; 
+    
+    if isUtilisateur is null then 
+		select "L'utilisateur n'existe pas ou n'a pas fait de demande" as Erreur1;
+        
+    elseif isResponsable is null or isResponsable <> _responsable then
+		select "Vous ne disposez pas des permissions nécessaire" as Erreur2;
+	else
+		update acces_cours
+		set accepte = 1
+		where idUtilisateur = _idUtilisateur and idCours = _idCours;
+        
+	end if;
 END$$
 
 DELIMITER ;
@@ -279,18 +331,20 @@ DROP procedure IF EXISTS `demande_cours`;
 ;
 
 DELIMITER $$
-USE `educdb_v2`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `demande_cours`(
+CREATE PROCEDURE `demande_cours`(
 IN _idUtilisateur int,
 IN _nomCours varchar(45)
 )
 BEGIN
 	# Gestion si utilisateur déjà existant
-	declare exit handler for 1062 select "La demande a déjà été effectuée" Erreur ;
+	declare exit handler for 1062 select "La demande a déjà été effectuée" Erreur1 ;
+    declare exit handler for 1048 select "Le cours n'existe pas" Erreur2 ;
+    
     
     # Nouvelle demande
     insert into acces_cours (idUtilisateur, idCours, accepte, date_demande)
     values (_idUtilisateur, (select idCours from cours where nom = _nomCours) , 0, now());
+
 END$$
 
 DELIMITER ;
