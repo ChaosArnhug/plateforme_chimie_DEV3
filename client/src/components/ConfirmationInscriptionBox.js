@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import InscriptionCours from './InscriptionCours';
+import ConfirmationInscription from './ConfirmationInscription';
 
-class InscriptionCoursBox extends Component {
+class ConfirmationInscriptionBox extends Component {
     state = { 
-        url : "http://localhost:5000/cours",
+        url : "http://localhost:5000/cours/utilisateurs/demande",
         loading : true,
         data : null
     } 
@@ -24,9 +24,9 @@ class InscriptionCoursBox extends Component {
                 ) : (
                     <div> 
                         {this.state.data.map( 
-                            cours => 
-                                <InscriptionCours key={cours.nom} nom={cours.nom} dateCreation={cours.dateCreation} 
-                                responsable={cours.responsable} url={cours.url} inscription={cours.inscription}/> 
+                            demande => 
+                                <ConfirmationInscription key={demande.confirmation} utilisateur={demande.utilisateur} groupe={demande.groupe}
+                                classe={demande.classe} cours={demande.cours} date_demande={demande.date_demande} confirmation={demande.confirmation}/> 
                             )} 
                     </div>
                 )}
@@ -35,4 +35,4 @@ class InscriptionCoursBox extends Component {
     }
 }
  
-export default InscriptionCoursBox;
+export default ConfirmationInscriptionBox;
