@@ -4,12 +4,12 @@ import React, {Component} from 'react';
 import {useParams} from 'react-router-dom';
 
 function tabForm (dataTraitement){
-    data = dataTraitement
-    startChap = 0;
-    tableauData = [];
-    for (i=0; i<dataTraitement.length; i++){
+    let data = dataTraitement
+    let startChap = 0;
+    let tableauData = [];
+    for (let i=0; i<dataTraitement.length; i++){
         if (dataTraitement[i].idChapitre != dataTraitement[i-1].idChapitre && i!= 0 && i==dataTraitement.length-1) {
-            implement = data.slice(startChap, i);
+            let implement = data.slice(startChap, i);
             tableauData.add(implement);
             startChap = i;
         }
@@ -21,7 +21,7 @@ class CoursPage extends Component{
     
     render() { 
 
-        tabData = tabForm(this.props.data);
+        let tabData = tabForm(this.props.data);
         
         return (
             <div>
