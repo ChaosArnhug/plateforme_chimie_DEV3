@@ -43,21 +43,29 @@ class ReponseQCM extends Component{
     constructor(props){
         super(props);
         this.state={
-            totReponseArr : ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
+            totReponseArr : ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"],
+            isCorrect : false
         }
     }
 
 
     async componentDidMount(){
-        let reponseId = await this.props.addReponseInDataArray(this.props.questionId, true); // La fonction renvoie l'id de réponse qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
+        let reponseId = await this.props.addReponseInDataArray(this.props.questionId); // La fonction renvoie l'id de réponse qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
         await this.setState({"reponseId" : reponseId}); // ici this.state est celui du composant ParamOuverte
-        alert(this.state.reponseId);
-        alert(this.props.questionId);
+        //alert(this.state.reponseId);
+        //alert(this.props.questionId);
     
         // Quand on render une nouvelle question -> ok, nouvel questionId, quand on en render plusieurs -> ont tous le même questionId
     }
 
 
+    async changeQCMResponseState(){
+        let newIsCorrect = await !this.state.isCorrect;
+        await this.setState({"isCorrect" : newIsCorrect});
+        await this.props.updateReponseData(
+            this.props.questionId, this.state.reponseId, "isCorrect", this.state.isCorrect
+        );
+    }
 
 
     render(){
@@ -77,7 +85,10 @@ class ReponseQCM extends Component{
                   }}
                 />
                 <FormGroup sx={{mr:4, my:"auto"}}>
-                    <FormControlLabel control={<Checkbox onClick={() => {alert("c'est une bonne réponse")}}/>} label="Est une bonne réponse" />
+                    <FormControlLabel control={<Checkbox onClick={(event) => {
+                        this.changeQCMResponseState();
+                        
+                    }}/>} label="Est une bonne réponse" />
                 </FormGroup>
             </Div>
         )

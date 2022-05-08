@@ -83,15 +83,23 @@ class CreationQuiz extends Component{
 
     numFromQuestionId(questionId){
         // Récupère la position de l'objet représentant une question en fonction de son id
+        
         let num = this.state.myQuizData.myQuestionsArray.map(object => object.questionId).indexOf(questionId);
         return num
+        
+        
+        
     }
 
-    numFromReponseId(questionId, reponseId){
+    numFromReponseId(questionNum, reponseId){
         // Récupère la position de l'objet représentant une question en fonction de son id
-        let questionNum = this.numFromQuestionId(questionId);
         let num = this.state.myQuizData.myQuestionsArray[questionNum].myReponsesArray.map(object => object.reponseId).indexOf(reponseId);
-        return num
+
+        if(num == -1){
+            let num = 0;   // à changer! Manière pas propre de régler le problème : La fonction fonctionne bien sauf pour les objets de réponse à l'index 0 de l'array
+            return num;
+        }
+        return num;
     }
 
 
@@ -134,7 +142,8 @@ class CreationQuiz extends Component{
 
     async updateReponseData(questionId, reponseId, reponseDataToChange, newData){
         let questionNum = this.numFromQuestionId(questionId);
-        let reponseNum = this.numFromReponseId(questionId, reponseId);
+        let reponseNum = this.numFromReponseId(questionNum, reponseId);
+
         let newObject = await {...this.state.myQuizData};
         newObject.myQuestionsArray[questionNum].myReponsesArray[reponseNum][reponseDataToChange] = await newData;
         await this.setState({"myQuizData" : newObject});
@@ -157,7 +166,7 @@ class CreationQuiz extends Component{
         return(questionId)
     }
 
-    async addReponseInDataArray(questionId, isCorrect){
+    async addReponseInDataArray(questionId){
         let reponseId = await this.generateUniqueID("R");
         let questionNum = this.numFromQuestionId(questionId);
 
@@ -167,7 +176,7 @@ class CreationQuiz extends Component{
         // Ajoute un objet représentant une réponse dans myReponsesArray de myQuestionsArray
         let newObject = await {...this.state.myQuizData}; // copie l'objet myQuizData
         let newArray = await newObject.myQuestionsArray[questionNum].myReponsesArray.slice(); // copie l'array myReponsesArray
-        await newArray.push({"reponseId" : reponseId, "texteReponse" : "", "isCorrect" : isCorrect}); // ajouté un nouvel objet représentant une question
+        await newArray.push({"reponseId" : reponseId, "texteReponse" : "", "isCorrect" : false}); // ajouté un nouvel objet représentant une question
         newObject.myQuestionsArray[questionNum].myReponsesArray = await newArray;
         await this.setState({myQuizData:newObject});
 
@@ -257,10 +266,8 @@ class CreationQuiz extends Component{
                         );
                         }}>ajout question</Button>
                     
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert(this.state.myQuizData.titre+" "+ this.state.myQuizData.description +" "+this.state.nmbreQuestions)}}>Terminer</Button>
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert("Mettre l'appel au endpoint POST ici")}}>Terminer</Button>
 
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert((this.state.myQuizData.myQuestionsArray).length)} }>affiche longueur data array Questions</Button>
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert((this.state.myQuizData.myQuestionsArray[0].myReponsesArray).length)} }>affiche longueur data array Réponses</Button>
                     <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> { console.log(this.state.myQuizData)} }>console.log</Button>
                     
                     
