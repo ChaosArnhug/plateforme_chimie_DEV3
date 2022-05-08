@@ -6,8 +6,11 @@ import Result from "./Question/Result"
 export default class Quiz extends Component {
 
     // Initiating the local state
-   
-    state = {
+    constructor(props) {
+
+        super(props);
+
+        this.state = {
             questionList: [],
             score:0,
             responses:[],
@@ -15,13 +18,14 @@ export default class Quiz extends Component {
             description:""
 
            
+        };
     };
     
        //recuperation des questions d'un quiz (appel de l'API) ex: http://localhost:5000/quiz/les%20molécules/1
     async getQuestions (quizid)  {  
         const url = "http://localhost:5000/quiz/"+quizid;
         const response = await fetch(url);
-        console.log(response);
+        //console.log(response);
         const data = await response.json();
         this.setState({questionList : JSON.parse(data[0].questions), titre: data[0].titre, description:data[0].description });
       };
@@ -83,7 +87,7 @@ export default class Quiz extends Component {
             responses:[]
 
         });
-        this.getQuestions(1);
+        this.getQuestions(this.props.quiz_id);
           
     }
    
@@ -91,7 +95,7 @@ export default class Quiz extends Component {
     async componentDidMount ()  {
       
         //console.log("test"+this.state.questionList)
-         this.getQuestions(1);
+         this.getQuestions(this.props.quiz_id);
      }
   
      
