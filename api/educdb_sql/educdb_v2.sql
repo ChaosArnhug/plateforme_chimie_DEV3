@@ -54,9 +54,6 @@ CREATE TABLE IF NOT EXISTS `educdb_v2`.`cours` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_idUtilisateur_idx` ON `educdb_v2`.`cours` (`responsable` ASC) VISIBLE;
-
-
 -- -----------------------------------------------------
 -- Table `educdb_v2`.`acces-cours`
 -- -----------------------------------------------------
@@ -81,10 +78,6 @@ CREATE TABLE IF NOT EXISTS `educdb_v2`.`acces_cours` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_utilisateurs_has_cours_cours1_idx` ON `educdb_v2`.`acces_cours` (`idCours` ASC) VISIBLE;
-
-CREATE INDEX `fk_utilisateurs_has_cours_utilisateurs_idx` ON `educdb_v2`.`acces_cours` (`idUtilisateur` ASC) VISIBLE;
-
 
 -- -----------------------------------------------------
 -- Table `educdb_v2`.`chapitre`
@@ -104,7 +97,6 @@ CREATE TABLE IF NOT EXISTS `educdb_v2`.`chapitre` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_idCours_idx` ON `educdb_v2`.`quiz` (`idCours` ASC) VISIBLE;
 
 -- -----------------------------------------------------
 -- Table `educdb_v2`.`quiz`
@@ -124,9 +116,6 @@ CREATE TABLE IF NOT EXISTS `educdb_v2`.`quiz` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-CREATE INDEX `fk_idCours_idx` ON `educdb_v2`.`quiz` (`idChapitre` ASC) VISIBLE;
-
 
 -- -----------------------------------------------------
 -- Table `educdb_v2`.`questions`
@@ -149,7 +138,6 @@ CREATE TABLE IF NOT EXISTS `educdb_v2`.`questions` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_idQuizs_idx` ON `educdb_v2`.`questions` (`idQuiz` ASC) VISIBLE;
 
 
 -- -----------------------------------------------------
@@ -171,8 +159,6 @@ CREATE TABLE IF NOT EXISTS `educdb_v2`.`reponses` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_idQuestions_idx` ON `educdb_v2`.`reponses` (`idQuestions` ASC) VISIBLE;
-
 
 -- -----------------------------------------------------
 -- Table `educdb_v2`.`scores`
@@ -185,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `educdb_v2`.`scores` (
   `idQuizs` INT NOT NULL,
   `resultat` FLOAT NOT NULL DEFAULT 0,
   `total` FLOAT NOT NULL,
-  `date_score` VARCHAR(45) NULL,
+  `date_score` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`idScores`, `idUtilisateurs`, `idQuizs`),
   CONSTRAINT `fk_utilisateurs_scores`
     FOREIGN KEY (`idUtilisateurs`)
@@ -199,9 +185,17 @@ CREATE TABLE IF NOT EXISTS `educdb_v2`.`scores` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Tout les index
+-- -----------------------------------------------------
+CREATE INDEX `fk_idUtilisateur_idx` ON `educdb_v2`.`cours` (`responsable` ASC) VISIBLE;
+CREATE INDEX `fk_utilisateurs_has_cours_cours1_idx` ON `educdb_v2`.`acces_cours` (`idCours` ASC) VISIBLE;
+CREATE INDEX `fk_utilisateurs_has_cours_utilisateurs_idx` ON `educdb_v2`.`acces_cours` (`idUtilisateur` ASC) VISIBLE;
+CREATE INDEX `fk_idChapitre_idx` ON `educdb_v2`.`quiz` (`idChapitre` ASC) VISIBLE;
+CREATE INDEX `fk_idQuizs_idx` ON `educdb_v2`.`questions` (`idQuiz` ASC) VISIBLE;
+CREATE INDEX `fk_idQuestions_idx` ON `educdb_v2`.`reponses` (`idQuestions` ASC) VISIBLE;
 CREATE INDEX `fk_idUtilisateurs_idx` ON `educdb_v2`.`scores` (`idUtilisateurs` ASC) VISIBLE;
-
-CREATE INDEX `fk_idQuizs_idx` ON `educdb_v2`.`scores` (`idQuizs` ASC) VISIBLE;
+CREATE INDEX `fk_idQuizs_score_idx` ON `educdb_v2`.`scores` (`idQuizs` ASC) VISIBLE;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
