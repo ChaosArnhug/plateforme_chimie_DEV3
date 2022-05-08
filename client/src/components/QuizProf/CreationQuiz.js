@@ -83,15 +83,25 @@ class CreationQuiz extends Component{
 
     numFromQuestionId(questionId){
         // Récupère la position de l'objet représentant une question en fonction de son id
+        
         let num = this.state.myQuizData.myQuestionsArray.map(object => object.questionId).indexOf(questionId);
         return num
+        
+        
+        
     }
 
-    numFromReponseId(questionId, reponseId){
+    numFromReponseId(questionNum, reponseId){
         // Récupère la position de l'objet représentant une question en fonction de son id
-        let questionNum = this.numFromQuestionId(questionId);
+        console.log(this.state.myQuizData.myQuestionsArray[questionNum].myReponsesArray);
+
         let num = this.state.myQuizData.myQuestionsArray[questionNum].myReponsesArray.map(object => object.reponseId).indexOf(reponseId);
-        return num
+
+        if(num == -1){
+            let num = 0;   // à changer! Manière pas propre de régler le problème : La fonction fonctionne bien sauf pour les objets de réponse à l'index 0 de l'array
+            return num;
+        }
+        return num;
     }
 
 
@@ -134,8 +144,12 @@ class CreationQuiz extends Component{
 
     async updateReponseData(questionId, reponseId, reponseDataToChange, newData){
         let questionNum = this.numFromQuestionId(questionId);
-        let reponseNum = this.numFromReponseId(questionId, reponseId);
+        let reponseNum = this.numFromReponseId(questionNum, reponseId);
+
+        alert(questionNum);
+        alert(reponseNum)
         let newObject = await {...this.state.myQuizData};
+        alert(newObject.myQuestionsArray[questionNum].myReponsesArray[reponseNum]["texteReponse"]);
         newObject.myQuestionsArray[questionNum].myReponsesArray[reponseNum][reponseDataToChange] = await newData;
         await this.setState({"myQuizData" : newObject});
 
