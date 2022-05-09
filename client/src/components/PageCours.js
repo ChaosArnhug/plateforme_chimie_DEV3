@@ -49,7 +49,7 @@ class CoursPage extends Component{
                                 (item2.disponnible == 1 &&
                                 <div>
                                     <p>{item2.description}</p>
-                                    <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.titre}`} >{item2.titre}</Button>                              
+                                    <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.idQuiz}`} >{item2.titre}</Button>                              
                                 </div>   
                                 )
                             ))}
@@ -110,7 +110,7 @@ export default (props) => (
 );
 
 
-//{this.props.dataEleve.map((item2) =>(item2.idQuizs == item.idQuiz && <p>✅</p>))} 
+//{this.props.dataEleve.map((item3) =>(item3.idQuizs == item2.idQuiz && <p>✅</p>))} 
 
 
 
