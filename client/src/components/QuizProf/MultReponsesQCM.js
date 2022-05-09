@@ -50,7 +50,7 @@ class ReponseQCM extends Component{
 
 
     async componentDidMount(){
-        let reponseId = await this.props.addReponseInDataArray(this.props.questionId); // La fonction renvoie l'id de réponse qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
+        let reponseId = await this.props.addReponseInDataArray(this.props.questionId, false); // La fonction renvoie l'id de réponse qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
         await this.setState({"reponseId" : reponseId}); // ici this.state est celui du composant ParamOuverte
         //alert(this.state.reponseId);
         //alert(this.props.questionId);

@@ -49,6 +49,12 @@ class ParamOuverte extends Component{
     // Quand on render une nouvelle question -> ok, nouvel questionId, quand on en render plusieurs -> ont tous le même questionId
 }
 
+  async componentWillUnmount(){
+    await this.props.remAllReponsesInDataArray(this.props.questionId);
+  }
+
+
+
   render(){
       return(
           <TextField

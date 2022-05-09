@@ -80,13 +80,7 @@ const element = (
         
         
       </div>
-      <AppBar position="absolute" sx={{mt:"2", p:2, top: 'auto', bottom: 0, bgcolor:"secondary.main"}}> 
-        <Div sx={{textAlign:"center"}}>
-          Nous contacter: Responsable admin@admin.be
-          <br/><br/>
-          @copyright
-        </Div>
-      </AppBar>
+      
     </Box>
   </ThemeProvider>
   
@@ -106,7 +100,15 @@ ReactDOM.render(
 
 
 
-
+/*
+<AppBar position="absolute" sx={{mt:"2", p:2, top: 'auto', bottom: 0, bgcolor:"secondary.main"}}> 
+        <Div sx={{textAlign:"center"}}>
+          Nous contacter: Responsable admin@admin.be
+          <br/><br/>
+          @copyright
+        </Div>
+      </AppBar>
+      */
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

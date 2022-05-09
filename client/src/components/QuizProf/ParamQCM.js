@@ -69,6 +69,8 @@ class ParamQCM extends Component{
                 await this.setState((state)=> ({
                     nmbreQCMReponses: state.nmbreQCMReponses-1
                 }));
+                
+                await this.props.remReponseInDataArray(this.props.questionId);  // on peut pas mettre dans le componentWillUnmount de ReponseQCM car on rerender tous les ReponseQCM. Ça mettrais toutes les données à zéro
                 ReactDOM.render(
                     <MultReponsesQCM 
                     nmbreQCMReponses={this.state.nmbreQCMReponses} 

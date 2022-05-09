@@ -58,6 +58,7 @@ class ParamQuestion extends Component{
                 updateReponseData={this.props.updateReponseData}
                 generateReponseId={this.props.generateQuestionId}
                 addReponseInDataArray={this.props.addReponseInDataArray} 
+                remAllReponsesInDataArray ={this.props.remAllReponsesInDataArray}
                 />,
                 document.getElementById('param_reponse')
             );
@@ -72,6 +73,8 @@ class ParamQuestion extends Component{
                 updateReponseData={this.props.updateReponseData}
                 generateReponseId={this.props.generateQuestionId}
                 addReponseInDataArray={this.props.addReponseInDataArray} 
+                remReponseInDataArray={this.props.remReponseInDataArray}
+                remAllReponsesInDataArray ={this.props.remAllReponsesInDataArray}
                 />,
                 document.getElementById('param_reponse')
             );
@@ -93,14 +96,19 @@ class ParamQuestion extends Component{
             updateReponseData={this.props.updateReponseData}
             generateReponseId={this.props.generateQuestionId}
             addReponseInDataArray={this.props.addReponseInDataArray} 
+            remAllReponsesInDataArray ={this.props.remAllReponsesInDataArray}
             />,
             document.getElementById('param_reponse')
           );
     
     }
+
+    async componentWillUnmount(){
+        await this.props.remQuestionInDataArray(this.state.questionId);
+    }
     
-    componentWillUnmount(){
-        this.props.remQuestionInDataArray();
+    async componentWillUnmount(){
+        await this.props.remQuestionInDataArray(this.state.questionId);
     }
 
 
