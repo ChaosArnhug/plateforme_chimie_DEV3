@@ -213,22 +213,39 @@ DELIMITER ;
 DROP procedure IF EXISTS `data_quiz`;
 
 DELIMITER $$
-USE `educdb_v2`$$
-CREATE PROCEDURE `data_quiz` (
-IN _idQuiz int
+CREATE PROCEDURE `data_quiz`(
+IN _idQuiz int,
+IN _idUtilisateur int
 )
 BEGIN
-	 select quiz.titre, quiz.description, quiz.estVisible, concat('[', group_concat('{', '"titreQuestion":"', QQ.titre, '",', '"enonce":"', QQ.enonce, '",', '"estQCM":"', QQ.estQCM, '",', '"points":', QQ.points, ',', '"reponses":',
+	declare acces tinyint default null;
+    
+	select accepte into acces from acces_cours
+	inner join cours on cours.idCours = acces_cours.idCours
+    inner join chapitre on chapitre.idCours = cours.idCours
+    inner join quiz on quiz.idChapitre = chapitre.idChapitre
+	where idUtilisateur = _idUtilisateur and idQuiz = _idQuiz;
+
+	if acces = 1 then
+    
+		select quiz.titre, quiz.description, quiz.estVisible, concat('[', group_concat('{', '"titreQuestion":"', QQ.titre, '",', '"enonce":"', QQ.enonce, '",', '"estQCM":"', QQ.estQCM, '",', '"points":', QQ.points, ',', '"reponses":',
 	        (select concat('[',group_concat('{','"texteReponse":"',reponses.texteResponse,'",', '"estCorrecte":',reponses.estCorrecte, '}'), ']' ) from questions QR
 	        inner join reponses on reponses.idQuestions = QR.idQuestions
 	        where QR.idQuestions = QQ.idQuestions
 	        group by QR.enonce),
         "}"   ), ']') as questions from quiz 
-        inner join questions as QQ on QQ.idQuiz = quiz.idQuiz
-        inner join cours on cours.idCours = quiz.idCours
+        left join questions as QQ on QQ.idQuiz = quiz.idQuiz
+        inner join chapitre on chapitre.idChapitre = quiz.idChapitre
+        inner join cours on cours.idCours = chapitre.idCours
         where quiz.idQUIZ = _idQuiz
         group by quiz.idQuiz;
-END$$
+        
+        
+	else
+		select "Vous n'avez pas accès à ce quiz" as Erreur1;
+        
+	end if;
+END
 
 DELIMITER ;
 
@@ -236,16 +253,26 @@ DELIMITER ;
 DROP procedure IF EXISTS `resultats_utilisateurs`;
 
 DELIMITER $$
-USE `educdb_v2`$$
-CREATE PROCEDURE `resultats_utilisateurs` (
+CREATE  PROCEDURE `resultats_utilisateurs`(
 IN _domaine varchar(45),
 IN _idUtilisateur INT
 )
 BEGIN
-	select titre, resultat, total, concat(_domaine, 'quiz/', quiz.idQuiz) as quiz from scores
-    join quiz on quiz.idQuiz = scores.idQuizs
-    where scores.idUtilisateurs = _idUtilisateur;
+	declare status varchar(45) default null;
+    select statut into status from utilisateurs
+    where idUtilisateur = _idUtilisateur;
+    
+    if status = 'prof' then
+		select concat(utilisateurs.nom, ' ', utilisateurs.prenom) as utilisateur, titre, resultat, total, concat(_domaine, 'quiz/', quiz.idQuiz) as quiz from scores
+		join quiz on quiz.idQuiz = scores.idQuizs
+		join utilisateurs on utilisateurs.idUtilisateur = scores.idUtilisateurs;
+        
+    else
+		select titre, resultat, total, concat(_domaine, 'quiz/', quiz.idQuiz) as quiz from scores
+		join quiz on quiz.idQuiz = scores.idQuizs
+		where scores.idUtilisateurs = _idUtilisateur;
 
+	end if;
 END$$
 
 DELIMITER ;
@@ -328,7 +355,7 @@ DELIMITER ;
 
 -- ---------------------------------- endpoint /cours/{cours}/inscription ---------------------------------
 DROP procedure IF EXISTS `demande_cours`;
-;
+
 
 DELIMITER $$
 CREATE PROCEDURE `demande_cours`(
@@ -349,3 +376,22 @@ END$$
 
 DELIMITER ;
 ;
+
+-- --------------------------- enpoint /quiz/{quiz_id}
+DROP procedure IF EXISTS `ajoutResultat`;
+
+DELIMITER $$
+CREATE  PROCEDURE `ajoutResultat`(
+IN _idQuiz int,
+IN _idUtilisateur int,
+IN _resultat float,
+IN _total float
+)
+BEGIN
+
+	insert into scores (idUtilisateurs, idQuizs, resultat, total, date_score)
+    value(_idUtilisateur, _idQuiz, _resultat, _total, now());
+    
+END$$
+
+DELIMITER ;

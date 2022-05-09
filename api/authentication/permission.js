@@ -20,16 +20,8 @@ function checkNotAuthentification (req, res, next){
     
 }
 
-//Erreur si utilisateur a pas accès à la ressource
-function checkStatut(req, res, next, statut){
-    if (req.body.statut === statut){
-        return next();
-    }
-    return res.statut(403);
-}
 
 module.exports = {
     checkAuthentification,
-    checkNotAuthentification,
-    checkStatut
+    checkNotAuthentification
 }

@@ -4,16 +4,30 @@ import React, {Component} from 'react';
 import {useParams} from 'react-router-dom';
 
 function tabForm (dataTraitement){
-    let data = dataTraitement
+    let data = dataTraitement 
     let startChap = 0;
+    console.log("dataTraitement = ");   
+    console.log(dataTraitement);
     let tableauData = [];
     for (let i=0; i<dataTraitement.length; i++){
-        if (dataTraitement[i].idChapitre != dataTraitement[i-1].idChapitre && i!= 0 && i==dataTraitement.length-1) {
-            let implement = data.slice(startChap, i);
-            tableauData.add(implement);
-            startChap = i;
+        if (dataTraitement.length !=1){
+ //           console.log("i = "+dataTraitement[3].idChapitre+" et i-1 = "+dataTraitement[2].idChapitre);
+            if ( i != 0 && (dataTraitement[i].idChapitre != dataTraitement[i-1].idChapitre || i==dataTraitement.length-1)) {
+                let implement = data.slice(startChap, i);
+//                console.log("implement = ");    
+//                console.log(implement.slice(1, 2));
+                tableauData.push(implement);
+                startChap = i
+  //              console.log("je passe");
+            }
+        }
+        else{
+            tableauData.push(dataTraitement);
+  //          console.log("c est ca");
         }
     }
+ //   console.log("tableauData = ");
+ //   console.log(tableauData);
     return tableauData;
 }
 
@@ -22,19 +36,20 @@ class CoursPage extends Component{
     render() { 
 
         let tabData = tabForm(this.props.data);
-        
+        console.log("tabData = ");
+        console.log(tabData);
         return (
             <div>
                 <h1>{this.props.cours}</h1>  
                 {tabData.map((item) => (
-                    (item[0].estVisible == 1 &&
+                    (item[0].chapEstVisible == 1 &&
                         <fieldset>
                             <legend>{item[0].titreChapitre}</legend>
                             {item.map((item2) => (
                                 (item2.disponnible == 1 &&
                                 <div>
                                     <p>{item2.description}</p>
-                                    <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.titre}`} >{item2.titre}</Button>                              
+                                    <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.idQuiz}`} >{item2.titre}</Button>                              
                                 </div>   
                                 )
                             ))}
@@ -95,7 +110,7 @@ export default (props) => (
 );
 
 
-//{this.props.dataEleve.map((item2) =>(item2.idQuizs == item.idQuiz && <p>✅</p>))} 
+//{this.props.dataEleve.map((item3) =>(item3.idQuizs == item2.idQuiz && <p>✅</p>))} 
 
 
 

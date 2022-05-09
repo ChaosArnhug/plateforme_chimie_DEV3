@@ -18,7 +18,7 @@ router.get("/", (req, res) =>{
 
         } else{
             res.send("An error occured");
-            res.status(404);
+            res.status(500);
             console.log(err);
         }
     })
@@ -31,9 +31,7 @@ router.get("/:cours", permission.checkAuthentification, (req, res) =>{
             if (! err){
                 rows.forEach(element => {
                     if (element.constructor == Array) {
-                        if(element[0].Erreur1){ //si cours existe pas
-                            res.status(404);
-                        }
+                       
                         if(element[0].Erreur2){ //si pas accès au cours
                             res.status(403);
                         }
@@ -43,6 +41,7 @@ router.get("/:cours", permission.checkAuthentification, (req, res) =>{
     
             }else{
                 res.send("An error occured");
+                res.status(500);
                 console.log(err);
             }
         }
@@ -51,8 +50,10 @@ router.get("/:cours", permission.checkAuthentification, (req, res) =>{
 
 router.get("/:cours/quiz", permission.checkAuthentification, (req, res) =>{
 
+    // , permission.checkAuthentification (note pour tom laiseer svp)
     database.query(`
         call liste_quiz(?, ?, ?)`, [domain, req.params.cours, req.user.idUtilisateur], (err, rows) => {
+            // req.user.idUtilisateur remplacer par 1 (note pour tom laiseer svp)
 
         if (! err){
             rows.forEach(element => {
@@ -69,6 +70,7 @@ router.get("/:cours/quiz", permission.checkAuthentification, (req, res) =>{
 
         }else{
             res.send("An error occured");
+            res.status(500);
             console.log(err);
         }
     })
@@ -99,6 +101,7 @@ router.post("/:cours/inscription", permission.checkAuthentification, async (req,
                 }   
             }else{
                 res.send("An error occured");
+                res.status(500);
                 console.log(err);
             }
         }
@@ -117,7 +120,7 @@ router.get("/utilisateurs/demande", permission.checkAuthentification, (req, res)
 
         } else{
             res.send("An error occured");
-            res.status(404);
+            res.status(500);
             console.log(err);
         }
     } )
@@ -150,6 +153,7 @@ router.post("/utilisateurs/demande", permission.checkAuthentification, (req, res
 
         }else{
             res.send("An error occured");
+            res.status(500);
             console.log(err);
         }
     } )
