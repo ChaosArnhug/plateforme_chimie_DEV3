@@ -31,7 +31,7 @@ const theme = createTheme({
       main: '#E4F2AE',
     },
     secondary: {
-      main: '#1E943C',
+      main: '#E4F2AE',
       button: '#10812D'
     },
     box: {
@@ -53,33 +53,35 @@ const element = (
         <Box width="auto" height="auto"  sx={{ display: 'flex' }}>
           
           <Img width="100px" height="100px" sx={{p:2}} src="https://media.istockphoto.com/vectors/laboratory-beaker-icon-chemical-experiment-in-flask-hemistry-and-vector-id1165295700?k=20&m=1165295700&s=612x612&w=0&h=Nokqv3d9oNEdVTtqkG02vhxVZPVtXS31ZfZ1AQ6BTiY="></Img>
-          
-          <Div  sx={{m:"auto", color:"#000000", fontSize:23}}>
+          <Div sx={{ml:3}}> 
+            <Button variant="contained" sx={{ml:2, mr:20, my:2, py:2, bgcolor:"secondary.button", fontSize:12}}>Inscription au cours</Button>
+          </Div>
+          <Div  sx={{m:"auto", color:"#000000", fontSize:20}}>
             <h1 >Plateforme de chimie</h1>
+          </Div>
+          <Div sx={{ml:"auto", mr:3, display: 'flex'}}>
+          
+          <ListingCours sx={{ml:3, mr:4, my:2, py:2, bgcolor:"secondary.button", fontSize:12}}/>
+          <div>
+          <Button variant="contained" sx={{ml:3, mr:2, my:2, py:2, bgcolor:"secondary.button", fontSize:12}}>Mon compte</Button>
+          </div>
+          
           </Div>
           
         </Box>
       </AppBar>
      
       <Box width="auto" height="auto" backgroundColor="secondary.main" sx={{ display: 'flex' }}>
-        <Div sx={{ml:3}}> 
-          <Button variant="contained" sx={{ml:2, mr:20, my:2, py:2, bgcolor:"secondary.button", fontSize:20}}>Inscription au cours</Button>
-        </Div>
-
-        <Div sx={{ml:"auto", mr:3, display: 'flex'}}>
-          
-          <ListingCours sx={{ml:3, mr:4, my:2, py:2, bgcolor:"secondary.button", fontSize:20}}/>
-          <div>
-          <Button variant="contained" sx={{ml:3, mr:2, my:2, py:2, bgcolor:"secondary.button", fontSize:20}}>Mon compte</Button>
-          </div>
-          
-        </Div>
+        
+      
+        
       </Box>
-      <div id="main">
+      <div id="main" >
         
         
         
-      </div>
+        </div>
+      
       
     </Box>
   </ThemeProvider>
