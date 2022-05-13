@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 
+
 function tabForm (dataTraitement){
     let data = dataTraitement 
     let startChap = 0;
@@ -21,20 +22,78 @@ function tabForm (dataTraitement){
             tableauData.push(dataTraitement);
         }
     }
+ //   this.setState({data: tableauData, cours: coursActu})
     return tableauData;
 }
+
 
 function AddChap(){
     console.log("ca marche")
 }
 
-function ChangeVisibilite(){
+function ChangeVisibiliteChap(arg1, arg2){
     console.log("ca marche visibilité quiz")
+    console.log(arg1)
+    console.log(arg2)
+//    console.log(arg3)
+    let ChangeData = this.state.data;
+//       ChangeData[]
+//       this.setState({data :})
 }
 
 
+
 class CoursPageProf extends Component{
+
     
+
+ /*   constructor(props){
+        super(props)
+        this.state = {
+            loading : true,
+            data : null,
+            cours : null,
+        }
+
+    }
+
+
+*/
+/*
+    ChangeVisibiliteChap(arg1, arg2, arg3){
+        console.log("ca marche visibilité quiz")
+        console.log(arg1)
+        console.log(arg2)
+        console.log(arg3)
+        let ChangeData = this.state.data;
+ //       ChangeData[]
+ //       this.setState({data :})
+    }
+*/
+
+/*
+    tabForm (dataTraitement, coursActu){
+        let data = dataTraitement 
+        let startChap = 0;
+        console.log("dataTraitement = ");   
+        console.log(dataTraitement);
+        let tableauData = [];
+        for (let i=0; i<dataTraitement.length; i++){
+            if (dataTraitement.length !=1){
+                if ( i != 0 && (dataTraitement[i].idChapitre != dataTraitement[i-1].idChapitre || i==dataTraitement.length-1)) {
+                    let implement = data.slice(startChap, i);
+                    tableauData.push(implement);
+                    startChap = i
+                }
+            }
+            else{
+                tableauData.push(dataTraitement);
+            }
+        }
+        this.setState({data: tableauData, cours: coursActu})
+        return tableauData;
+    }
+  */  
     render() { 
 
         let tabData = tabForm(this.props.data);
@@ -46,10 +105,10 @@ class CoursPageProf extends Component{
                 {tabData.map((item) => (                  
                         <fieldset>
                             <legend>{item[0].titreChapitre}</legend>
-                            <form>
+                            <form  >
                                 <label>
                                     chapitre visible:  
-                                    <input defaultChecked={item[0].chapEstVisible} type="Checkbox" onChange={ChangeVisibilite()} />
+                                    <input defaultChecked={item[0].chapEstVisible} type="Checkbox" onClick={(event) =>{ChangeVisibiliteChap(event.target.value, item[0].chapEstVisible)}}/>
                                 </label>
                             </form>
                             <Button >supprimer chapitre</Button>  
@@ -157,3 +216,19 @@ class SuppChap extends Component{
 export default (props) => (
     <PageCoursProf {...props} params={useParams()}/>
 );
+
+
+
+
+
+/*
+<FormGroup >
+    <FormControlLabel 
+                            control={<Checkbox onClick={() => {
+                                this.choixParam(this.state.isQCM)}
+                            }/>} 
+                            label="QCM" 
+                            />
+                        </FormGroup>
+
+*/

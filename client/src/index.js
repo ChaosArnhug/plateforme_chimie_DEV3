@@ -48,7 +48,7 @@ const theme = createTheme({
 const element = (
   
   <ThemeProvider theme={theme} >
-    <Box width="auto" height="100%" backgroundColor="primary.main" >
+    <Box width="auto" height="auto" backgroundColor="primary.main" >
       <AppBar position="static"> 
         <Box width="auto" height="auto"  sx={{ display: 'flex' }}>
           
