@@ -165,7 +165,7 @@ class CreationQuiz extends Component{
     async addReponseInDataArray(questionId, isCorrect){
         let reponseId = await this.generateUniqueID("R");
         let questionNum = this.numFromQuestionId(questionId);
-
+        await console.log("reponseId "+reponseId)
         let newNombre = await this.state.nmbreTotReponses +1;  
         await this.setState({nmbreReponses : newNombre});
 
@@ -175,6 +175,7 @@ class CreationQuiz extends Component{
         await newArray.push({"reponseId" : reponseId, "texteReponse" : "", "isCorrect" : isCorrect}); // ajouté un nouvel objet représentant une question
         newObject.myQuestionsArray[questionNum].myReponsesArray = await newArray;
         await this.setState({myQuizData:newObject});
+        await console.log(this.state)
 
         return(reponseId)
     }

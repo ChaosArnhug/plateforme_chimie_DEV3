@@ -50,7 +50,7 @@ class ParamOuverte extends Component{
 }
 
   async componentWillUnmount(){
-    await this.props.remAllReponsesInDataArray(this.props.questionId);
+    //await this.props.remAllReponsesInDataArray(this.props.questionId);
   }
 
 
