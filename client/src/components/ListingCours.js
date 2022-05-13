@@ -57,7 +57,7 @@ function BasicMenu(props) {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        sx={{ml:3, mr:4, my:2, py:2, bgcolor:"secondary.button", fontSize:20, color:"#000000"}}
+        sx={{ml:3, mr:4, my:2, py:2, bgcolor:"secondary.button", fontSize:12, color:"#000000"}}
       >
         Mes cours
       </Button>

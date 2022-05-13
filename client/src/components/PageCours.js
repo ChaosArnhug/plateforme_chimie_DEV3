@@ -43,13 +43,13 @@ class CoursPage extends Component{
                 <h1>{this.props.cours}</h1>  
                 {tabData.map((item) => (
                     (item[0].chapEstVisible == 1 &&
-                        <fieldset>
+                        <fieldset sx={{padding: "3px 6px"}}>
                             <legend>{item[0].titreChapitre}</legend>
                             {item.map((item2) => (
                                 (item2.disponnible == 1 &&
                                 <div>
                                     <p>{item2.description}</p>
-                                    <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.idQuiz}`} >{item2.titre}</Button>                              
+                                    <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.idQuiz}`} >{item2.titre}</Button>                             
                                 </div>   
                                 )
                             ))}
@@ -71,7 +71,7 @@ class PageCours extends Component{
             loading : true,
             data : null,
             cours : null,
-//            dataEleve : null
+            dataEleve : null
         }
     }
     
@@ -82,11 +82,13 @@ class PageCours extends Component{
         const response1 = await fetch(url1);
         const data = await response1.json();
 
-//        const utilisateur_id = 1; //demande dynamique a mettre
-//        const url2 = `http://localhost:5000/utilisateurs/${utilisateur_id}/quiz`;
-//        const response2 = await fetch(url2);
-//        const dataEleve = await response2.json();
-
+  /*      const utilisateur_id = 2; demande dynamique a mettre
+        const url2 = `http://localhost:5000/utilisateurs/quiz`;
+        const response2 = await fetch(url2);
+        const dataEleve = await response2.json();
+        console.log("dataeleve = ");
+        console.log(dataEleve);
+*/
         await this.setState({loading : false, data : data, cours : cours}); //rajouter dataEleve : dataEleve
     }
 
