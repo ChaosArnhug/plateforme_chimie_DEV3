@@ -48,11 +48,11 @@ router.get("/:cours", permission.checkAuthentification, (req, res) =>{
     )
 })
 
-router.get("/:cours/quiz", permission.checkAuthentification, (req, res) =>{
+router.get("/:cours/quiz", (req, res) =>{
 
     // , permission.checkAuthentification (note pour tom laiseer svp)
     database.query(`
-        call liste_quiz(?, ?, ?)`, [domain, req.params.cours, req.user.idUtilisateur], (err, rows) => {
+        call liste_quiz(?, ?, ?)`, [domain, req.params.cours, 1], (err, rows) => {
             // req.user.idUtilisateur remplacer par 1 (note pour tom laiseer svp)
 
         if (! err){
