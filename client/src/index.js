@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 import ListingCours from './components/ListingCours';
 import InsideStructure from './components/InsideStructure';
-import PageCours from './components/PageCours'
+import PageCours from './components/pageCours/PageCours'
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';

@@ -47,6 +47,7 @@ class ParamQuestion extends Component{
         super(props);
         this.state={isQCM:false }; // problème avec fonction
     }
+    
 
     choixParam(isQCM){
         if (isQCM === true){
@@ -107,9 +108,6 @@ class ParamQuestion extends Component{
         await this.props.remQuestionInDataArray(this.state.questionId);
     }
     
-    async componentWillUnmount(){
-        await this.props.remQuestionInDataArray(this.state.questionId);
-    }
 
 
 

@@ -50,12 +50,10 @@ class ReponseQCM extends Component{
 
 
     async componentDidMount(){
-        let reponseId = await this.props.addReponseInDataArray(this.props.questionId, false); // La fonction renvoie l'id de réponse qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
+        let reponseId = await this.props.addReponseInDataArray(this.props.questionId, false); 
+        // La fonction renvoie l'id de réponse qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
         await this.setState({"reponseId" : reponseId}); // ici this.state est celui du composant ParamOuverte
-        //alert(this.state.reponseId);
-        //alert(this.props.questionId);
-    
-        // Quand on render une nouvelle question -> ok, nouvel questionId, quand on en render plusieurs -> ont tous le même questionId
+        
     }
 
 
@@ -112,6 +110,7 @@ class MultReponsesQCM extends Component{
                 questionId={this.props.questionId}
                 addReponseInDataArray={this.props.addReponseInDataArray}
                 updateReponseData={this.props.updateReponseData}
+                addReponseInState = {this.props.addReponseInState}
                 />
               ))
             
