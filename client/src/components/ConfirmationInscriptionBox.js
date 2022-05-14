@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ConfirmationInscription from './ConfirmationInscription';
 
+import { Container} from '@mui/material';
+
 class ConfirmationInscriptionBox extends Component {
     state = { 
         url : "http://localhost:5000/utilisateurs/demande",
@@ -18,7 +20,7 @@ class ConfirmationInscriptionBox extends Component {
 
     render() { 
         return (
-            <div>
+            <Container maxWidth="sm" sx={{ backgroundColor: 'box.secondary'}} >
                 {this.state.loading || !this.state.data ? (
                     <div> Loading ... </div>
                 ) : (
@@ -30,7 +32,7 @@ class ConfirmationInscriptionBox extends Component {
                             )} 
                     </div>
                 )}
-            </div>
+            </Container>
         );
     }
 }
