@@ -6,7 +6,7 @@ import { unstable_styleFunctionSx, styled } from '@mui/system';
 //import { styled } from '@mui/material/styles';
 
 import CreationQuiz from './QuizProf/CreationQuiz.js'
-import PageCours from './PageCours.js';
+import PageCours from './pageCours/PageCours.js';
 import theme from '../index.js'
 import Question from './QuizEleve/Question/Question.js';
 import Quiz from './QuizEleve/QuizMain.js';
@@ -14,7 +14,7 @@ import UserConnection from './GestionComptes/UserConnection.js';
 import UserInscription from './GestionComptes/UserInscription.js';
 import InscriptionCoursBox from './InscriptionCoursBox.js';
 import ConfirmationInscriptionBox from './ConfirmationInscriptionBox.js';
-import PageCoursProf from './PageCoursProf.js';
+import PageCoursProf from './pageCours/PageCoursProf.js';
 
 
 /*
