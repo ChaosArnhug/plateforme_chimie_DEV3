@@ -59,14 +59,14 @@ class InsideStructure extends Component{
         <Router>
           <Routes>
             <Route path="/" element={<Acceuil/>}> </Route>
-            <Route path="/quiz/cours/creation" element={<CreationQuiz/>}> </Route>
+            <Route path="/quiz/:cours/creation" element={<CreationQuiz/>}> </Route>
             <Route path="/cours/:cours" element={<PageCours/>}> </Route>
             <Route path="/cours/:cours/creation" element={<PageCoursProf/>}> </Route>
             <Route path="/cours/:cours/quiz/:quiz" element={<Quiz/>}></Route>
             <Route path="/utilisateurs/connexion" element={<UserConnection/>}> </Route>
             <Route path="/utilisateurs/inscription" element={<UserInscription/>}> </Route>
             <Route path="/cours" element={<InscriptionCoursBox/>}></Route>
-            <Route path="/cours/utilisateurs/demande" element={ConfirmationInscriptionBox}></Route>
+            <Route path="/utilisateurs/demande" element={<ConfirmationInscriptionBox/>}></Route>
             <Route path="/quiz/1" element={<Question/>}></Route>
           </Routes>
         </Router>

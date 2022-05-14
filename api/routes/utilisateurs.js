@@ -67,7 +67,7 @@ router.post("/demande", permission.checkAuthentification, (req, res) =>{
             if (rows.constructor == Array){
                 rows.forEach(element => {
                     if (element.constructor == Array) {
-                    
+
                         if(element[0].Erreur1){ //si utilsateur existe pas ou a pas fait de demande
                             res.status(404);
                         }
@@ -78,8 +78,8 @@ router.post("/demande", permission.checkAuthentification, (req, res) =>{
                         res.send(element); 
                     }
                 });
-            
-            
+
+
             }else{
                 res.status(201);
                 res.send();
@@ -92,6 +92,7 @@ router.post("/demande", permission.checkAuthentification, (req, res) =>{
         }
     } )
 })
+
 
 router.get('/inscription',permission.checkNotAuthentification, (req, res) =>{
     res.send([{ title: 'INSCRIPTION' }]);

@@ -1,6 +1,5 @@
 const express = require ('express');
 const session = require ('express-session');
-const passport = require('passport'); 
 
 //Redirige si user pas connecté
 function checkAuthentification (req, res, next){

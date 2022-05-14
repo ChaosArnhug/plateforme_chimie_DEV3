@@ -16,7 +16,7 @@ import ParamOuverte from "./ParamOuverte.js";
 import ParamQCM from "./ParamQCM.js";
 
 
-// import theme from '../index.js'
+// import theme from '../../index.js'
 // Faire un import au lieu de recréer le theme fait que rien ne s'affiche -> ?
 
 const theme = createTheme({
@@ -46,6 +46,7 @@ class ParamQuestion extends Component{
     constructor(props){
         super(props);
         this.state={isQCM:false }; // problème avec fonction
+
     }
     
 
@@ -60,6 +61,7 @@ class ParamQuestion extends Component{
                 generateReponseId={this.props.generateQuestionId}
                 addReponseInDataArray={this.props.addReponseInDataArray} 
                 remAllReponsesInDataArray ={this.props.remAllReponsesInDataArray}
+
                 />,
                 document.getElementById('param_reponse')
             );
@@ -76,6 +78,7 @@ class ParamQuestion extends Component{
                 addReponseInDataArray={this.props.addReponseInDataArray} 
                 remReponseInDataArray={this.props.remReponseInDataArray}
                 remAllReponsesInDataArray ={this.props.remAllReponsesInDataArray}
+
                 />,
                 document.getElementById('param_reponse')
             );
@@ -98,6 +101,7 @@ class ParamQuestion extends Component{
             generateReponseId={this.props.generateQuestionId}
             addReponseInDataArray={this.props.addReponseInDataArray} 
             remAllReponsesInDataArray ={this.props.remAllReponsesInDataArray}
+
             />,
             document.getElementById('param_reponse')
           );
@@ -108,6 +112,7 @@ class ParamQuestion extends Component{
         await this.props.remQuestionInDataArray(this.state.questionId);
     }
     
+
 
 
 

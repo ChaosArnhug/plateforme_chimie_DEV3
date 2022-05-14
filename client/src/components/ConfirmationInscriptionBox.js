@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import ConfirmationInscription from './ConfirmationInscription';
 
+import { Container} from '@mui/material';
+
 class ConfirmationInscriptionBox extends Component {
     state = { 
-        url : "http://localhost:5000/cours/utilisateurs/demande",
+        url : "http://localhost:5000/utilisateurs/demande",
         loading : true,
         data : null
     } 
@@ -11,6 +13,11 @@ class ConfirmationInscriptionBox extends Component {
     async componentDidMount () {
         const url = this.state.url;
         const response = await fetch(url);
+
+        if (response.redirected){
+            window.location = '/utilisateurs/connexion';
+        }
+
         const data = await response.json();
         this.setState({loading : false, data : data})
         
@@ -18,8 +25,8 @@ class ConfirmationInscriptionBox extends Component {
 
     render() { 
         return (
-            <div>
-                {this.state.loading || !this.state.data ? (
+            <Container maxWidth="sm" sx={{ backgroundColor: 'box.secondary'}} >
+                {this.state.loading || this.state.data != [] ? (
                     <div> Loading ... </div>
                 ) : (
                     <div> 
@@ -30,7 +37,7 @@ class ConfirmationInscriptionBox extends Component {
                             )} 
                     </div>
                 )}
-            </div>
+            </Container>
         );
     }
 }

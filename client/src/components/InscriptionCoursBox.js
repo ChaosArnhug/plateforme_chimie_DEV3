@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import InscriptionCours from './InscriptionCours';
 
+import { Container} from '@mui/material';
+
 class InscriptionCoursBox extends Component {
     state = { 
         url : "http://localhost:5000/cours",
@@ -16,22 +18,23 @@ class InscriptionCoursBox extends Component {
         
     }
 
-    render() { 
-        return (
-            <div>
-                {this.state.loading || !this.state.data ? (
-                    <div> Loading ... </div>
-                ) : (
-                    <div> 
-                        {this.state.data.map( 
-                            cours => 
-                                <InscriptionCours key={cours.nom} nom={cours.nom} dateCreation={cours.dateCreation} 
-                                responsable={cours.responsable} url={cours.url} inscription={cours.inscription}/> 
-                            )} 
-                    </div>
-                )}
-            </div>
+    render() {
+        return ( 
+            <Container maxWidth="sm" sx={{ backgroundColor: 'box.secondary'}} >
+                    {this.state.loading || !this.state.data ? (
+                        <div> Loading ... </div>
+                    ) : (
+                        <div> 
+                            {this.state.data.map( 
+                                cours => 
+                                    <InscriptionCours key={cours.nom} nom={cours.nom} dateCreation={cours.dateCreation} 
+                                    responsable={cours.responsable} url={cours.url} inscription={cours.inscription}/> 
+                                )} 
+                        </div>
+                    )}
+                </Container>
         );
+
     }
 }
  
