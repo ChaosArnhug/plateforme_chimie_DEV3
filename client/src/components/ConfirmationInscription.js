@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios'
+
+import { Typography, Button } from '@mui/material';
+import Box from '@mui/material/Box';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../index.js';
 
 class ConfirmationInscription extends Component {
     state = {  
@@ -11,23 +15,56 @@ class ConfirmationInscription extends Component {
         confirmation : this.props.confirmation
     } 
 
-    submitHandler = (form) =>{
-        form.preventDefault();
-        axios.post(this.state.confirmation)
+    submitValidation = event =>{
+        event.preventDefault();
+        fetch(this.state.confirmation, {
+            method : 'POST'
+        })
 
     }
+    
     render() { 
         return (
-            <div>
-                <p>utilisateur : {this.state.utilisateur}</p>
-                <p>groupe : {this.state.groupe}</p>
-                <p>classe : {this.state.classe}</p>
-                <p>cours : {this.state.cours}</p>
-                <p>date de la demande : {this.state.date_demande}</p>
-                <form onSubmit={this.submitHandler}>
-                    <button type='submit'> Confirmer l'inscription </button>
-                </form>
-            </div>
+            <ThemeProvider theme={theme} >
+                <Typography align={'center'} component={"span"} >
+                    <Box sx={{
+                        display: 'block',
+                        margin: 2,
+                        padding : 2, 
+                        width: 450, 
+                        height: 300, 
+                        backgroundColor: 'box.main',  
+                        '&:hover': {
+                            backgroundColor: '#10812D', 
+                            opacity: [0.9, 0.8, 0.7],}, 
+
+                        }}>
+                            <ul>
+                                <li>utilisateur : {this.state.utilisateur}</li>
+                                <li>groupe : {this.state.groupe} </li>
+                                <li>classe : {this.state.classe}</li>
+                                <li>cours : {this.state.cours}</li>
+                                <li>date de la demande : {this.state.date_demande}</li>
+                            </ul>
+                            <Button 
+                                variant="contained" 
+                                sx={{
+                                    ml:2, 
+                                    mr:20, 
+                                    my:2, 
+                                    py:2, 
+                                    bgcolor:"box.secondary", 
+                                    fontSize:12
+                                    }} 
+                                onClick={this.submitValidation}
+                            >
+                                Valider
+                            </Button>
+
+                    </Box>
+                </Typography>
+            </ThemeProvider>
+
         );
     }
 }

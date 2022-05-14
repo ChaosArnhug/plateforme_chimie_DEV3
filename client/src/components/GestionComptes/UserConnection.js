@@ -13,13 +13,20 @@ class UserConnection extends Component{
 
 
   submitHandler = form =>{
+    const urlToconnexion = "http://localhost:5000/utilisateurs/connexion";
+
     form.preventDefault();
     const params = new URLSearchParams();
     params.append("email", this.state.email);
     params.append("motDePasse", this.state.motDePasse);
     
-    axios.post("http://localhost:5000/utilisateurs/connexion", params)
-      .then(res => console.log(res)).catch(err => console.log(err)) ;
+    axios.post(urlToconnexion, params)
+      .then(res => {
+        if (res.request.responseURL != urlToconnexion){
+          window.location = "/";
+        }        
+      })
+      .catch(err => console.log(err)) ;
   }
 
   changeHandler = (e) =>{
