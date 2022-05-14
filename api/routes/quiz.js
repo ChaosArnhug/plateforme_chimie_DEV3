@@ -6,9 +6,11 @@ const permission = require("../authentication/permission");
 
 
 //Il manque les images pour les questions et les réponses
-router.get("/:quiz_id", permission.checkAuthentification, (req, res) =>{
+router.get("/:quiz_id", (req, res) =>{
+    //, permission.checkAuthentification
     database.query(`
-       CALL data_quiz(?, ?) `, [req.params.quiz_id, req.user.idUtilisateur], (err, rows) => {
+       CALL data_quiz(?, ?) `, [req.params.quiz_id, 1], (err, rows) => {
+           //req.user.idUtilisateur
 
         if (! err){
             rows.forEach(element => {
