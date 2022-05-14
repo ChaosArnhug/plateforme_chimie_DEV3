@@ -1,9 +1,10 @@
 import React, {Component } from 'react';
 import './QuizMain.css';
 import Question from "./Question/Question";
-import Result from "./Question/Result"
+import Result from "./Question/Result";
+import {useParams} from 'react-router-dom';
 
-export default class Quiz extends Component {
+class Quiz extends Component {
 
     // Initiating the local state
    
@@ -18,8 +19,11 @@ export default class Quiz extends Component {
     };
     
        //recuperation des questions d'un quiz (appel de l'API) ex: http://localhost:5000/quiz/les%20molécules/1
-    async getQuestions (quizid)  {  
-        const url = "http://localhost:5000/quiz/"+quizid;
+    async getQuestions()  {
+        const {quiz}  = this.props.params;
+        console.log("bon quiz appellé")
+        console.log(quiz);
+        const url = `http://localhost:5000/quiz/"${quiz}`;
         const response = await fetch(url);
         console.log(response);
         const data = await response.json();
@@ -153,3 +157,7 @@ export default class Quiz extends Component {
         );
     }
 }
+
+export default (props) => (
+    <Quiz {...props} params={useParams()}/>
+);
