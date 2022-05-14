@@ -78,3 +78,43 @@ END$$
 
 DELIMITER ;
 ;
+
+
+-- -------------------Fonctions pour récupérer l'id d'un cours ------------------------------
+
+DROP function IF EXISTS `educdb_v2`.`getCoursId`;
+
+DELIMITER $$
+USE `educdb_v2`$$
+CREATE FUNCTION `educdb_v2`.`getCoursId`( _nomCours varchar(45))
+RETURNS int
+DETERMINISTIC
+BEGIN
+   DECLARE _idCours int ;
+   SET _idCours = ( SELECT idCours from cours where nom = _nomCours );
+   RETURN _idCours;
+END$$
+
+DELIMITER ;
+;
+
+
+-- -------------------Fonctions pour récupérer l'id d'un chapitre ------------------------------  
+
+DROP function IF EXISTS `educdb_v2`.`getChapId`;
+
+DELIMITER $$
+USE `educdb_v2`$$
+CREATE FUNCTION `educdb_v2`.`getChapId`(_nomCours varchar(45), _titreChapitre varchar(45))
+RETURNS int
+DETERMINISTIC
+BEGIN
+   DECLARE _idCours int;
+   DECLARE _idChap int;
+   SET _idCours = (SELECT(getCoursId(_nomCours)));
+   SET _idChap = ( SELECT idChapitre from chapitre where idCours = _idCours AND titreChapitre = _titreChapitre );
+   RETURN _idChap;
+END$$
+
+DELIMITER ;
+;

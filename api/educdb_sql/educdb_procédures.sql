@@ -390,3 +390,65 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- --------------------------- enpoint /quiz/{cours}/creation
+
+------ procédure d'ajout dans la table quiz    // On ne mets pas le cours ? Info donnée par le chapitre
+DROP procedure IF EXISTS `ajoutQuiz`;
+
+DELIMITER $$
+CREATE  PROCEDURE `ajoutQuiz`(
+IN _titre varchar(45),
+IN _description varchar(300),
+IN _estVisible tinyint DEFAULT 1,
+IN _idChapitre int DEFAULT null
+)
+BEGIN
+
+	insert into scores (idUtilisateurs, idQuizs, resultat, total, date_score)
+    value(_idUtilisateur, _idQuiz, _resultat, _total, now());
+    
+END$$
+
+DELIMITER ;
+
+
+------ procédure d'ajout dans la table questions  // Ajout d'images ? 
+DROP procedure IF EXISTS `ajoutQuestion`;
+
+DELIMITER $$
+CREATE  PROCEDURE `ajoutQuestion`(
+IN _titre varchar(45),
+IN _enonce varchar(300),
+IN _estQCM tinyint,
+IN _points float DEFAULT 1,
+IN _idQuiz int
+)
+BEGIN
+
+	insert into scores (idUtilisateurs, idQuizs, resultat, total, date_score)
+    value(_idUtilisateur, _idQuiz, _resultat, _total, now());
+    
+END$$
+
+DELIMITER ;
+
+
+------ procédure d'ajout dans la table    //Ajout d'images ?
+DROP procedure IF EXISTS `ajoutReponse`;
+
+DELIMITER $$
+CREATE  PROCEDURE `ajoutReponse`(
+IN _texteReponse varchar(300),
+IN _estCorrect tinyint,
+IN _resultat float,
+IN _idQuestion int
+)
+BEGIN
+
+	insert into scores (idUtilisateurs, idQuizs, resultat, total, date_score)
+    value(_idUtilisateur, _idQuiz, _resultat, _total, now());
+    
+END$$
+
+DELIMITER ;
