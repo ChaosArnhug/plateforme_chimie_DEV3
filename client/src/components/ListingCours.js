@@ -29,7 +29,7 @@ class CoursButtonList extends Component{
       <div>
     {
       this.props.data.map(item =>(
-        <CoursButton nom={item.nom} handleClose={this.props.handleClose}/>
+        <CoursButton key={item.nom} nom={item.nom} handleClose={this.props.handleClose}/>
       ))
     }
     </div>)

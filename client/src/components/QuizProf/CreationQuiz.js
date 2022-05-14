@@ -12,11 +12,14 @@ import Button from '@mui/material/Button';
 
 
 import ParamQuestion from "./ParamQuestion.js"
-import { Alert } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
 
-// import theme from '../index.js'
+
+
+//import theme from '../../index.js'
 // Faire un import au lieu de recréer le theme fait que rien ne s'affiche -> ?
+
 
 const theme = createTheme({
     palette: {
@@ -53,14 +56,14 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 
+
 // Composant React pour la structure de création de quiz
 class CreationQuiz extends Component{
     constructor(props){
         super(props);
         this.state={ 
             nmbreQuestions:0, 
-            nmbreTotReponses:0, 
-            myQuizData:{"titre":"titre de base", "description":"", "myQuestionsArray": new Array()} }; 
+            myQuizData:{"cours": "","titre":"titre de base", "description":"", "myQuestionsArray": new Array()} }; 
         this.updateQuestionData = this.updateQuestionData.bind(this);
         this.updateReponseData = this.updateReponseData.bind(this);
         this.addQuestionInDataArray = this.addQuestionInDataArray.bind(this);
@@ -73,6 +76,12 @@ class CreationQuiz extends Component{
 
         // dans myQuestionsArray: liste d'objets : {"questionId": "", "titreQuestion" : "", "enonce" : "", "isQCM" : false, "points" : 1, "myReponsesArray" : []}
         // dans myReponsesArray: liste d'objets : {"reponseId": "", "texteReponse" : "", "isCorrect" : false}
+    }
+
+    async componentDidMount(){
+        await this.updateQuizData("cours", this.props.params.cours);
+        // On mets à jour le cours du quiz. On le récupère de l'url via useParams() .
+        // On utilise useParams() dans une fonction qui englobe CreationQuiz quand on l'export.
     }
 
 
@@ -145,7 +154,6 @@ class CreationQuiz extends Component{
     async addReponseInDataArray(questionId, isCorrect){
         let reponseId = await this.generateUniqueID("R");
         let questionNum = this.numFromQuestionId(questionId);
-        await console.log("reponseId "+reponseId)
         
         let newNombre = await this.state.nmbreTotReponses +1;  
         await this.setState({nmbreReponses : newNombre});
@@ -156,7 +164,6 @@ class CreationQuiz extends Component{
         await newArray.push({"reponseId" : reponseId, "texteReponse" : "", "isCorrect" : isCorrect}); // ajouté un nouvel objet représentant une question
         newObject.myQuestionsArray[questionNum].myReponsesArray = await newArray;
         await this.setState({myQuizData:newObject});
-        await console.log(this.state)
         
 
         return(reponseId)
@@ -173,9 +180,8 @@ class CreationQuiz extends Component{
     }
 
     async remReponseInDataArray(questionId){
-        console.log(questionId)
         let questionNum = await this.numFromQuestionId(questionId);
-        console.log(questionNum)
+
         let newObject = await {...this.state.myQuizData}; // copie l'objet myQuizData
         let newArray = await newObject.myQuestionsArray[questionNum].myReponsesArray.slice(); // copie l'array myQuestionsData 
         await newArray.pop(); // ajouté un nouvel objet représentant une question
@@ -186,8 +192,7 @@ class CreationQuiz extends Component{
     async remAllReponsesInDataArray(questionId){
         let questionNum = await this.numFromQuestionId(questionId);
         let newObject = await {...this.state.myQuizData}; // copie l'objet myQuizData
-        console.log(questionId)
-        console.log(questionNum)
+
         newObject.myQuestionsArray[questionNum].myReponsesArray = await new Array; // attribue à l'array des réponses un array vide -> supprime ce qu'il y avait avant
         await this.setState({myQuizData:newObject});
     }
@@ -295,4 +300,9 @@ class CreationQuiz extends Component{
 }}>Ajout Question</Button>
 */
 
-export default CreationQuiz;
+export default (props) => (
+    <CreationQuiz
+        {...props}
+        params={useParams()}
+    />
+);
