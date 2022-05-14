@@ -42,29 +42,34 @@ const Div = styled('div')(unstable_styleFunctionSx);
 class ParamQCM extends Component{
     constructor(props){
         super(props);
-        this.state={nmbreQCMReponses:2}; 
+        this.state={nmbreQCMReponses:1}; 
         // On mets l'id de début de question à 0, on l'incrémente pour donner un nouvel id à chaque question.
     }
 
     async ajoutRetraitReponse(action){
         if(action === "ajout"){
-            await this.setState((state)=> ({
-                nmbreQCMReponses: state.nmbreQCMReponses+1
-            }));
-            ReactDOM.render(
-                <MultReponsesQCM 
-                nmbreQCMReponses={this.state.nmbreQCMReponses} 
-                questionId={this.props.questionId}
-                addReponseInDataArray={this.props.addReponseInDataArray} 
-                updateReponseData={this.props.updateReponseData}
-                addReponseInState = {this.props.addReponseInState}
-                />,
-                document.getElementById('reponsesQCM')
-            );
+            if(this.state.nmbreQCMReponses > 9 ){
+                alert("Maximum 10 réponses possibles s'il vous plait");
+            }
+            else{
+                await this.setState((state)=> ({
+                    nmbreQCMReponses: state.nmbreQCMReponses+1
+                }));
+                ReactDOM.render(
+                    <MultReponsesQCM 
+                    nmbreQCMReponses={this.state.nmbreQCMReponses} 
+                    questionId={this.props.questionId}
+                    addReponseInDataArray={this.props.addReponseInDataArray} 
+                    updateReponseData={this.props.updateReponseData}
+                    addReponseInState = {this.addReponseInState}
+                    />,
+                    document.getElementById('reponsesQCM')
+                );
+            }
         }
         else if(action === "retrait"){
             if(this.state.nmbreQCMReponses < 2 ){
-                alert("Pas moins de deux solutions svp!")  // Mettre qqchose MUI
+                alert("Il faut au moins une réponse")  // Mettre qqchose MUI
             }
             else{
                 await this.setState((state)=> ({
@@ -78,7 +83,7 @@ class ParamQCM extends Component{
                     questionId={this.props.questionId}
                     addReponseInDataArray={this.props.addReponseInDataArray} 
                     updateReponseData={this.props.updateReponseData}
-                    addReponseInState = {this.props.addReponseInState}
+                    addReponseInState = {this.addReponseInState}
                     />,
                     document.getElementById('reponsesQCM')
                 );
@@ -90,15 +95,19 @@ class ParamQCM extends Component{
     componentDidMount(){
         ReactDOM.render(
             <MultReponsesQCM 
-            nmbreQCMReponses={2} 
+            nmbreQCMReponses={1} 
             questionId={this.props.questionId}
             addReponseInDataArray={this.props.addReponseInDataArray} 
             updateReponseData={this.props.updateReponseData}
-            addReponseInState = {this.props.addReponseInState}
+            addReponseInState = {this.addReponseInState}
             />,
             document.getElementById('reponsesQCM')
         );
     }
+
+    async componentWillUnmount(){
+        await this.props.remAllReponsesInDataArray(this.props.questionId);
+      }
 
 
     render(){

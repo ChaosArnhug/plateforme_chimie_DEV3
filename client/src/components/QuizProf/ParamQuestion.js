@@ -46,8 +46,6 @@ class ParamQuestion extends Component{
     constructor(props){
         super(props);
         this.state={isQCM:false }; // problème avec fonction
-        this.addReponseInState=this.addReponseInState.bind(this);
-        this.addReponse=this.addReponse.bind(this);
     }
     
 
@@ -62,8 +60,6 @@ class ParamQuestion extends Component{
                 generateReponseId={this.props.generateQuestionId}
                 addReponseInDataArray={this.props.addReponseInDataArray} 
                 remAllReponsesInDataArray ={this.props.remAllReponsesInDataArray}
-                addReponseInState = {this.addReponseInState}
-                addReponse={this.addReponse}
                 />,
                 document.getElementById('param_reponse')
             );
@@ -80,8 +76,6 @@ class ParamQuestion extends Component{
                 addReponseInDataArray={this.props.addReponseInDataArray} 
                 remReponseInDataArray={this.props.remReponseInDataArray}
                 remAllReponsesInDataArray ={this.props.remAllReponsesInDataArray}
-                addReponseInState = {this.addReponseInState}
-                addReponse={this.addReponse}
                 />,
                 document.getElementById('param_reponse')
             );
@@ -104,8 +98,6 @@ class ParamQuestion extends Component{
             generateReponseId={this.props.generateQuestionId}
             addReponseInDataArray={this.props.addReponseInDataArray} 
             remAllReponsesInDataArray ={this.props.remAllReponsesInDataArray}
-            addReponseInState = {this.addReponseInState}
-            addReponse={this.addReponse}
             />,
             document.getElementById('param_reponse')
           );
@@ -116,26 +108,6 @@ class ParamQuestion extends Component{
         await this.props.remQuestionInDataArray(this.state.questionId);
     }
     
-    async componentWillUnmount(){
-        await this.props.remQuestionInDataArray(this.state.questionId);
-    }
-
-    addReponseInState(valueToAdd){
-        this.setState({[valueToAdd]:valueToAdd});
-        console.log(this.state);
-    }
-
-    addReponse(isCorrect){
-        let keys = Object.keys(this.state);
-        // Pour chaque element dans this.state qui est un id de réponse on appelle addReponseInDataArray2()
-        // On supprime l'élément id du this.state
-
-        //componentDidMount des réponses:
-        // 1) on génère un id
-        // 2) on l'ajoute dans le this.state de ParamQuestion (avec addReponseInState() )
-        // 3) On utilise addReponse() pour ajouter les objets des réponses dans l'array des réponses d'un objet question (this.state de CreationQuiz)
-        //      Doit se faire de temps en temps -> à la fin de chaque componentDidMount des réponses ?
-    }
 
 
 
