@@ -65,10 +65,12 @@ class CreationQuiz extends Component{
         this.updateReponseData = this.updateReponseData.bind(this);
         this.addQuestionInDataArray = this.addQuestionInDataArray.bind(this);
         this.addReponseInDataArray = this.addReponseInDataArray.bind(this);
+        this.addReponseInDataArray2 = this.addReponseInDataArray2.bind(this);
         this.remQuestionInDataArray = this.remQuestionInDataArray.bind(this);
         this.questionType = this.questionType.bind(this);
         this.remReponseInDataArray = this.remReponseInDataArray.bind(this);
         this.remAllReponsesInDataArray = this.remAllReponsesInDataArray.bind(this);
+
 
         // dans myQuestionsArray: liste d'objets : {"questionId": "", "titreQuestion" : "", "enonce" : "", "isQCM" : false, "points" : 1, "myReponsesArray" : []}
         // dans myReponsesArray: liste d'objets : {"reponseId": "", "texteReponse" : "", "isCorrect" : false}
@@ -162,10 +164,10 @@ class CreationQuiz extends Component{
         return(questionId)
     }
 
-    async addReponseInDataArray(questionId, isCorrect){
-        let reponseId = await this.generateUniqueID("R");
+    async addReponseInDataArray2(questionId, isCorrect){
         let questionNum = this.numFromQuestionId(questionId);
         await console.log("reponseId "+reponseId)
+        
         let newNombre = await this.state.nmbreTotReponses +1;  
         await this.setState({nmbreReponses : newNombre});
 
@@ -177,8 +179,29 @@ class CreationQuiz extends Component{
         await this.setState({myQuizData:newObject});
         await console.log(this.state)
 
+    }
+
+    async addReponseInDataArray(questionId, isCorrect){
+        let reponseId = await this.generateUniqueID("R");
+        let questionNum = this.numFromQuestionId(questionId);
+        await console.log("reponseId "+reponseId)
+        
+        let newNombre = await this.state.nmbreTotReponses +1;  
+        await this.setState({nmbreReponses : newNombre});
+
+        // Ajoute un objet représentant une réponse dans myReponsesArray de myQuestionsArray
+        let newObject = await {...this.state.myQuizData}; // copie l'objet myQuizData
+        let newArray = await newObject.myQuestionsArray[questionNum].myReponsesArray.slice(); // copie l'array myReponsesArray
+        await newArray.push({"reponseId" : reponseId, "texteReponse" : "", "isCorrect" : isCorrect}); // ajouté un nouvel objet représentant une question
+        newObject.myQuestionsArray[questionNum].myReponsesArray = await newArray;
+        await this.setState({myQuizData:newObject});
+        await console.log(this.state)
+        
+
         return(reponseId)
     }
+
+
 
     async remQuestionInDataArray(){
         let newObject = await {...this.state.myQuizData}; // copie l'objet myQuizData
@@ -253,6 +276,7 @@ class CreationQuiz extends Component{
                         addQuestionInDataArray={this.addQuestionInDataArray} 
                         remQuestionInDataArray={this.remQuestionInDataArray}
                         addReponseInDataArray={this.addReponseInDataArray} 
+                        addReponseInDataArray2={this.addReponseInDataArray2}
                         generateUniqueID={this.generateUniqueID}
                         questionType={this.questionType}
                         remReponseInDataArray = {this.remReponseInDataArray}
@@ -274,6 +298,7 @@ class CreationQuiz extends Component{
                             addQuestionInDataArray={this.addQuestionInDataArray} 
                             remQuestionInDataArray={this.remQuestionInDataArray}
                             addReponseInDataArray={this.addReponseInDataArray} 
+                            addReponseInDataArray2={this.addReponseInDataArray2}
                             generateUniqueID={this.generateUniqueID}
                             questionType={this.questionType}
                             remReponseInDataArray = {this.remReponseInDataArray}

@@ -57,6 +57,7 @@ class ParamQCM extends Component{
                 questionId={this.props.questionId}
                 addReponseInDataArray={this.props.addReponseInDataArray} 
                 updateReponseData={this.props.updateReponseData}
+                addReponseInState = {this.props.addReponseInState}
                 />,
                 document.getElementById('reponsesQCM')
             );
@@ -77,6 +78,7 @@ class ParamQCM extends Component{
                     questionId={this.props.questionId}
                     addReponseInDataArray={this.props.addReponseInDataArray} 
                     updateReponseData={this.props.updateReponseData}
+                    addReponseInState = {this.props.addReponseInState}
                     />,
                     document.getElementById('reponsesQCM')
                 );
@@ -92,6 +94,7 @@ class ParamQCM extends Component{
             questionId={this.props.questionId}
             addReponseInDataArray={this.props.addReponseInDataArray} 
             updateReponseData={this.props.updateReponseData}
+            addReponseInState = {this.props.addReponseInState}
             />,
             document.getElementById('reponsesQCM')
         );

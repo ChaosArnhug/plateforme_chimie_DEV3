@@ -44,6 +44,8 @@ class ParamOuverte extends Component{
     let reponseId = await this.props.addReponseInDataArray(this.props.questionId, true); // La fonction renvoie l'id de réponse qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
     await this.setState({"reponseId" : reponseId}); // ici this.state est celui du composant ParamOuverte
     //alert(this.state.reponseId)
+    this.props.addReponseInState(reponseId);
+    this.props.addReponse(true)
 
 
     // Quand on render une nouvelle question -> ok, nouvel questionId, quand on en render plusieurs -> ont tous le même questionId
