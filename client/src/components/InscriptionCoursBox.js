@@ -17,6 +17,7 @@ class InscriptionCoursBox extends Component {
         this.setState({loading : false, data : data})
         
     }
+
     render() {
         return ( 
             <Container maxWidth="sm" sx={{ backgroundColor: 'box.secondary'}} >

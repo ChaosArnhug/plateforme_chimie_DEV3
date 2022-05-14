@@ -13,6 +13,11 @@ class ConfirmationInscriptionBox extends Component {
     async componentDidMount () {
         const url = this.state.url;
         const response = await fetch(url);
+
+        if (response.redirected){
+            window.location = '/utilisateurs/connexion';
+        }
+
         const data = await response.json();
         this.setState({loading : false, data : data})
         
@@ -21,7 +26,7 @@ class ConfirmationInscriptionBox extends Component {
     render() { 
         return (
             <Container maxWidth="sm" sx={{ backgroundColor: 'box.secondary'}} >
-                {this.state.loading || !this.state.data ? (
+                {this.state.loading || this.state.data != [] ? (
                     <div> Loading ... </div>
                 ) : (
                     <div> 

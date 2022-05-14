@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 import { Typography, Button } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -17,12 +16,14 @@ class InscriptionCours extends Component {
 
     submitHandler = event => {
         event.preventDefault();
-        axios.post(this.state.inscription)
-          .then(res => {
-              if (res.request.responseURL != this.state.inscription){
-                  console.log('test')
-                  window.location = "/utilisateurs/connexion"
-              }
+        fetch(this.state.inscription, {
+            method: 'POST'
+            
+        }).then(res => {
+                console.log(res)
+                if (res.redirected){
+                    window.location = "/utilisateurs/connexion"
+                }
             })
           .catch(err => console.log(err)) ;
       }
@@ -40,7 +41,7 @@ class InscriptionCours extends Component {
                         backgroundColor: 'box.main',  
                         '&:hover': {
                             backgroundColor: '#10812D', 
-                            opacity: [0.9, 0.8, 0.7],}, 
+                            opacity: [1, 1, 0.9],}, 
 
                         }}>
 
