@@ -393,27 +393,27 @@ DELIMITER ;
 
 -- --------------------------- enpoint /quiz/{cours}/creation
 
------- procédure d'ajout dans la table quiz    // On ne mets pas le cours ? Info donnée par le chapitre
+-- ---- procédure d'ajout dans la table quiz    // On ne mets pas le cours ? Info donnée par le chapitre
 DROP procedure IF EXISTS `ajoutQuiz`;
 
 DELIMITER $$
 CREATE  PROCEDURE `ajoutQuiz`(
 IN _titre varchar(45),
 IN _description varchar(300),
-IN _estVisible tinyint DEFAULT 1,
-IN _idChapitre int DEFAULT null
+IN _estVisible tinyint ,
+IN _idChapitre int 
 )
 BEGIN
 
-	insert into scores (idUtilisateurs, idQuizs, resultat, total, date_score)
-    value(_idUtilisateur, _idQuiz, _resultat, _total, now());
+	insert into quiz (titre, description, estVisible, idChapitre)
+    value(_titre, _description, _estVisible, _idChapitre);
     
 END$$
 
 DELIMITER ;
 
 
------- procédure d'ajout dans la table questions  // Ajout d'images ? 
+-- ---- procédure d'ajout dans la table questions  // Ajout d'images ? 
 DROP procedure IF EXISTS `ajoutQuestion`;
 
 DELIMITER $$
@@ -421,20 +421,20 @@ CREATE  PROCEDURE `ajoutQuestion`(
 IN _titre varchar(45),
 IN _enonce varchar(300),
 IN _estQCM tinyint,
-IN _points float DEFAULT 1,
+IN _points float ,
 IN _idQuiz int
 )
 BEGIN
 
-	insert into scores (idUtilisateurs, idQuizs, resultat, total, date_score)
-    value(_idUtilisateur, _idQuiz, _resultat, _total, now());
+	insert into questions (titre, enonceidQuizs, estQCM, points, idQuiz)
+    value(_titre, _enonce, _estQCM, _points, _idQuiz);
     
 END$$
 
 DELIMITER ;
 
 
------- procédure d'ajout dans la table    //Ajout d'images ?
+-- ---- procédure d'ajout dans la table    //Ajout d'images ?
 DROP procedure IF EXISTS `ajoutReponse`;
 
 DELIMITER $$
@@ -446,8 +446,8 @@ IN _idQuestion int
 )
 BEGIN
 
-	insert into scores (idUtilisateurs, idQuizs, resultat, total, date_score)
-    value(_idUtilisateur, _idQuiz, _resultat, _total, now());
+	insert into scores (texteReponse, estCorrect, resultat, idQuestion)
+    value(_texteReponse, _estCorrect, _resultat, _idQuestion);
     
 END$$
 
