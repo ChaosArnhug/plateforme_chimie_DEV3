@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import { Typography, Button } from '@mui/material';
+import Box from '@mui/material/Box';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../index.js';
+
 class InscriptionCours extends Component {
     state = {  
         nom : this.props.nom,
@@ -10,23 +15,56 @@ class InscriptionCours extends Component {
         inscription : this.props.inscription
     } 
 
-    submitHandler = form =>{
-        form.preventDefault();
+    submitHandler = event => {
+        event.preventDefault();
         axios.post(this.state.inscription)
-          .then(res => console.log(res)).catch(err => console.log(err)) ;
+          .then(res => {
+              if (res.request.responseURL != this.state.inscription){
+                  console.log('test')
+                  window.location = "/utilisateurs/connexion"
+              }
+            })
+          .catch(err => console.log(err)) ;
       }
 
     render() { 
         return (
-            <div>
-                <h1>{this.state.nom}</h1>
-                <h2>{this.props.responsable}</h2>
-                <h3>{this.props.dateCreation}</h3>
-                <form onSubmit={this.submitHandler}>
-                    <button type='submit'> S'inscrire au cours </button>
-                </form>
-            
-            </div>
+            <ThemeProvider theme={theme} >
+                <Typography align={'center'} component={"span"} >
+                    <Box sx={{
+                        display: 'block',
+                        margin: 2,
+                        padding : 2, 
+                        width: 450, 
+                        height: 300, 
+                        backgroundColor: 'box.main',  
+                        '&:hover': {
+                            backgroundColor: '#10812D', 
+                            opacity: [0.9, 0.8, 0.7],}, 
+
+                        }}>
+
+                            <h1>{this.state.nom}</h1>
+                            <h2>par {this.props.responsable}</h2>
+                            <h3>depuis {this.props.dateCreation}</h3>
+                            <Button 
+                                variant="contained" 
+                                sx={{
+                                    ml:2, 
+                                    mr:20, 
+                                    my:2, 
+                                    py:2, 
+                                    bgcolor:"box.secondary", 
+                                    fontSize:12
+                                    }} 
+                                onClick={this.submitHandler}
+                            >
+                                S'inscrire au cours
+                            </Button>
+
+                    </Box>
+                </Typography>
+            </ThemeProvider>
         );
     }
 }

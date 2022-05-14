@@ -3,7 +3,7 @@ import ConfirmationInscription from './ConfirmationInscription';
 
 class ConfirmationInscriptionBox extends Component {
     state = { 
-        url : "http://localhost:5000/cours/utilisateurs/demande",
+        url : "http://localhost:5000/utilisateurs/demande",
         loading : true,
         data : null
     } 

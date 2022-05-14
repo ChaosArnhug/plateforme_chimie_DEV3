@@ -66,7 +66,7 @@ class InsideStructure extends Component{
             <Route path="/utilisateurs/connexion" element={<UserConnection/>}> </Route>
             <Route path="/utilisateurs/inscription" element={<UserInscription/>}> </Route>
             <Route path="/cours" element={<InscriptionCoursBox/>}></Route>
-            <Route path="/cours/utilisateurs/demande" element={ConfirmationInscriptionBox}></Route>
+            <Route path="/utilisateurs/demande" element={ConfirmationInscriptionBox}></Route>
           </Routes>
         </Router>
       )
