@@ -52,6 +52,8 @@ insert into quiz values(1, 'Quiz 1', 'Quiz du chapitre 1', true, 1);
 insert into quiz values(2, 'Quiz 1', 'Quiz du chapitre 2', false, 2);
 insert into quiz values(3, 'Quiz bonus', 'Quiz de préparation bonus', true, 3);
 insert into quiz values(4, 'Quiz', 'Quiz de mise au point', true, 6);
+insert into quiz values(6, 'Quiz 4444', 'Quiz du chapitre 1', true, 1);
+insert into quiz values(7, 'Quiz 444', 'Quiz du chapitre 2.2', true, 2);
 
 -- -----------------------------------------------------
 -- Insert questions

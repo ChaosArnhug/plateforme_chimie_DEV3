@@ -31,23 +31,38 @@ function AddChap(){
     console.log("ca marche")
 }
 
-function ChangeVisibiliteChap(arg1, arg2){
+function ChangeVisibiliteChap(arg1, arg2, arg3){
+    console.log("ca marche visibilité chapitre")
+    console.log(arg1)
+    console.log(arg2)
+    console.log(arg3)
+    const params = new URLSearchParams();
+    params.append("idChapitre", arg3);
+    params.append("chapEstVisible", !arg2);
+    axios.post("http://localhost:5000/ChapitreVisibilite", params)
+    .then(res => console.log(res)).catch(err => console.log(err)) ;
+}
+
+function ChangeVisibiliteQuiz(arg1, arg2, arg3){
     console.log("ca marche visibilité quiz")
     console.log(arg1)
     console.log(arg2)
-//    console.log(arg3)
-    let ChangeData = this.state.data;
-//       ChangeData[]
-//       this.setState({data :})
-}
+    console.log(arg3)
+    const params = new URLSearchParams();
+    params.append("idQuiz", arg3);
+    params.append("disponnible", !arg2);
+    axios.post("http://localhost:5000/quizVisibilite", params)
+    .then(res => console.log(res)).catch(err => console.log(err)) ;
 
+}
 
 
 class CoursPageProf extends Component{
 
     
+    
 
- /*   constructor(props){
+    constructor(props){
         super(props)
         this.state = {
             loading : true,
@@ -56,22 +71,29 @@ class CoursPageProf extends Component{
         }
 
     }
-
-
-*/
 /*
+    submitHandler = form =>{
+        form.preventDefault();
+        const params = new URLSearchParams();
+        params.append("idquiz", this.state.email);
+        params.append("motDePasse", this.state.motDePasse);   
+        axios.post("http://localhost:5000/utilisateurs/connexion", params)
+          .then(res => console.log(res)).catch(err => console.log(err)) ;
+    }
+
+
     ChangeVisibiliteChap(arg1, arg2, arg3){
         console.log("ca marche visibilité quiz")
         console.log(arg1)
         console.log(arg2)
         console.log(arg3)
-        let ChangeData = this.state.data;
+ //       let ChangeData = this.state.data;
  //       ChangeData[]
  //       this.setState({data :})
     }
-*/
 
-/*
+
+
     tabForm (dataTraitement, coursActu){
         let data = dataTraitement 
         let startChap = 0;
@@ -93,7 +115,7 @@ class CoursPageProf extends Component{
         this.setState({data: tableauData, cours: coursActu})
         return tableauData;
     }
-  */  
+    */
     render() { 
 
         let tabData = tabForm(this.props.data);
@@ -108,7 +130,7 @@ class CoursPageProf extends Component{
                             <form  >
                                 <label>
                                     chapitre visible:  
-                                    <input defaultChecked={item[0].chapEstVisible} type="Checkbox" onClick={(event) =>{ChangeVisibiliteChap(event.target.value, item[0].chapEstVisible)}}/>
+                                    <input defaultChecked={item[0].chapEstVisible} type="Checkbox" onClick={(event) =>{ChangeVisibiliteChap(event.target.value, item[0].chapEstVisible, item[0].idChapitre)}}/>
                                 </label>
                             </form>
                             <Button >supprimer chapitre</Button>  
@@ -119,7 +141,7 @@ class CoursPageProf extends Component{
                                     <form>
                                         <label>
                                             visible:  
-                                            <input defaultChecked={item2.disponnible} type="Checkbox" ref={this.input} />
+                                            <input defaultChecked={item2.disponnible} type="Checkbox" onClick={(event) =>{ChangeVisibiliteQuiz(event.target.value, item2.disponnible, item2.idQuiz)}} />
                                         </label>
                                     </form>                                    
                                     <Button >supprimer</Button>                            
@@ -174,7 +196,7 @@ class PageCoursProf extends Component{
     }
 }
 
-class SuppChap extends Component{
+/*class ChangeVisibiliteChap2 extends Component{
 
     state = {
       email : '',
@@ -187,7 +209,6 @@ class SuppChap extends Component{
       const params = new URLSearchParams();
       params.append("email", this.state.email);
       params.append("motDePasse", this.state.motDePasse);
-      
       axios.post("http://localhost:5000/utilisateurs/connexion", params)
         .then(res => console.log(res)).catch(err => console.log(err)) ;
     }
@@ -211,24 +232,8 @@ class SuppChap extends Component{
         )
       }
       
-    }
+    }*/
 
 export default (props) => (
     <PageCoursProf {...props} params={useParams()}/>
 );
-
-
-
-
-
-/*
-<FormGroup >
-    <FormControlLabel 
-                            control={<Checkbox onClick={() => {
-                                this.choixParam(this.state.isQCM)}
-                            }/>} 
-                            label="QCM" 
-                            />
-                        </FormGroup>
-
-*/
