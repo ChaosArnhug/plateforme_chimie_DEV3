@@ -32,7 +32,7 @@ router.get("/:cours", permission.checkAuthentification, (req, res) =>{
                 rows.forEach(element => {
                     if (element.constructor == Array) {
                        
-                        if(element[0].Erreur2){ //si pas accès au cours
+                        if(element[0].Erreur){ //si pas accès au cours
                             res.status(403);
                         }
                         res.send(element);
@@ -58,10 +58,7 @@ router.get("/:cours/quiz", (req, res) =>{
         if (! err){
             rows.forEach(element => {
                 if (element.constructor == Array) {
-                    if(element[0].Erreur1){ //si cours existe pas
-                        res.status(404);
-                    }
-                    if(element[0].Erreur2){ //si pas accès au cours
+                    if(element[0].Erreur){ //si pas accès au cours
                         res.status(403);
                     }
                     res.send(element); 
@@ -108,55 +105,5 @@ router.post("/:cours/inscription", permission.checkAuthentification, async (req,
     )
 });
 
-router.get("/utilisateurs/demande", permission.checkAuthentification, (req, res) =>{
-    database.query(`
-    CALL liste_demande_cours(?, ?)`,[domain, req.user.idUtilisateur], (err, rows) =>{
-        if (! err){
-            rows.forEach(element => {
-                if (element.constructor == Array) {
-                    res.send(element);
-                }
-            });
-
-        } else{
-            res.send("An error occured");
-            res.status(500);
-            console.log(err);
-        }
-    } )
-})
-
-router.post("/utilisateurs/demande", permission.checkAuthentification, (req, res) =>{
-    database.query(`
-    CALL confirmation_inscription(?, ?, ?)`,[req.query.idUtilisateur, req.query.idCours, req.user.idUtilisateur], (err, rows) =>{
-        if (! err){
-            if (rows.constructor == Array){
-                rows.forEach(element => {
-                    if (element.constructor == Array) {
-                    
-                        if(element[0].Erreur1){ //si utilsateur existe pas ou a pas fait de demande
-                            res.status(404);
-                        }
-                        if(element[0].Erreur1){ //si utilsateur n'a pas les perm
-                            res.status(403);
-                        }
-
-                        res.send(element); 
-                    }
-                });
-            
-            
-            }else{
-                res.status(201);
-                res.send();
-            }   
-
-        }else{
-            res.send("An error occured");
-            res.status(500);
-            console.log(err);
-        }
-    } )
-})
 
 module.exports = router;

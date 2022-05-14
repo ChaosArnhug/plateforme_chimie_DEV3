@@ -157,12 +157,9 @@ BEGIN
 		select cours.nom, DATE_FORMAT(cours.dateCreation, '%Y-%m-%d') as dateCreation, CONCAT(utilisateurs.nom,' ',utilisateurs.prenom) as responsable, concat(_domaine, 'cours/',urlencode(cours.nom),'/quiz') as quiz from cours
 		inner join utilisateurs on cours.responsable = utilisateurs.idUtilisateur
 		where cours.nom = _nom_cours;
-
-	elseif acces is null then
-		select "Le cours n'existe pas" as Erreur1;
-
+        
 	else
-		select "Vous n'avez pas accès au cours" as Erreur2;
+		select "Vous n'avez pas accès au cours ou il n'existe pas" as Erreur;
         
 	end if;
 END$$
@@ -196,11 +193,9 @@ BEGIN
 		inner join cours on cours.idCours = chapitre.idCours
 		where cours.nom = _nom_cours
 		order by idChapitre;
-	
-	elseif acces is null then
-		select "Le cours n'existe pas" as Erreur1;
+
     else
-		select "Vous n'avez pas accès au cours" as Erreur2;
+		select "Vous n'avez pas accès au cours ou il n'existe pas" as Erreur;
         
 	end if;
 
