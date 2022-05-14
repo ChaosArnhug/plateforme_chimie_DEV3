@@ -32,7 +32,7 @@ router.get("/:quiz_id", permission.checkAuthentification, (req, res) =>{
 })
 
 
-router.post("/{quiz_id}", permission.checkAuthentification, (req, res) =>{
+router.post("/:quiz_id", permission.checkAuthentification, (req, res) =>{
     database.query(`
        CALL ajoutResultat(?, ?, ?, ?) `, [req.params.quiz_id, req.user.idUtilisateur, req.body.resultat, req.body.total], (err, rows) => {
 
