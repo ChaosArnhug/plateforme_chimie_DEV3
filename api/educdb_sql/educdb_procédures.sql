@@ -390,3 +390,65 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- --------------------------- enpoint /quiz/{cours}/creation
+
+-- ---- procédure d'ajout dans la table quiz    // On ne mets pas le cours ? Info donnée par le chapitre
+DROP procedure IF EXISTS `ajoutQuiz`;
+
+DELIMITER $$
+CREATE  PROCEDURE `ajoutQuiz`(
+IN _titre varchar(45),
+IN _description varchar(300),
+IN _estVisible tinyint ,
+IN _idChapitre int 
+)
+BEGIN
+
+	insert into quiz (titre, description, estVisible, idChapitre)
+    value(_titre, _description, _estVisible, _idChapitre);
+    
+END$$
+
+DELIMITER ;
+
+
+-- ---- procédure d'ajout dans la table questions  // Ajout d'images ? 
+DROP procedure IF EXISTS `ajoutQuestion`;
+
+DELIMITER $$
+CREATE  PROCEDURE `ajoutQuestion`(
+IN _titre varchar(45),
+IN _enonce varchar(300),
+IN _estQCM tinyint,
+IN _points float ,
+IN _idQuiz int
+)
+BEGIN
+
+	insert into questions (titre, enonceidQuizs, estQCM, points, idQuiz)
+    value(_titre, _enonce, _estQCM, _points, _idQuiz);
+    
+END$$
+
+DELIMITER ;
+
+
+-- ---- procédure d'ajout dans la table    //Ajout d'images ?
+DROP procedure IF EXISTS `ajoutReponse`;
+
+DELIMITER $$
+CREATE  PROCEDURE `ajoutReponse`(
+IN _texteReponse varchar(300),
+IN _estCorrect tinyint,
+IN _resultat float,
+IN _idQuestion int
+)
+BEGIN
+
+	insert into scores (texteReponse, estCorrect, resultat, idQuestion)
+    value(_texteReponse, _estCorrect, _resultat, _idQuestion);
+    
+END$$
+
+DELIMITER ;
