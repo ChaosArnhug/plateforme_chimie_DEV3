@@ -23,7 +23,7 @@ class Quiz extends Component {
         const {quiz}  = this.props.params;
         console.log("bon quiz appellé")
         console.log(quiz);
-        const url = `http://localhost:5000/quiz/"${quiz}`;
+        const url = `http://localhost:5000/quiz/${quiz}`;
         const response = await fetch(url);
         console.log(response);
         const data = await response.json();

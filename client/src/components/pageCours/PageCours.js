@@ -49,7 +49,7 @@ class CoursPage extends Component{
                                 (item2.disponnible == 1 &&
                                 <div>
                                     <p>{item2.description}</p>
-                                    <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.idQuiz}`} >{item2.titre}</Button>                             
+                                    <Button id={`${item2.idQuiz}`} href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.idQuiz}`} >{item2.titre}</Button>                             
                                 </div>   
                                 )
                             ))}
