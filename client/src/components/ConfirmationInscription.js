@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Typography, Button, Alert } from '@mui/material';
+import { Typography, Button} from '@mui/material';
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../index.js';
