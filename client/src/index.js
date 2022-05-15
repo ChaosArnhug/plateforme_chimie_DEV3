@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import ListingCours from './components/ListingCours';
 import InsideStructure from './components/InsideStructure';
 import PageCours from './components/pageCours/PageCours'
+import MonCompteMenu from './components/MonCompteMenu';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -62,9 +63,7 @@ const element = (
           <Div sx={{ml:"auto", mr:3, display: 'flex'}}>
           
           <ListingCours sx={{ml:3, mr:4, my:2, py:2, bgcolor:"secondary.button", fontSize:12}}/>
-          <div>
-          <Button variant="contained" sx={{ml:3, mr:2, my:2, py:2, bgcolor:"secondary.button", fontSize:12}}>Mon compte</Button>
-          </div>
+          <MonCompteMenu sx={{ml:3, mr:4, my:2, py:2, bgcolor:"secondary.button", fontSize:12}}></MonCompteMenu>
           
           </Div>
           
