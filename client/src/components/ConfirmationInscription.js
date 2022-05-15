@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, Alert } from '@mui/material';
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../index.js';
@@ -19,12 +19,16 @@ class ConfirmationInscription extends Component {
         event.preventDefault();
         fetch(this.state.confirmation, {
             method : 'POST'
-        })
-
+        }).then( (res) =>{
+        
+        }
+        
+        )
     }
     
     render() { 
         return (
+            
             <ThemeProvider theme={theme} >
                 <Typography align={'center'} component={"span"} >
                     <Box sx={{
@@ -36,16 +40,36 @@ class ConfirmationInscription extends Component {
                         backgroundColor: 'box.main',  
                         '&:hover': {
                             backgroundColor: '#10812D', 
-                            opacity: [0.9, 0.8, 0.7],}, 
+                            opacity: [1, 1, 0.9],}, 
 
                         }}>
-                            <ul>
-                                <li>utilisateur : {this.state.utilisateur}</li>
-                                <li>groupe : {this.state.groupe} </li>
-                                <li>classe : {this.state.classe}</li>
-                                <li>cours : {this.state.cours}</li>
-                                <li>date de la demande : {this.state.date_demande}</li>
-                            </ul>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th> Utilisateur : </th>
+                                        <td>{this.state.utilisateur}</td>
+                                    </tr>
+                                    <tr>
+                                        <th> Cours : </th>
+                                        <td>{this.state.cours}</td>
+                                    </tr>
+                                    <tr>
+                                        <th> Date de la demande : </th>
+                                        <td>{this.state.date_demande}</td>
+                                    </tr>
+                                    <tr>
+                                        <th> Groupe : </th>
+                                        <td>{this.state.groupe}</td>
+                                    </tr>
+                                    <tr>
+                                        <th> Classe : </th>
+                                        <td>{this.state.classe}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br></br>
+                            <br></br>
+                            
                             <Button 
                                 variant="contained" 
                                 sx={{

@@ -303,7 +303,7 @@ IN _domaine varchar(45),
 IN _responsable int
 )
 BEGIN
-	select concat(utilisateurs.nom, ' ', utilisateurs.prenom) as utilisateur, groupe, classe, cours.nom as cours, date_demande, concat(_domaine, 'cours/utilisateurs/demande?idUtilisateur=',utilisateurs.idUtilisateur, '&idCours=', cours.idCours) as confirmation from acces_cours
+	select concat(utilisateurs.nom, ' ', utilisateurs.prenom) as utilisateur, groupe, classe, cours.nom as cours, date_demande, concat(_domaine, 'utilisateurs/demande?idUtilisateur=',utilisateurs.idUtilisateur, '&idCours=', cours.idCours) as confirmation from acces_cours
 	join utilisateurs on utilisateurs.idUtilisateur = acces_cours.idUtilisateur
 	join cours on cours.idCours = acces_cours.idCours
 	where accepte = 0 and responsable = _responsable;
