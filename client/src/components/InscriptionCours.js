@@ -39,7 +39,7 @@ class InscriptionCours extends Component {
                 if (res.status === 403){
                     alert("Code incorrecte");
                 }
-                if (res.status === 200){
+                if (res.status === 200 && !res.redirected){
                     alert("Demande effectuée");
                 }
             })

@@ -48,12 +48,9 @@ router.get("/:cours", permission.checkAuthentification, (req, res) =>{
     )
 })
 
-router.get("/:cours/quiz", (req, res) =>{
-
-    // , permission.checkAuthentification (note pour tom laiseer svp)
+router.get("/:cours/quiz", permission.checkAuthentification, (req, res) =>{
     database.query(`
-        call liste_quiz(?, ?, ?)`, [domain, req.params.cours, 1], (err, rows) => {
-            // req.user.idUtilisateur remplacer par 1 (note pour tom laiseer svp)
+        call liste_quiz(?, ?, ?)`, [domain, req.params.cours, req.user.idUtilisateur], (err, rows) => {
 
         if (! err){
             rows.forEach(element => {
