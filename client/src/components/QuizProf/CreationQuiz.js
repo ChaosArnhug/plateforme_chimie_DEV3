@@ -96,7 +96,8 @@ class CreationQuiz extends Component{
                 }
             }
         )
-        window.location = await (`http://localhost:3000/cours/Chimie%205ième/creation`); // retour à la page de gestion du cours dans lequel on crée le quiz
+        console.log(this.state.myQuizData.cours)
+        window.location = await ("http://localhost:3000/cours/"+this.state.myQuizData.cours+"/creation"); // retour à la page de gestion du cours dans lequel on crée le quiz
         await alert("Votre quiz à bien été créé .")
         return false
     
