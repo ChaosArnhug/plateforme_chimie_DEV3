@@ -6,6 +6,7 @@ const passport = require('passport');
 const bcrypt = require ('bcrypt');
 const permission = require("../authentication/permission");
 
+
 router.get("/quiz", permission.checkAuthentification, (req, res) =>{
     database.query(`
         call resultats_utilisateurs(?, ?) `,[domain, req.user.idUtilisateur], (err, rows) =>{

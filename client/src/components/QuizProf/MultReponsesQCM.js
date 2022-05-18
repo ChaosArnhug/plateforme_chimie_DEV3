@@ -111,6 +111,7 @@ class MultReponsesQCM extends Component{
             // Générer un certain nombre de <ReponseQCM/> en fonction du nombre de réponses qu'on veut mettre
             this.state.totReponseArr.slice(0, this.props.nmbreQCMReponses).map(item =>(
                 <ReponseQCM 
+                key={this.state.reponseId}
                 questionId={this.props.questionId}
                 addReponseInDataArray={this.props.addReponseInDataArray}
                 updateReponseData={this.props.updateReponseData}
