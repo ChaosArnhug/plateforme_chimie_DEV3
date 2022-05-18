@@ -148,9 +148,9 @@ DROP TABLE IF EXISTS `educdb_v2`.`reponses` ;
 
 CREATE TABLE IF NOT EXISTS `educdb_v2`.`reponses` (
   `idReponse` INT NOT NULL AUTO_INCREMENT,
-  `texteResponse` VARCHAR(300) NULL,
+  `texteReponse` VARCHAR(300) NULL,
   `imgReponse` BLOB NULL,
-  `estCorrecte` TINYINT NOT NULL DEFAULT 0,
+  `estCorrect` TINYINT NOT NULL DEFAULT 0,
   `idQuestions` INT NOT NULL,
   PRIMARY KEY (`idReponse`),
   CONSTRAINT `fk_questions_reponses`

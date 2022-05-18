@@ -361,7 +361,7 @@ DELIMITER ;
 -- --------------------------- enpoint /quiz/{cours}/creation
 
 -- ---- procédure d'ajout dans la table quiz    // On ne mets pas le cours ? Info donnée par le chapitre
-DROP procedure IF EXISTS `ajoutQuiz`;
+DROP procedure IF EXISTS `creationAjoutQuiz`;
 
 DELIMITER $$
 CREATE  PROCEDURE `creationAjoutQuiz`(
@@ -382,7 +382,7 @@ DELIMITER ;
 
 
 -- ---- procédure d'ajout dans la table questions  // Ajout d'images ? 
-DROP procedure IF EXISTS `ajoutQuestion`;
+DROP procedure IF EXISTS `creationAjoutQuestion`;
 
 DELIMITER $$
 CREATE  PROCEDURE `creationAjoutQuestion`(
@@ -394,7 +394,7 @@ IN _idQuiz int
 )
 BEGIN
 
-	insert into questions (titre, enonceidQuizs, estQCM, points, idQuiz)
+	insert into questions (titre, enonce, estQCM, points, idQuiz)
     value(_titre, _enonce, _estQCM, _points, _idQuiz);
 	SELECT LAST_INSERT_ID();
     
@@ -404,7 +404,7 @@ DELIMITER ;
 
 
 -- ---- procédure d'ajout dans la table    //Ajout d'images ?
-DROP procedure IF EXISTS `ajoutReponse`;
+DROP procedure IF EXISTS `creationAjoutReponse`;
 
 DELIMITER $$
 CREATE  PROCEDURE `creationAjoutReponse`(

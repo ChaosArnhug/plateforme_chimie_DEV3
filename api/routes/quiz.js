@@ -58,13 +58,15 @@ router.post("/:quiz_id", permission.checkAuthentification, (req, res) =>{
     })
 })
 
+
+/*
 // Création d'un quiz
 router.post("/gestion/creation", (req, res) =>{
     // Ajout du quiz dans la DB
     var quiz_id;
     var question_id;
     database.query(
-        `CALL ajoutQuiz(?,?,?,?)`, [req.titre, req.description, 1, req.chapitre], (err, result) => {  //mis visible de base
+        `CALL creationAjoutQuiz(?,?,?,?)`, [req.body.titre, req.body.description, 1, req.body.chapitre], (err, result) => {  //mis visible de base
 
             if (! err){
                 res.status(201);
@@ -78,7 +80,7 @@ router.post("/gestion/creation", (req, res) =>{
     // Pour chaque question dans myQuestionsArray on l'ajoute dans la DB
     req.myQuestionsArray.map((item) => {
         database.query(
-            `CALL ajoutQuestion(?,?,?,?,?)`, [item.titre, item.enonce, boolToInt(item.isQCM), item.points, quiz_id], (err) => {  // quiz_id bon ?
+            `CALL creationAjoutQuestion(?,?,?,?,?)`, [item.titre, item.enonce, boolToInt(item.isQCM), item.points, quiz_id], (err) => {  // quiz_id bon ?
     
                 if (! err){
                     res.status(201);
@@ -90,7 +92,7 @@ router.post("/gestion/creation", (req, res) =>{
         )
         item.myReponsesArray.map((item) => {
             database.query(
-                `CALL ajoutReponse(?,?,?)`, [item.texteReponse, boolToInt(item.isCorrect), question_id], (err) => {   // Changer isCorrect de booléen à int
+                `CALL creationAjoutReponse(?,?,?)`, [item.texteReponse, boolToInt(item.isCorrect), question_id], (err) => {   // Changer isCorrect de booléen à int
         
                     if (! err){
                         res.status(201);
@@ -103,6 +105,74 @@ router.post("/gestion/creation", (req, res) =>{
     })
      
 })
+*/
+
+
+
+
+// Création d'un quiz
+router.post("/gestion/creation", async (req, res) =>{
+    // Ajout du quiz dans la DB
+    await console.log(req.body)
+    let chap_id;
+    let quiz_id;
+    let question_id;
+    
+
+    // query de l'id de chapitre, à l'interieur du callback je fait un query de la procédure qui ajoute un quiz
+    await database.query( 
+        `SELECT getChapId(?,?)`, [req.body.cours, req.body.chapitre], async (err, result) => {
+            await console.log(result)
+            chap_id = await result[0]["getChapId('Chimie 5ième','Chapitre 1')"];
+            await console.log(chap_id);
+            await database.query(
+                `CALL creationAjoutQuiz(?,?,?,?)`, [req.body.titre, req.body.description, 1, chap_id], (err, result) => {  //mis visible de base
+
+                    if(!err){
+                        res.status(201);
+                        res.send("quiz créé")
+                    }
+                    
+                }
+            )
+        }
+    )
+
+    // Pour chaque question dans myQuestionsArray on l'ajoute dans la DB
+    await req.body.myQuestionsArray.map(async (item) => {
+        console.log(item.titreQuestion)
+        console.log(item.enonce)
+        console.log(item.points)
+        await database.query(
+            `CALL creationAjoutQuestion(?,?,?,?,?)`, [item.titreQuestion, item.enonce, boolToInt(item.isQCM), item.points, 4], async (err, result) => {  // quiz_id bon ?
+                await console.log(result);
+                await console.log("coucou");
+                if (err){
+                    //await res.status(201);
+                    //await res.send("Quiz créé")
+                    
+                }
+                // mettre en place d'autres codes erreur
+                //question_id = await result[0].idQuestions  // result = array avec un seul objet ?
+            }
+        )
+        await item.myReponsesArray.map((item2) => {
+            database.query(
+                `CALL creationAjoutReponse(?,?,?)`, [item2.texteReponse, boolToInt(item2.isCorrect), 4], async (err) => {   // Changer isCorrect de booléen à int
+        
+                    if (err){
+                        //await res.status(201);
+                        //await res.send("Quiz créé")
+                        
+                    }
+                    // mettre en place d'autres codes erreur
+                }
+            )
+        })
+    })
+    
+})
+
 
 // Pas sur de pouvoir utiliser quiz_id et question_id correctement. Elles sont définies avec var à l'interieur de la fonction de callback du post.
 // On leur attribue une aleur dans les callbacks de database.query(...)  -> Est-ce que la valeur sera changée ?
