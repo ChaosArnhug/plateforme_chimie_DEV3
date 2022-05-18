@@ -14,9 +14,9 @@ insert into utilisateurs values (5, 'tutu', 'totot', 'attente', null , null, 't.
 -- Insert cours
 -- -----------------------------------------------------
 
-insert into cours values (1, 1, 'Chimie 5ième', now());
-insert into cours values (2, 1, 'Chimie 6ième', now());
-insert into cours values (3, 1, 'Prépa médecine', now());
+insert into cours values (1, 1, 'Chimie 5ième', now(),'1234');
+insert into cours values (2, 1, 'Chimie 6ième', now(), '1234');
+insert into cours values (3, 1, 'Prépa médecine', now(), '1234');
 
 -- -----------------------------------------------------
 -- Insert acces_cours

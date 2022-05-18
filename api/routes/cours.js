@@ -48,12 +48,9 @@ router.get("/:cours", permission.checkAuthentification, (req, res) =>{
     )
 })
 
-router.get("/:cours/quiz", (req, res) =>{
-
-    // , permission.checkAuthentification (note pour tom laiseer svp)
+router.get("/:cours/quiz", permission.checkAuthentification, (req, res) =>{
     database.query(`
-        call liste_quiz(?, ?, ?)`, [domain, req.params.cours, 1], (err, rows) => {
-            // req.user.idUtilisateur remplacer par 1 (note pour tom laiseer svp)
+        call liste_quiz(?, ?, ?)`, [domain, req.params.cours, req.user.idUtilisateur], (err, rows) => {
 
         if (! err){
             rows.forEach(element => {
@@ -75,7 +72,7 @@ router.get("/:cours/quiz", (req, res) =>{
 
 router.post("/:cours/inscription", permission.checkAuthentification, async (req, res) =>{
     database.query(`
-        CALL demande_cours(?, ?) `, [req.user.idUtilisateur, req.params.cours], (err, rows) => {
+        CALL demande_cours(?, ?, ?) `, [req.user.idUtilisateur, req.params.cours, req.body.code], (err, rows) => {
             if (! err){
                 if (rows.constructor == Array){
                     rows.forEach(element => {
@@ -83,6 +80,11 @@ router.post("/:cours/inscription", permission.checkAuthentification, async (req,
                         
                             if(element[0].Erreur2){ //si cours existe pas
                                 res.status(404);
+                            }else if (element[0].Erreur3){
+                                res.status(403);
+
+                            }else if (element[0].Erreur1){
+                                res.status(202);
                             }else{
                                 res.status(200);
                             }

@@ -22,18 +22,23 @@ class ConfirmationInscriptionBox extends Component {
         this.setState({loading : false, data : data})
         
     }
+    goodDateFormat = (date) => {
+        const oldDate = new Date(date);
+        const newDate = oldDate.toLocaleDateString(undefined);
+        return newDate
+    }
 
     render() { 
         return (
             <Container maxWidth="sm" sx={{ backgroundColor: 'box.secondary'}} >
-                {this.state.loading || this.state.data != [] ? (
+                {this.state.loading || this.state.data == [] ? (
                     <div> Loading ... </div>
                 ) : (
                     <div> 
                         {this.state.data.map( 
                             demande => 
                                 <ConfirmationInscription key={demande.confirmation} utilisateur={demande.utilisateur} groupe={demande.groupe}
-                                classe={demande.classe} cours={demande.cours} date_demande={demande.date_demande} confirmation={demande.confirmation}/> 
+                                classe={demande.classe} cours={demande.cours} date_demande={this.goodDateFormat(demande.date_demande)} confirmation={demande.confirmation}/> 
                             )} 
                     </div>
                 )}

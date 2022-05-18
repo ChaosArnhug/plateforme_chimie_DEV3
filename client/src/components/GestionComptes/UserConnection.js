@@ -1,8 +1,25 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import {ThemeProvider, createTheme } from '@mui/material/styles';
-import { unstable_styleFunctionSx, styled } from '@mui/system';
+
+import { FormControl , TextField, Container, FormLabel, Button} from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#E4F2AE',
+    },
+    secondary: {
+      main: '#E4F2AE',
+      button: '#10812D'
+    },
+    box: {
+      main: "#10812D",
+      secondary: "#E4F2AE"
+    }
+  },
+});
 
 class UserConnection extends Component{
 
@@ -36,15 +53,23 @@ class UserConnection extends Component{
 
     render(){
       return(
-        <form onSubmit={this.submitHandler}>
+        <ThemeProvider theme={theme}>
+          <Container  maxWidth="sm" sx={{ backgroundColor: 'box.main'}}>
+          
+            <FormControl>
+              <FormLabel sx={{margin:2}}>Connexion à la plateforme</FormLabel>
+                <TextField id="email" name='email' label="Email" variant="outlined" 
+                    sx={{margin : 2, bgcolor:"#E4F2AE"}} onChange={this.changeHandler} required/>
 
-          <label for={"eamil"}>Email :</label>
-          <input type={"text"} id={"email"} name={"email"} onChange={this.changeHandler}></input>
-          <label for={"motDePasse"}>Mot de passe:</label>
-          <input type={"text"} id={"motDePasse"} name={"motDePasse"} onChange={this.changeHandler}></input>
-          <input type={"submit"} value={"Submit"}></input>
+                <TextField id="motDePasse" name="motDePasse" label="Mot de Passe" variant="outlined" 
+                    sx={{margin : 2, bgcolor:"#E4F2AE"}} onChange={this.changeHandler} required type={"password"}/>
 
-        </form>
+                <Button variant="contained" sx={{ml:2, mr:20, my:2, py:2, bgcolor:"#E4F2AE", fontSize:12}} onClick={this.submitHandler}>
+                     Connexion
+                </Button>
+            </FormControl>
+          </Container>
+        </ThemeProvider>
       )
     }
     

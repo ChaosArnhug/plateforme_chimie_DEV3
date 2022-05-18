@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `educdb_v2`.`cours` (
   `responsable` INT NOT NULL,
   `nom` VARCHAR(45) NOT NULL,
   `dateCreation` DATE NULL,
+  `code_acces` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idCours`),
   CONSTRAINT `fk_utilisateurs_cours`
     FOREIGN KEY (`responsable`)
