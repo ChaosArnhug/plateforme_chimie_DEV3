@@ -118,3 +118,44 @@ END$$
 
 DELIMITER ;
 ;
+
+
+
+-- -------------------Fonctions pour récupérer l'id d'un quiz ------------------------------
+
+DROP function IF EXISTS `educdb_v2`.`getQuizId`;
+
+DELIMITER $$
+USE `educdb_v2`$$
+CREATE FUNCTION `educdb_v2`.`getQuizId`(_nomQuiz varchar(45), _nomChapitre varchar(45), _nomCours varchar(45))
+RETURNS int
+DETERMINISTIC
+BEGIN
+   DECLARE _idQuiz int ;
+   DECLARE _idChapitre int;
+   SET _idChapitre = (SELECT getChapId(_nomCours, _nomChapitre));
+   SET _idQuiz = ( SELECT idQuiz from quiz where titre = _nomQuiz AND idChapitre = _idChapitre);
+   RETURN _idQuiz;
+END$$
+
+DELIMITER ;
+;
+
+
+-- -------------------Fonctions pour récupérer l'id d'une question ------------------------------
+
+DROP function IF EXISTS `educdb_v2`.`getQuestionId`;
+
+DELIMITER $$
+USE `educdb_v2`$$
+CREATE FUNCTION `educdb_v2`.`getQuestionId`( _nomQuestion varchar(45))
+RETURNS int
+DETERMINISTIC
+BEGIN
+   DECLARE _idQuestion int ;
+   SET _idQuestion = ( SELECT idQuestions from questions where titre = _nomQuestion );
+   RETURN _idQuestion;
+END$$
+
+DELIMITER ;
+;

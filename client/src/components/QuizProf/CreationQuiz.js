@@ -63,7 +63,7 @@ class CreationQuiz extends Component{
         super(props);
         this.state={ 
             nmbreQuestions:0, 
-            myQuizData:{"cours": "","titre":"titre de base", "description":"", "myQuestionsArray": new Array()} }; 
+            myQuizData:{"cours": "", "chapitre":"", "titre":"titre de base", "description":"", "myQuestionsArray": new Array()} }; 
         this.updateQuestionData = this.updateQuestionData.bind(this);
         this.updateReponseData = this.updateReponseData.bind(this);
         this.addQuestionInDataArray = this.addQuestionInDataArray.bind(this);
@@ -78,12 +78,31 @@ class CreationQuiz extends Component{
         // dans myReponsesArray: liste d'objets : {"reponseId": "", "texteReponse" : "", "isCorrect" : false}
     }
 
-    async componentDidMount(){
-        await this.updateQuizData("cours", this.props.params.cours);
-        // On mets à jour le cours du quiz. On le récupère de l'url via useParams() .
-        // On utilise useParams() dans une fonction qui englobe CreationQuiz quand on l'export.
-    }
 
+    async finishQuiz(){
+        await this.updateQuizData("cours", this.props.params.cours);
+        await this.updateQuizData("chapitre", this.props.params.chapitre); 
+        
+        // On mets à jour le cours et le chapitre du quiz. On les récupère de l'url via useParams() .
+        // On utilise useParams() dans une fonction qui englobe CreationQuiz quand on l'export.
+
+        fetch(`http://localhost:5000/quiz/gestion/creation`,   // avec un await -> fetch ne finit jamais. Comme on ne récupères pas de données => OK
+            {
+                method: "POST",
+                body: JSON.stringify(this.state.myQuizData),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            }
+        )
+        
+        await console.log(this.state.myQuizData.cours)
+        window.location = await ("http://localhost:3000/cours/"+this.state.myQuizData.cours+"/creation"); // retour à la page de gestion du cours dans lequel on crée le quiz
+
+        await alert("Votre quiz à bien été créé .")
+        return false
+    
+    }
 
     generateUniqueID(type){
         // type représente le type : "Q" -> Question, "R"-> Réponse
@@ -256,26 +275,9 @@ class CreationQuiz extends Component{
         
                     </Stack>
 
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {
-                        ReactDOM.render(
-                            <ParamQuestion 
-                            updateQuestionData={this.updateQuestionData}
-                            updateReponseData={this.updateReponseData}
-                            addQuestionInDataArray={this.addQuestionInDataArray} 
-                            remQuestionInDataArray={this.remQuestionInDataArray}
-                            addReponseInDataArray={this.addReponseInDataArray} 
-                            addReponseInDataArray2={this.addReponseInDataArray2}
-                            generateUniqueID={this.generateUniqueID}
-                            questionType={this.questionType}
-                            remReponseInDataArray = {this.remReponseInDataArray}
-                            remAllReponsesInDataArray ={this.remAllReponsesInDataArray}
-                            />
-                        ,
-                            document.getElementById('ajoutTest')
-                        );
-                        }}>ajout question</Button>
                     
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {alert("Mettre l'appel au endpoint POST ici")}}>Terminer</Button>
+                    
+                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {this.finishQuiz()}}>Terminer</Button>
 
                     <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> { console.log(this.state.myQuizData)} }>console.log</Button>
                     

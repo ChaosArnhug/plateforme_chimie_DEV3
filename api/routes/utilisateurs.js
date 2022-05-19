@@ -28,7 +28,7 @@ router.get("/quiz", (req, res) =>{
 
 router.get("/cours", /*permission.checkAuthentification,*/ (req, res) =>{
     database.query(`
-        call cours_utilisateurs(?, ?)`,[domain, /*req.user.idUtilisateur*/1], (err, rows) => {
+        call cours_utilisateurs(?, ?)`,[domain, /*req.user.idUtilisateur*/3], (err, rows) => {
 
         if (! err){
             rows.forEach(element => {

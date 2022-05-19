@@ -71,48 +71,6 @@ END$$
 
 DELIMITER ;
 
--- ----------------- Procédure d'ajout d'un quiz --------------------------
-
-DROP procedure IF EXISTS `ajoutQuiz`;
-
-DELIMITER $$
-USE `educdb_v2`$$
-CREATE PROCEDURE `ajoutQuiz` (
-IN _titre varchar(45),
-IN _description varchar(300),
-IN _estVisible tinyint,
-IN _idCours int
--- IN _titreQuestion varchar(45),
--- IN _enonce varchar(300),
--- IN _estQCM tinyint,
--- IN _points float,
--- IN _texteReponse varchar(300),
--- IN _estCorrect tinyint
-)
--- NO RESULT SET
-BEGIN
-	-- DECLARE idQuiz int ;
-	-- DECLARE idQuestion int ;
-
-    -- Création d'un nouveau quiz, problème avec la colonne nommée "description"
-	insert into quiz (titre, description, estVisible, idCours)
-    values (_titre, _description, _estVisible, _idCours);
-
-    -- SET idQuiz = (SELECT distinct max(idQuiz) FROM educdb_v2.quiz);
-
-    -- CALL ajoutQuestion(_titreQuestion, _enonce, _estQCM, _points, idQuiz);
-
-    -- SET idQuestion = (SELECT distinct max(idQuestions) FROM educdb_v2.questions);
-
-    -- CALL ajoutReponse(_texteReponse, _estCorrect, idQuestion);
-
-    -- Normalement ne pose pas de problème lorsqu'on va SELECT idQuiz et idQuestion. On va chercher la plus grande valeur et comme celle-ci
-    -- est autoincrement on devrait prendre l'id du quiz/la question qu'on vient de créer.
-    -- Il se pourrait que la prof crée deux quiz presque parfaitement n même temps -> ALORS PROBLEME !
-    
-END$$
-
-DELIMITER ;
 
 
 -- ============================================= COURS =============================================
@@ -403,10 +361,10 @@ DELIMITER ;
 -- --------------------------- enpoint /quiz/{cours}/creation
 
 -- ---- procédure d'ajout dans la table quiz    // On ne mets pas le cours ? Info donnée par le chapitre
-DROP procedure IF EXISTS `ajoutQuiz`;
+DROP procedure IF EXISTS `creationAjoutQuiz`;
 
 DELIMITER $$
-CREATE  PROCEDURE `ajoutQuiz`(
+CREATE  PROCEDURE `creationAjoutQuiz`(
 IN _titre varchar(45),
 IN _description varchar(300),
 IN _estVisible tinyint ,
@@ -416,6 +374,7 @@ BEGIN
 
 	insert into quiz (titre, description, estVisible, idChapitre)
     value(_titre, _description, _estVisible, _idChapitre);
+	SELECT LAST_INSERT_ID();
     
 END$$
 
@@ -423,10 +382,10 @@ DELIMITER ;
 
 
 -- ---- procédure d'ajout dans la table questions  // Ajout d'images ? 
-DROP procedure IF EXISTS `ajoutQuestion`;
+DROP procedure IF EXISTS `creationAjoutQuestion`;
 
 DELIMITER $$
-CREATE  PROCEDURE `ajoutQuestion`(
+CREATE  PROCEDURE `creationAjoutQuestion`(
 IN _titre varchar(45),
 IN _enonce varchar(300),
 IN _estQCM tinyint,
@@ -435,8 +394,9 @@ IN _idQuiz int
 )
 BEGIN
 
-	insert into questions (titre, enonceidQuizs, estQCM, points, idQuiz)
+	insert into questions (titre, enonce, estQCM, points, idQuiz)
     value(_titre, _enonce, _estQCM, _points, _idQuiz);
+	SELECT LAST_INSERT_ID();
     
 END$$
 
@@ -444,19 +404,18 @@ DELIMITER ;
 
 
 -- ---- procédure d'ajout dans la table    //Ajout d'images ?
-DROP procedure IF EXISTS `ajoutReponse`;
+DROP procedure IF EXISTS `creationAjoutReponse`;
 
 DELIMITER $$
-CREATE  PROCEDURE `ajoutReponse`(
+CREATE  PROCEDURE `creationAjoutReponse`(
 IN _texteReponse varchar(300),
-IN _estCorrect tinyint,
-IN _resultat float,
-IN _idQuestion int
+IN _estCorrecte tinyint,
+IN _idQuestions int
 )
 BEGIN
 
-	insert into scores (texteReponse, estCorrect, resultat, idQuestion)
-    value(_texteReponse, _estCorrect, _resultat, _idQuestion);
+	insert into reponses (texteReponse, estCorrecte, idQuestions)
+    value(_texteReponse, _estCorrecte, _idQuestions);
     
 END$$
 
