@@ -6,7 +6,7 @@ import { unstable_styleFunctionSx, styled } from '@mui/system';
 //import { styled } from '@mui/material/styles';
 
 import CreationQuiz from './QuizProf/CreationQuiz.js'
-import PageCours from './pageCours/PageCours.js';
+import CoursPageTransi from './pageCours/PageCours.js';
 import theme from '../index.js'
 import Question from './QuizEleve/Question/Question.js';
 import Quiz from './QuizEleve/QuizMain.js';
@@ -60,7 +60,7 @@ class InsideStructure extends Component{
           <Routes>
             <Route path="/" element={<Acceuil/>}> </Route>
             <Route path="/quiz/:cours/:chapitre/creation" element={<CreationQuiz/>}> </Route>
-            <Route path="/cours/:cours" element={<PageCours/>}> </Route>
+            <Route path="/cours/:cours" element={<CoursPageTransi/>}> </Route>
             <Route path="/cours/:cours/creation" element={<PageCoursProf/>}> </Route>
             <Route path="/cours/:cours/quiz/:quiz" element={<Quiz/>}></Route>
             <Route path="/utilisateurs/connexion" element={<UserConnection/>}> </Route>
