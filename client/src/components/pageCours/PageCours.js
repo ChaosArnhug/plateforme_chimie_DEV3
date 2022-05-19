@@ -10,6 +10,10 @@ import { unstable_styleFunctionSx, styled } from '@mui/system';
 //Les balises HTML de base ne peuvent pas être modifiée avec sx={{.....}}. On doit créer un nouveau 
 // type de balise à partir de celles-ci pouvant utiliser sx. 
 const Fieldset = styled('fieldset')(unstable_styleFunctionSx);
+const Div = styled('div')(unstable_styleFunctionSx);
+const H4 = styled('h4')(unstable_styleFunctionSx);
+const P = styled('p')(unstable_styleFunctionSx);
+
 
 export class Test {
     prints = () => {
@@ -53,17 +57,17 @@ class CoursPage extends Component{
                 <h1>{this.props.cours}</h1>  
                 {tabData.map((item) => (
                     (item[0].chapEstVisible == 1 &&
-                        <Fieldset sx={{bgcolor: "#FFE4B5", display: 'flex'}}>
-                            <legend>{item[0].titreChapitre}</legend>
+                        <Fieldset sx={{bgcolor: "#FFD700", ml:5, mr:20, my:2, py:3, border: 2}}>
+                            <H4 sx={{ml:3, py:1}}>{item[0].titreChapitre}</H4>
                             {item.map((item2) => (
                                 (item2.disponnible == 1 &&
-                                <div>
-                                    <p>{item2.description}</p>
-                                    <Button id={`${item2.idQuiz}`} href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.idQuiz}`} >{item2.titre}</Button> 
+                                <Div sx={{ml:3, display: 'flex'}}>
+                                    <P sx={{py: 1}}>{item2.description}</P>
+                                    <Button sx={{ml:3, mr:3}} id={`${item2.idQuiz}`} href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.idQuiz}`} >{item2.titre}</Button> 
                                     {this.props.dataEleve.map((item3) =>(
-                                        item3.titre == item2.titre  && <p>✅ {item3.resultat}/{item3.total}</p>
+                                        item3.titre == item2.titre  && <P sx={{ml: 1, py: 1}}>✅ {item3.resultat}/{item3.total}</P>
                                     ))}                             
-                                </div>   
+                                </Div>   
                                 )
                             ))}
                         </Fieldset>

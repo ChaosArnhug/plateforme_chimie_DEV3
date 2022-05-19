@@ -2,6 +2,17 @@ import { Button, Checkbox } from '@mui/material';
 import React, {Component} from 'react';
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
+import { unstable_styleFunctionSx, styled } from '@mui/system';
+
+
+
+//Les balises HTML de base ne peuvent pas être modifiée avec sx={{.....}}. On doit créer un nouveau 
+// type de balise à partir de celles-ci pouvant utiliser sx. 
+const Fieldset = styled('fieldset')(unstable_styleFunctionSx);
+const Div = styled('div')(unstable_styleFunctionSx);
+const H4 = styled('h4')(unstable_styleFunctionSx);
+const Form = styled('form')(unstable_styleFunctionSx);
+const P = styled('p')(unstable_styleFunctionSx);
 
 
 function tabForm (dataTraitement){
@@ -79,35 +90,35 @@ class CoursPageProf extends Component{
             <div>
                 <h1>{this.props.cours}</h1>  
                 {tabData.map((item) => (                  
-                        <fieldset>
-                            <legend>{item[0].titreChapitre}</legend>
-                            <form  >
+                        <Fieldset sx={{bgcolor: "#FFD700", ml:5, mr:20, my:2, py:3, border: 2, borderColor: "#000"}}>
+                            <H4 sx={{ml:3}}>{item[0].titreChapitre}</H4>
+                            <Form  sx={{ml:3}}>
                                 <label>
                                     chapitre visible:  
                                     <input defaultChecked={item[0].chapEstVisible} type="Checkbox" onClick={(event) =>{ChangeVisibiliteChap(event.target.value, item[0].chapEstVisible, item[0].idChapitre)}}/>
                                 </label>
-                            </form>
-                            <Button >supprimer chapitre</Button>  
+                            </Form>
+                            <Button sx={{ml:3, my:2, bgcolor: "#fff"}}>supprimer chapitre</Button>  
                             {item.map((item2) => (        
-                                <div>
-                                    <p>{item2.description}</p>
-                                    <Button href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.idQuiz}`} >{item2.titre}</Button>
-                                    <form>
+                                <Div sx={{ml:3, my:2, display: 'flex'}}>
+                                    <P sx={{py:1}}>{item2.description}</P>
+                                    <Button sx={{ml:3, mr:2}} href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.idQuiz}`} >{item2.titre}</Button>
+                                    <Form sx={{ml:3, mr:3, py:1}}>
                                         <label>
                                             visible:  
                                             <input defaultChecked={item2.disponnible} type="Checkbox" onClick={(event) =>{ChangeVisibiliteQuiz(event.target.value, item2.disponnible, item2.idQuiz)}} />
                                         </label>
-                                    </form>                                    
+                                    </Form>                                    
                                     <Button >supprimer</Button>                            
-                                </div>       
+                                </Div>       
                             ))}
-                            <Button href={`http://localhost:3000/quiz/cours/creation`}>+ creation de quiz +</Button>
-                        </fieldset>                  
+                            <Button sx={{ml:3, py:1, bgcolor: "#fff"}} href={`http://localhost:3000/quiz/${this.props.cours}/${item[0].titreChapitre}/creation`}>+ creation de quiz +</Button>
+                        </Fieldset>                  
                 ))}
-                <form onSubmit={AddChap()}>
+                <Form sx={{ml:5, mr:20, my:2, py:3}} onSubmit={AddChap()}>
                     <input type="text" defaultValue="+ chapitre +"></input>
                     <input type="submit"></input>
-                </form>
+                </Form>
             </div>
         );
     }
