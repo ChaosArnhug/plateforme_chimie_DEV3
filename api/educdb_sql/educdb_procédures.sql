@@ -409,13 +409,13 @@ DROP procedure IF EXISTS `creationAjoutReponse`;
 DELIMITER $$
 CREATE  PROCEDURE `creationAjoutReponse`(
 IN _texteReponse varchar(300),
-IN _estCorrect tinyint,
+IN _estCorrecte tinyint,
 IN _idQuestions int
 )
 BEGIN
 
-	insert into reponses (texteReponse, estCorrect, idQuestions)
-    value(_texteReponse, _estCorrect, _idQuestions);
+	insert into reponses (texteReponse, estCorrecte, idQuestions)
+    value(_texteReponse, _estCorrecte, _idQuestions);
     
 END$$
 
