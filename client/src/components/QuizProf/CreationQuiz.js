@@ -82,12 +82,11 @@ class CreationQuiz extends Component{
     async finishQuiz(){
         await this.updateQuizData("cours", this.props.params.cours);
         await this.updateQuizData("chapitre", this.props.params.chapitre); 
-        await console.log(JSON.stringify(this.state.myQuizData));
-        await alert("Envoi du quiz");
+        
         // On mets à jour le cours et le chapitre du quiz. On les récupère de l'url via useParams() .
         // On utilise useParams() dans une fonction qui englobe CreationQuiz quand on l'export.
 
-        await fetch(`http://localhost:5000/quiz/gestion/creation`,
+        fetch(`http://localhost:5000/quiz/gestion/creation`,   // avec un await -> fetch ne finit jamais. Comme on ne récupères pas de données => OK
             {
                 method: "POST",
                 body: JSON.stringify(this.state.myQuizData),
@@ -96,8 +95,10 @@ class CreationQuiz extends Component{
                 }
             }
         )
-        console.log(this.state.myQuizData.cours)
+        
+        await console.log(this.state.myQuizData.cours)
         window.location = await ("http://localhost:3000/cours/"+this.state.myQuizData.cours+"/creation"); // retour à la page de gestion du cours dans lequel on crée le quiz
+
         await alert("Votre quiz à bien été créé .")
         return false
     

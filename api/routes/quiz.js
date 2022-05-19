@@ -110,68 +110,94 @@ router.post("/gestion/creation", (req, res) =>{
 
 
 
+
+
+function getIdQuestion(question_nom){
+
+}
+
 // Création d'un quiz
 router.post("/gestion/creation", async (req, res) =>{
     // Ajout du quiz dans la DB
-    await console.log(req.body)
-    let chap_id;
-    let quiz_id;
-    let question_id;
+
     
 
     // query de l'id de chapitre, à l'interieur du callback je fait un query de la procédure qui ajoute un quiz
     await database.query( 
         `SELECT getChapId(?,?)`, [req.body.cours, req.body.chapitre], async (err, result) => {
-            await console.log(result)
-            chap_id = await result[0]["getChapId('Chimie 5ième','Chapitre 1')"];
-            await console.log(chap_id);
+            //await console.log(result)
+            chap_id = await result[0]["getChapId('Chimie 5ième','Chapitre 1')"];  // moyen de changer le nom ?
+            //await console.log(chap_id);
             await database.query(
-                `CALL creationAjoutQuiz(?,?,?,?)`, [req.body.titre, req.body.description, 1, chap_id], (err, result) => {  //mis visible de base
+                `CALL creationAjoutQuiz(?,?,?,?)`, [req.body.titre, req.body.description, 1, chap_id], async (err, result) => {  //mis visible de base
 
-                    if(!err){
-                        res.status(201);
-                        res.send("quiz créé")
-                    }
+                    console.log(req.body.titre)
+                    console.log(req.body.chapitre)
+                    console.log(req.body.cours)
+
+                    await database.query(
+                        `SELECT getQuizId(?,?,?) AS quizId`, [req.body.titre, req.body.chapitre, req.body.cours], async (err, result) => {
+                            await console.log(result);
+                            let idQuiz = await result[0].quizId;
+                            await console.log("1")
+                            await req.body.myQuestionsArray.map(async (item) => {
+                                await console.log("2")
+                                await database.query(
+                                    `CALL creationAjoutQuestion(?,?,?,?,?)`, [item.titreQuestion, item.enonce, boolToInt(item.isQCM), item.points, idQuiz], async (err, result) => {  // quiz_id bon ?
+                                        //await console.log(result);
+                                        //await console.log("coucou");
+                                        if (err){
+                                            //await res.status(201);
+                                            //await res.send("Quiz créé")
+                                            
+                                        }
+                                        // mettre en place d'autres codes erreur
+                                        //question_id = await result[0].idQuestions  // result = array avec un seul objet ?
+                                    }
+                                );
+                
+                
+                                await database.query(
+                                    `SELECT getQuestionId(?) AS questionId`, [item.titreQuestion], async(err, result) => {
+                                        let questionId = await result[0].questionId;
+                
+                                        await item.myReponsesArray.map(async(item2) => {
+                
+                                            await database.query(
+                                                `CALL creationAjoutReponse(?,?,?)`, [item2.texteReponse, boolToInt(item2.isCorrect), questionId], async (err) => {   // Changer isCorrect de booléen à int
+                                        
+                                                    if (err){
+                                                        //await res.status(201);
+                                                        //await res.send("Quiz créé")
+                                                        
+                                                    }
+                                                    // mettre en place d'autres codes erreur
+                                                    await console.log("testRep")
+                                                }
+                                            )
+                                            await console.log("fin1")
+                                        })
+                
+                
+                
+                
+                                    }
+                                )
+                                await console.log("fin2")
+                            })
+                            await console.log("finAjoutQuiz")
+                        }
+                    )
+                    await console.log("finaprèsQuery")
                     
                 }
             )
+            await console.log("fin4")
         }
     )
-
-    // Pour chaque question dans myQuestionsArray on l'ajoute dans la DB
-    await req.body.myQuestionsArray.map(async (item) => {
-        console.log(item.titreQuestion)
-        console.log(item.enonce)
-        console.log(item.points)
-        await database.query(
-            `CALL creationAjoutQuestion(?,?,?,?,?)`, [item.titreQuestion, item.enonce, boolToInt(item.isQCM), item.points, 4], async (err, result) => {  // quiz_id bon ?
-                await console.log(result);
-                await console.log("coucou");
-                if (err){
-                    //await res.status(201);
-                    //await res.send("Quiz créé")
-                    
-                }
-                // mettre en place d'autres codes erreur
-                //question_id = await result[0].idQuestions  // result = array avec un seul objet ?
-            }
-        )
-        await item.myReponsesArray.map((item2) => {
-            database.query(
-                `CALL creationAjoutReponse(?,?,?)`, [item2.texteReponse, boolToInt(item2.isCorrect), 4], async (err) => {   // Changer isCorrect de booléen à int
-        
-                    if (err){
-                        //await res.status(201);
-                        //await res.send("Quiz créé")
-                        
-                    }
-                    // mettre en place d'autres codes erreur
-                }
-            )
-        })
-    })
-    
+    await console.log("fin5")
 })
+
 
 
 // Pas sur de pouvoir utiliser quiz_id et question_id correctement. Elles sont définies avec var à l'interieur de la fonction de callback du post.
