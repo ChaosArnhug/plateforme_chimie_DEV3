@@ -2,58 +2,71 @@
 import { Button } from '@mui/material';
 import React, {Component} from 'react';
 import {useParams} from 'react-router-dom';
+import { flex } from '@mui/system';
+import { unstable_styleFunctionSx, styled } from '@mui/system';
 
-function tabForm (dataTraitement){
-    let data = dataTraitement 
-    let startChap = 0;
-    console.log("dataTraitement = ");   
-    console.log(dataTraitement);
-    let tableauData = [];
-    for (let i=0; i<dataTraitement.length; i++){
-        if (dataTraitement.length !=1){
- //           console.log("i = "+dataTraitement[3].idChapitre+" et i-1 = "+dataTraitement[2].idChapitre);
-            if ( i != 0 && (dataTraitement[i].idChapitre != dataTraitement[i-1].idChapitre || i==dataTraitement.length-1)) {
-                let implement = data.slice(startChap, i);
-//                console.log("implement = ");    
-//                console.log(implement.slice(1, 2));
-                tableauData.push(implement);
-                startChap = i
-  //              console.log("je passe");
-            }
-        }
-        else{
-            tableauData.push(dataTraitement);
-  //          console.log("c est ca");
-        }
+
+
+//Les balises HTML de base ne peuvent pas être modifiée avec sx={{.....}}. On doit créer un nouveau 
+// type de balise à partir de celles-ci pouvant utiliser sx. 
+const Fieldset = styled('fieldset')(unstable_styleFunctionSx);
+
+export class Test {
+    prints = () => {
+        return "aie"
     }
- //   console.log("tableauData = ");
- //   console.log(tableauData);
-    return tableauData;
 }
 
+
 class CoursPage extends Component{
+
+    tabForm = (dataTraitement) => {
+        let data = dataTraitement 
+        let startChap = 0;
+        console.log("dataTraitement = ");   
+        console.log(dataTraitement);
+        let tableauData = [];
+        for (let i=0; i<dataTraitement.length; i++){
+            if (dataTraitement.length !=1){
+                if ( i != 0 && (dataTraitement[i].idChapitre != dataTraitement[i-1].idChapitre || i==dataTraitement.length-1)) {
+                    let implement = data.slice(startChap, i);
+                    tableauData.push(implement);
+                    startChap = i
+                }
+            }
+            else{
+                tableauData.push(dataTraitement);
+            }
+        }
+        return tableauData;
+    }
     
     render() { 
 
-        let tabData = tabForm(this.props.data);
+        let tabData = this.tabForm(this.props.data);
         console.log("tabData = ");
         console.log(tabData);
+        console.log("dataeleve = ");
+        console.log(this.props.dataEleve);
         return (
             <div>
                 <h1>{this.props.cours}</h1>  
                 {tabData.map((item) => (
                     (item[0].chapEstVisible == 1 &&
-                        <fieldset sx={{padding: "3px 6px"}}>
+                        <Fieldset sx={{bgcolor: "#FFE4B5", display: 'flex'}}>
                             <legend>{item[0].titreChapitre}</legend>
                             {item.map((item2) => (
                                 (item2.disponnible == 1 &&
                                 <div>
                                     <p>{item2.description}</p>
-                                    <Button id={`${item2.idQuiz}`} href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.idQuiz}`} >{item2.titre}</Button>                             
+                                    <Button id={`${item2.idQuiz}`} href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.idQuiz}`} >{item2.titre}</Button> 
+                                    {this.props.dataEleve.map((item3) =>(
+                                        item3.titre == item2.titre  && <p>✅ {item3.resultat}/{item3.total}</p>
+                                    ))}                             
                                 </div>   
                                 )
                             ))}
-                        </fieldset>
+                        </Fieldset>
                     )
                 ))}
             </div>
@@ -64,7 +77,10 @@ class CoursPage extends Component{
 
 }
 
-class PageCours extends Component{
+
+
+
+class CoursPageTransi extends Component{
     constructor(props){
         super(props)
         this.state = {
@@ -82,23 +98,23 @@ class PageCours extends Component{
         const response1 = await fetch(url1);
         const data = await response1.json();
 
-  /*      const utilisateur_id = 2; demande dynamique a mettre
+  /*      const utilisateur_id = 2; demande dynamique a mettre  */
         const url2 = `http://localhost:5000/utilisateurs/quiz`;
         const response2 = await fetch(url2);
         const dataEleve = await response2.json();
         console.log("dataeleve = ");
         console.log(dataEleve);
-*/
-        await this.setState({loading : false, data : data, cours : cours}); //rajouter dataEleve : dataEleve
+
+        this.setState({loading : false, data : data, cours : cours, dataEleve : dataEleve}); //rajouter dataEleve : dataEleve
     }
 
     render(){
         return(
             <div>
-            {this.state.loading || !this.state.data ? (  //rajouter || !this.state.dataEleve
+            {this.state.loading || !this.state.data || !this.state.dataEleve ? (  //rajouter || !this.state.dataEleve
                 <div> Loading ... </div>
             ) : (
-                <CoursPage data={this.state.data} cours={this.state.cours}/>  //rajouter dataEleve={this.props.dataEleve}   
+                <CoursPage data={this.state.data} cours={this.state.cours} dataEleve={this.state.dataEleve}/>  //rajouter dataEleve={this.props.dataEleve}   
             )}
         </div>
            
@@ -108,7 +124,7 @@ class PageCours extends Component{
 }
 
 export default (props) => (
-    <PageCours {...props} params={useParams()}/>
+    <CoursPageTransi {...props} params={useParams()}/>
 );
 
 
@@ -160,3 +176,26 @@ export default (props) => (
     }
 
     */
+
+    /*
+function tabForm (dataTraitement){
+    let data = dataTraitement 
+    let startChap = 0;
+    console.log("dataTraitement = ");   
+    console.log(dataTraitement);
+    let tableauData = [];
+    for (let i=0; i<dataTraitement.length; i++){
+        if (dataTraitement.length !=1){
+            if ( i != 0 && (dataTraitement[i].idChapitre != dataTraitement[i-1].idChapitre || i==dataTraitement.length-1)) {
+                let implement = data.slice(startChap, i);
+                tableauData.push(implement);
+                startChap = i
+            }
+        }
+        else{
+            tableauData.push(dataTraitement);
+        }
+    }
+    return tableauData;
+}
+*/

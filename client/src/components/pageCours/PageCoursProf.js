@@ -59,8 +59,6 @@ function ChangeVisibiliteQuiz(arg1, arg2, arg3){
 
 class CoursPageProf extends Component{
 
-    
-    
 
     constructor(props){
         super(props)
@@ -71,51 +69,7 @@ class CoursPageProf extends Component{
         }
 
     }
-/*
-    submitHandler = form =>{
-        form.preventDefault();
-        const params = new URLSearchParams();
-        params.append("idquiz", this.state.email);
-        params.append("motDePasse", this.state.motDePasse);   
-        axios.post("http://localhost:5000/utilisateurs/connexion", params)
-          .then(res => console.log(res)).catch(err => console.log(err)) ;
-    }
 
-
-    ChangeVisibiliteChap(arg1, arg2, arg3){
-        console.log("ca marche visibilité quiz")
-        console.log(arg1)
-        console.log(arg2)
-        console.log(arg3)
- //       let ChangeData = this.state.data;
- //       ChangeData[]
- //       this.setState({data :})
-    }
-
-
-
-    tabForm (dataTraitement, coursActu){
-        let data = dataTraitement 
-        let startChap = 0;
-        console.log("dataTraitement = ");   
-        console.log(dataTraitement);
-        let tableauData = [];
-        for (let i=0; i<dataTraitement.length; i++){
-            if (dataTraitement.length !=1){
-                if ( i != 0 && (dataTraitement[i].idChapitre != dataTraitement[i-1].idChapitre || i==dataTraitement.length-1)) {
-                    let implement = data.slice(startChap, i);
-                    tableauData.push(implement);
-                    startChap = i
-                }
-            }
-            else{
-                tableauData.push(dataTraitement);
-            }
-        }
-        this.setState({data: tableauData, cours: coursActu})
-        return tableauData;
-    }
-    */
     render() { 
 
         let tabData = tabForm(this.props.data);
