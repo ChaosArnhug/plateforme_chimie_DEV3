@@ -374,7 +374,7 @@ BEGIN
 
 	insert into quiz (titre, description, estVisible, idChapitre)
     value(_titre, _description, _estVisible, _idChapitre);
-	SELECT LAST_INSERT_ID();
+	SELECT LAST_INSERT_ID() AS quizId;
     
 END$$
 
@@ -396,7 +396,7 @@ BEGIN
 
 	insert into questions (titre, enonce, estQCM, points, idQuiz)
     value(_titre, _enonce, _estQCM, _points, _idQuiz);
-	SELECT LAST_INSERT_ID();
+	SELECT LAST_INSERT_ID() AS questionId;
     
 END$$
 
@@ -414,7 +414,7 @@ IN _idQuestions int
 )
 BEGIN
 
-	insert into reponses (texteReponse, estCorrecte, idQuestions)
+	insert into reponses (texteResponse, estCorrecte, idQuestions)
     value(_texteReponse, _estCorrecte, _idQuestions);
     
 END$$

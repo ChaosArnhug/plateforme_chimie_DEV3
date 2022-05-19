@@ -120,8 +120,6 @@ function getIdQuestion(question_nom){
 router.post("/gestion/creation", async (req, res) =>{
     // Ajout du quiz dans la DB
 
-    
-
     // query de l'id de chapitre, à l'interieur du callback je fait un query de la procédure qui ajoute un quiz
     await database.query( 
         `SELECT getChapId(?,?)`, [req.body.cours, req.body.chapitre], async (err, result) => {
@@ -131,71 +129,46 @@ router.post("/gestion/creation", async (req, res) =>{
             await database.query(
                 `CALL creationAjoutQuiz(?,?,?,?)`, [req.body.titre, req.body.description, 1, chap_id], async (err, result) => {  //mis visible de base
 
-                    console.log(req.body.titre)
-                    console.log(req.body.chapitre)
-                    console.log(req.body.cours)
-
-                    await database.query(
-                        `SELECT getQuizId(?,?,?) AS quizId`, [req.body.titre, req.body.chapitre, req.body.cours], async (err, result) => {
-                            await console.log(result);
-                            let idQuiz = await result[0].quizId;
-                            await console.log("1")
-                            await req.body.myQuestionsArray.map(async (item) => {
-                                await console.log("2")
-                                await database.query(
-                                    `CALL creationAjoutQuestion(?,?,?,?,?)`, [item.titreQuestion, item.enonce, boolToInt(item.isQCM), item.points, idQuiz], async (err, result) => {  // quiz_id bon ?
-                                        //await console.log(result);
-                                        //await console.log("coucou");
-                                        if (err){
-                                            //await res.status(201);
-                                            //await res.send("Quiz créé")
-                                            
-                                        }
-                                        // mettre en place d'autres codes erreur
-                                        //question_id = await result[0].idQuestions  // result = array avec un seul objet ?
-                                    }
-                                );
-                
-                
-                                await database.query(
-                                    `SELECT getQuestionId(?) AS questionId`, [item.titreQuestion], async(err, result) => {
-                                        let questionId = await result[0].questionId;
-                
-                                        await item.myReponsesArray.map(async(item2) => {
-                
-                                            await database.query(
-                                                `CALL creationAjoutReponse(?,?,?)`, [item2.texteReponse, boolToInt(item2.isCorrect), questionId], async (err) => {   // Changer isCorrect de booléen à int
-                                        
-                                                    if (err){
-                                                        //await res.status(201);
-                                                        //await res.send("Quiz créé")
-                                                        
-                                                    }
-                                                    // mettre en place d'autres codes erreur
-                                                    await console.log("testRep")
-                                                }
-                                            )
-                                            await console.log("fin1")
-                                        })
-                
-                
-                
-                
-                                    }
-                                )
-                                await console.log("fin2")
-                            })
-                            await console.log("finAjoutQuiz")
-                        }
-                    )
-                    await console.log("finaprèsQuery")
+                    var quizId = await result[0][0].quizId; // id renvoyé par la procédure creationAjoutQuiz
                     
+                    await req.body.myQuestionsArray.map(async (item) => {
+                        await database.query(
+                            `CALL creationAjoutQuestion(?,?,?,?,?)`, [item.titreQuestion, item.enonce, boolToInt(item.isQCM), item.points, quizId], async (err, result) => {  // quiz_id bon ?
+                                await console.log(result[0][0])
+                                var questionId = await result[0][0].questionId;
+
+                                if (err){
+                                    //await res.status(201);
+                                    //await res.send("Quiz créé")
+                                            
+                                }
+                                // mettre en place d'autres codes erreur
+                                //question_id = await result[0].idQuestions  // result = array avec un seul objet ?
+                                await item.myReponsesArray.map(async(item2) => {
+                                    await console.log(item2.texteReponse)
+                                    await console.log(item2.isCorrect)
+                                    await console.log(questionId)
+                                    await database.query(
+                                        `CALL creationAjoutReponse(?,?,?)`, [item2.texteReponse, boolToInt(item2.isCorrect), questionId], async (err) => {   // Changer isCorrect de booléen à int
+                                        
+                                            if (err){
+                                                //await res.status(201);
+                                                //await res.send("Quiz créé")
+                                                        
+                                            }
+                                            // mettre en place d'autres codes erreur
+                                        }
+                                    )
+
+                                })
+                            }
+                        );       
+                    })   
                 }
-            )
-            await console.log("fin4")
+            )   
         }
     )
-    await console.log("fin5")
+    
 })
 
 
