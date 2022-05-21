@@ -36,7 +36,7 @@ const Question = ({titreQuestion, isQCM, enonce, points, reponses,questionid,set
   return (
       // renvoi le HTML de la liste des questions et les choix possible/ onglet input
       <div className="questionBox">
-      <h1 className="Answers"><i className="fa fa-question-circle" /> {titreQuestion}: {enonce}  ?</h1> 
+      <h1 className="Answers"><i className="fa fa-question-circle" /> {titreQuestion}: {enonce} </h1> 
       
         <ul className="Answers">
           {answers}
