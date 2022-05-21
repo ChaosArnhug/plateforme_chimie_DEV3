@@ -122,13 +122,14 @@ router.post("/gestion/creation", async (req, res) =>{
 
     // query de l'id de chapitre, à l'interieur du callback je fait un query de la procédure qui ajoute un quiz
     await database.query( 
-        `SELECT getChapId(?,?)`, [req.body.cours, req.body.chapitre], async (err, result) => {
-            //await console.log(result)
-            chap_id = await result[0]["getChapId('Chimie 5ième','Chapitre 1')"];  // moyen de changer le nom ?
-            //await console.log(chap_id);
+        `SELECT getChapId(?,?) AS chapId`, [req.body.cours, req.body.chapitre], async (err, result) => {
+            await console.log(result)
+            chap_id = await result[0].chapId;  // moyen de changer le nom ?
+            await console.log(chap_id);
             await database.query(
                 `CALL creationAjoutQuiz(?,?,?,?)`, [req.body.titre, req.body.description, 1, chap_id], async (err, result) => {  //mis visible de base
 
+                    await console.log(result);
                     var quizId = await result[0][0].quizId; // id renvoyé par la procédure creationAjoutQuiz
                     
                     await req.body.myQuestionsArray.map(async (item) => {
