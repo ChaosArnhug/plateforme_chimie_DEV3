@@ -10,6 +10,7 @@ import CoursPageTransi from './pageCours/PageCours.js';
 import theme from '../index.js'
 import Question from './QuizEleve/Question/Question.js';
 import QuizMain from './QuizEleve/QuizMain.js';
+import Result from './QuizEleve/Question/Result.js';
 import UserConnection from './GestionComptes/UserConnection.js';
 import UserInscription from './GestionComptes/UserInscription.js';
 import InscriptionCoursBox from './InscriptionCoursBox.js';
@@ -68,6 +69,7 @@ class InsideStructure extends Component{
             <Route path="/cours" element={<InscriptionCoursBox/>}></Route>
             <Route path="/utilisateurs/demande" element={<ConfirmationInscriptionBox/>}></Route>
             <Route path="/quiz/1" element={<Question/>}></Route>
+            <Route path="/result" element={<Result/>}></Route>
           </Routes>
         </Router>
       )

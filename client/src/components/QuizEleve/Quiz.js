@@ -43,10 +43,10 @@ export default class Quiz extends Component  {
     setAnswer = (questionid,index) => {     
         let responses = this.state.responses;
         //chercher si déjà selectionné
-        var indexRecord = responses.indexOf("{questionid:"+questionid+",response:"+index+"}");
+        var indexRecord = responses.indexOf("{questionid:"+questionid+",response:\""+index+"\"}");
         console.log(indexRecord);
         if (indexRecord === -1)
-            responses.push("{questionid:"+questionid+",response:"+index+"}");    
+            responses.push("{questionid:"+questionid+",response:\""+index+"\"}");    
         else
            responses.splice(indexRecord, 1);
 
@@ -64,10 +64,10 @@ export default class Quiz extends Component  {
         
         console.log(indexRecord);
         if (indexRecord === -1)
-            responses.push("{questionid:"+questionid+",response:"+evt+"}");    
+            responses.push("{questionid:"+questionid+",response:\""+evt+"\"}");    
         else {
           responses.splice(indexRecord, 1);
-          responses.push("{questionid:"+questionid+",response:"+evt+"}"); 
+          responses.push("{questionid:"+questionid+",response:\""+evt+"\"}"); 
         }
 
         this.setState({
@@ -131,12 +131,13 @@ export default class Quiz extends Component  {
                 <button 
                         data-testid="Terminer" 
                         className="Terminer" 
-                        onClick={() => {
+                       /* onClick={() => {
                         ( <Result 
                                 responses={this.state.responses} 
                                 tryAgain={this.tryAgain} 
                             />)
-                        }}
+                        }}*/
+                        onClick={() => window.location = "/result"}
                     >
                         Terminer
                     
