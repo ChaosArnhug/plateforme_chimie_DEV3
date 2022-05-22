@@ -57,7 +57,7 @@ class CoursPage extends Component{
                 <h1>{this.props.cours}</h1>  
                 {tabData.map((item) => (
                     (item[0].chapEstVisible == 1 &&
-                        <Fieldset sx={{bgcolor: "#FFD700", ml:5, mr:20, my:2, py:3, border: 2}}>
+                        <Fieldset sx={{bgcolor: "#FFD700", ml:5, mr:20, my:3, py:5, border: 2}}>
                             <H4 sx={{ml:3, py:1}}>{item[0].titreChapitre}</H4>
                             {item.map((item2) => (
                                 (item2.disponnible == 1 &&

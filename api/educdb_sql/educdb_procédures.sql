@@ -198,7 +198,7 @@ BEGIN
 		select "Vous n'avez pas accès à ce quiz" as Erreur1;
         
 	end if;
-END
+END$$
 
 DELIMITER ;
 

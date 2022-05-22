@@ -24,9 +24,16 @@ function tabForm (dataTraitement){
     for (let i=0; i<dataTraitement.length; i++){
         if (dataTraitement.length !=1){
             if ( i != 0 && (dataTraitement[i].idChapitre != dataTraitement[i-1].idChapitre || i==dataTraitement.length-1)) {
-                let implement = data.slice(startChap, i);
-                tableauData.push(implement);
-                startChap = i
+                if (i==dataTraitement.length-1) {
+                    let implement = data.slice(startChap, i+1);
+                    tableauData.push(implement);
+                }
+                else{
+                    let implement = data.slice(startChap, i);
+                    tableauData.push(implement);
+                    startChap = i
+                }
+                
             }
         }
         else{
