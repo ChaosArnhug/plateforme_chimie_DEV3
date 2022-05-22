@@ -54,14 +54,3 @@ app.use("/quiz", quizRouter);
 app.use("/utilisateurs", utilisateursRouter);
 
 
-app.post('/quiz/:cours/creation', async (req, res) =>{
-    try {
-        database.query(
-            `CALL ajoutQuiz(?,?,?,?)`, [titre, description, estVisible, idCours]
-        )
-
-    }
-    catch{
-        alert("Erreur lors de la création"); // Mettre un meilleur catch
-    }
-});

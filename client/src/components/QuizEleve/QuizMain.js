@@ -23,6 +23,8 @@ class QuizMain extends Component {
     render(){
         
         let { quiz, cours }= this.props.params
+        console.log(quiz);
+        console.log(cours);
         return(
         
             <Quiz 
