@@ -34,10 +34,10 @@ export default class Quiz extends Component  {
     setAnswer = (questionid,index) => {     
         let responses = this.state.responses;
         //chercher si déjà selectionné
-        var indexRecord = responses.indexOf("{questionid:"+questionid+",response:\""+index+"\"}");
+        var indexRecord = responses.indexOf("{\"questionid\":"+questionid+",\"response\":\""+index+"\"}");
         // si indexrecord est -1 alors réponses non sélectionnée au préalable alors on l'ajoute dans le tableau des réponses sinon on la supprime de ce tableau 
         if (indexRecord === -1)
-            responses.push("{questionid:"+questionid+",response:\""+index+"\"}");    
+            responses.push("{\"questionid\":"+questionid+",\"response\":\""+index+"\"}");    
         else
            responses.splice(indexRecord, 1);
 
@@ -53,15 +53,15 @@ export default class Quiz extends Component  {
     updateInputValue = (evt,questionid) => {     
         let responses = this.state.responses;
         //chercher si déjà encodée
-        let indexRecord= responses.findIndex(element => element.includes("{questionid:"+questionid+","))
+        let indexRecord= responses.findIndex(element => element.includes("{\"questionid\":"+questionid+","))
         
         //Si -& alors pas encodée , on utilise push pour l'insérer dans le tableau des réponses
         //sinon on supprime l'ancienne réponse et on insère la nouvelle
         if (indexRecord === -1)
-            responses.push("{questionid:"+questionid+",response:\""+evt+"\"}");    
+            responses.push("{\"questionid\":"+questionid+",\"response\":\""+evt+"\"}");    
         else {
           responses.splice(indexRecord, 1);
-          responses.push("{questionid:"+questionid+",response:\""+evt+"\"}"); 
+          responses.push("{\"questionid\":"+questionid+",\"response\":\""+evt+"\"}"); 
         }
 
         this.setState({
@@ -81,6 +81,25 @@ export default class Quiz extends Component  {
         });
         this.getQuestions(this.props.quiz);
           
+    }
+
+    async envoiResponses(){        
+
+        // On envoi les réponses vers l'API.
+        console.log(JSON.stringify(this.state.responses));
+        fetch(`http://localhost:5000/quiz/`+this.props.quiz,   
+            {
+                method: "POST",
+                body: JSON.stringify(this.state.responses),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            }
+        );
+        
+        window.location = await ("http://localhost:3000/Result"); 
+        return false
+    
     }
    
     //récupération des questions au chargement du composant 
@@ -122,9 +141,9 @@ export default class Quiz extends Component  {
                 }
                 
                 <button 
-                        data-testid="Terminer" 
-                        className="Terminer" 
-                        onClick={() => window.location = "/result"}
+                    data-testid="Terminer" 
+                    className="Terminer" 
+                    onClick={()=> {this.envoiResponses()}}
                 >
                     Terminer
                     

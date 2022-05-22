@@ -1,7 +1,6 @@
 import React, {Component } from 'react';
 import './QuizMain.css';
 import Quiz from "./Quiz";
-import Result from "./Question/Result"
 import {useParams} from 'react-router-dom';
 
 class QuizMain extends Component {
@@ -11,9 +10,7 @@ class QuizMain extends Component {
         super(props)
         this.state = {
             quiz:1,
-            cours:1
-
-           
+            cours:1           
         }
     }
     
