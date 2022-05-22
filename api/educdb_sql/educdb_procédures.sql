@@ -181,7 +181,7 @@ BEGIN
 
 	if acces = 1 then
     
-		select quiz.titre, quiz.description, quiz.estVisible, concat('[', group_concat('{', '"titreQuestion":"', QQ.titre, '",', '"enonce":"', QQ.enonce, '",', '"estQCM":"', QQ.estQCM, '",', '"points":', QQ.points, ',', '"reponses":',
+		select quiz.titre, quiz.description, quiz.estVisible, concat('[', group_concat('{', '"titreQuestion":"', QQ.titre, '",', '"enonce":"', QQ.enonce, '",','"img":"', IFNULL(QQ.img,""), '",', '"estQCM":"', QQ.estQCM, '",', '"points":', QQ.points, ',', '"reponses":',
 	        (select concat('[',group_concat('{','"texteReponse":"',reponses.texteResponse,'",', '"estCorrecte":',reponses.estCorrecte, '}'), ']' ) from questions QR
 	        inner join reponses on reponses.idQuestions = QR.idQuestions
 	        where QR.idQuestions = QQ.idQuestions
@@ -198,7 +198,7 @@ BEGIN
 		select "Vous n'avez pas accès à ce quiz" as Erreur1;
         
 	end if;
-END
+END$$
 
 DELIMITER ;
 

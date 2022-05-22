@@ -115,6 +115,7 @@ export default class Quiz extends Component  {
                       titreQuestion={question.titreQuestion} 
                       isQCM={question.estQCM}
                       enonce={question.enonce}
+                      img={question.img}
                       points={question.points}
                       reponses={question.reponses}
                       questionid={i}

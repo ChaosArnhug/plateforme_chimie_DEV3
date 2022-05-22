@@ -67,12 +67,12 @@ CREATE TABLE IF NOT EXISTS `educdb_v2`.`acces_cours` (
   `date_demande` DATE NULL DEFAULT NULL,
 
   PRIMARY KEY (`idUtilisateur`, `idCours`),
-  CONSTRAINT `fk_utilisateurs_has_cours_utilisateurs`
+  CONSTRAINT `fk_utilisateurs_has_cours_utilisateurs1`
     FOREIGN KEY (`idUtilisateur`)
     REFERENCES `educdb_v2`.`utilisateurs` (`idUtilisateur`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_utilisateurs_has_cours_cours1`
+  CONSTRAINT `fk_utilisateurs_has_cours_cours2`
     FOREIGN KEY (`idCours`)
     REFERENCES `educdb_v2`.`cours` (`idCours`)
     ON DELETE NO ACTION
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `educdb_v2`.`questions` (
   `enonce` VARCHAR(300) NULL DEFAULT "Pas d'énonce",
   `estQCM` TINYINT NOT NULL DEFAULT 0,
   `points` FLOAT NOT NULL DEFAULT 0,
-  `img` BLOB NULL,
+  `img`  VARCHAR(300) DEFAULT "",
   `idQuiz` INT NOT NULL,
   PRIMARY KEY (`idQuestions`),
   CONSTRAINT `fk_quizs_questions`

@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import './Question.css';
 
-const Question = ({titreQuestion, isQCM, enonce, points, reponses,questionid,setAnswer,updateInputValue}) => {
+
+const Question = ({titreQuestion, isQCM, enonce,img, points, reponses,questionid,setAnswer,updateInputValue}) => {
   //const [answer,isQCM] = useState(question.reponses, question.estQCM);
 
   //Parcours la liste des reponses et les affiche sous forme de liste ou un onglet input
@@ -31,13 +32,14 @@ const Question = ({titreQuestion, isQCM, enonce, points, reponses,questionid,set
             </input>
         ));
         
+        let image = img != "" ?  <img src={require('../img/formule.jpg')} />:null
  
 
   return (
       // renvoi le HTML de la liste des questions et les choix possible/ onglet input
       <div className="questionBox">
       <h1 className="Answers"><i className="fa fa-question-circle" /> {titreQuestion}: {enonce} </h1> 
-      
+        {image} 
         <ul className="Answers">
           {answers}
         </ul>
