@@ -70,6 +70,28 @@ router.get("/:cours/quiz", /*permission.checkAuthentification,*/ (req, res) =>{
     })
 })
 
+router.post("/:cours/chapitre", /*permission.checkAuthentification,*/ (req, res) =>{
+    database.query(`
+        call creationAjoutChapitre(?, ?, ?)`, [req.body.titreChapitre, req.body.estVisible, req.params.cours], (err, rows) => {
+
+        if (! err){
+            rows.forEach(element => {
+                if (element.constructor == Array) {
+                    if(element[0].Erreur){ //si pas accès au cours
+                        res.status(403);
+                    }
+                    res.send(element); 
+                }
+            });
+
+        }else{
+            res.send("An error occured");
+            res.status(500);
+            console.log(err);
+        }
+    })
+})
+
 router.post("/:cours/inscription", permission.checkAuthentification, async (req, res) =>{
     database.query(`
         CALL demande_cours(?, ?, ?) `, [req.user.idUtilisateur, req.params.cours, req.body.code], (err, rows) => {

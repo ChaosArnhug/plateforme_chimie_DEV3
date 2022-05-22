@@ -380,6 +380,29 @@ END$$
 
 DELIMITER ;
 
+-- --------------------------- enpoint /quiz/{cours}/creation
+
+-- ---- procédure d'ajout d'un chapitre   // On ne mets pas le cours ? Info donnée par le chapitre
+DROP procedure IF EXISTS `creationAjoutChapitre`;
+
+DELIMITER $$
+CREATE  PROCEDURE `creationAjoutChapitre`(
+IN _titreChapitre varchar(45),
+IN _estVisible tinyint ,
+IN _cours varchar(45)
+)
+BEGIN
+
+	declare _idCours int;
+    select idCours into _idCours from cours where nom = _cours;
+
+	insert into chapitre (titreChapitre, estVisible, idCours)
+    value(_titreChapitre, _estVisible, _idCours);
+    
+END$$
+
+DELIMITER ;
+
 
 -- ---- procédure d'ajout dans la table questions  // Ajout d'images ? 
 DROP procedure IF EXISTS `creationAjoutQuestion`;
