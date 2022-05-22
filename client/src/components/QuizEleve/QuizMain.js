@@ -6,7 +6,7 @@ import {useParams} from 'react-router-dom';
 
 class QuizMain extends Component {
 
-    // Initiating the local state
+    // Initialisation du state locale
     constructor(props){
         super(props)
         this.state = {
@@ -18,13 +18,12 @@ class QuizMain extends Component {
     }
     
   
-    //récupération des questions au chargement du composant 
+    //Render du composant Quiz qui va afficher un quiz: le titre, les questions et les réponses
     
     render(){
         
         let { quiz, cours }= this.props.params
-        console.log(quiz);
-        console.log(cours);
+
         return(
         
             <Quiz 

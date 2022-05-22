@@ -5,7 +5,7 @@ import Result from "./Question/Result"
 
 export default class Quiz extends Component  {
 
-    // Initiating the local state
+     // Initialisation du state locale
    
     constructor(props){
         super(props)
@@ -21,7 +21,7 @@ export default class Quiz extends Component  {
     }
     
 
-       //recuperation des questions d'un quiz (appel de l'API) ex: http://localhost:5000/quiz/les%20molécules/1
+    //recuperation des questions d'un quiz (appel de l'API) ex: http://localhost:5000/quiz/1
     async getQuestions (quizid)  {  
         const url = "http://localhost:5000/quiz/"+quizid;
         const response = await fetch(url);
@@ -30,39 +30,33 @@ export default class Quiz extends Component  {
         this.setState({questionList : JSON.parse(data[0].questions), titre: data[0].titre, description:data[0].description });
       };
   
-  
-   //calcul de la note 
-   computeAnswer = (answer, correctAnswer) => {         
-        if (answer === correctAnswer) {
-            this.setState({
-                score: this.state.score + 1
-            });
-        }
-    };
-
+    // Insertion de la selection ou suppression d'une selection du tableau des réponses: responses
     setAnswer = (questionid,index) => {     
         let responses = this.state.responses;
         //chercher si déjà selectionné
         var indexRecord = responses.indexOf("{questionid:"+questionid+",response:\""+index+"\"}");
-        console.log(indexRecord);
+        // si indexrecord est -1 alors réponses non sélectionnée au préalable alors on l'ajoute dans le tableau des réponses sinon on la supprime de ce tableau 
         if (indexRecord === -1)
             responses.push("{questionid:"+questionid+",response:\""+index+"\"}");    
         else
            responses.splice(indexRecord, 1);
 
           
-       
+        //mise à jour du tableau des réponses du state
         this.setState({
             responses:responses
         });
         console.log(this.state.responses);
     };
     
+    //Insertion ou mise à jours des réponses encodées dans le tableau des réponses
     updateInputValue = (evt,questionid) => {     
         let responses = this.state.responses;
+        //chercher si déjà encodée
         let indexRecord= responses.findIndex(element => element.includes("{questionid:"+questionid+","))
         
-        console.log(indexRecord);
+        //Si -& alors pas encodée , on utilise push pour l'insérer dans le tableau des réponses
+        //sinon on supprime l'ancienne réponse et on insère la nouvelle
         if (indexRecord === -1)
             responses.push("{questionid:"+questionid+",response:\""+evt+"\"}");    
         else {
@@ -77,7 +71,7 @@ export default class Quiz extends Component  {
     };
 
 
-    //refaire le quiz
+    //refaire le quiz, utilisée avec le bouton Reset
     tryAgain = () => {
         this.setState({
             questionList: [],
@@ -95,11 +89,11 @@ export default class Quiz extends Component  {
         this.getQuestions(this.props.quiz);
      }
      
-     
+    // Parcour du tableau des questions et appel du composant Question pour l'affichage de chaque question et le choix possible , l'image , ou le input box 
     render(){
         
         let { questionList, titre, description }= this.state
-      //const qst=JSON.parse(questions)
+      
         return(
         
             <div className="container">
@@ -107,24 +101,22 @@ export default class Quiz extends Component  {
                 
                 {
                 
-                questionList.map(
-                  (question,i) => (
-                  
-                  //<h1>{question.titreQuestion}</h1>
-                  <Question 
-                      titreQuestion={question.titreQuestion} 
-                      isQCM={question.estQCM}
-                      enonce={question.enonce}
-                      img={question.img}
-                      points={question.points}
-                      reponses={question.reponses}
-                      questionid={i}
-                      setAnswer={this.setAnswer}
-                      updateInputValue={this.updateInputValue}
-                      
-                  />
-                  )
-              )
+                    questionList.map( 
+                        (question,i) => (
+                            <Question 
+                                titreQuestion={question.titreQuestion} 
+                                isQCM={question.estQCM}
+                                enonce={question.enonce}
+                                img={question.img}
+                                points={question.points}
+                                reponses={question.reponses}
+                                questionid={i}
+                                setAnswer={this.setAnswer}
+                                updateInputValue={this.updateInputValue}
+                                
+                            />
+                        )
+                    )
                 
                     
                 }
@@ -132,26 +124,19 @@ export default class Quiz extends Component  {
                 <button 
                         data-testid="Terminer" 
                         className="Terminer" 
-                       /* onClick={() => {
-                        ( <Result 
-                                responses={this.state.responses} 
-                                tryAgain={this.tryAgain} 
-                            />)
-                        }}*/
                         onClick={() => window.location = "/result"}
-                    >
-                        Terminer
+                >
+                    Terminer
                     
-                    </button>
+                </button>
                 
-                    <button
-                        data-testid="Reset"
-                        className="Reset" 
-                        onClick={this.tryAgain}
-                    >
-                        Reset  <i className="fa fa-undo" />
-                    
-                    </button>
+                <button
+                    data-testid="Reset"
+                    className="Reset" 
+                    onClick={this.tryAgain}
+                >
+                    Reset  <i className="fa fa-undo" />
+                </button>
             </div>
             
 
