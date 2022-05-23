@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express')
 const cors = require ('cors'); //débloque Allow-cross-originate ...
 const database = require('./mySqlDb'); 
+const testDatabase = require('./educdb_sql/sql_unit_tests/testDB'); 
 const passport = require('passport'); 
 const initializePassport = require('./authentication/passport-config');
 const flash = require ('express-flash');
@@ -47,6 +48,8 @@ app.use(bodyParser.json()); //transforme toutes les reqêtes en json
 app.use(bodyParser.urlencoded({ extended: false })); //same qu'au dessus mais pour les formulaires html
 app.use(methodOverride('_method'));
 
+
+// différentes routes Express
 app.use("/", indexRouter);
 app.use("/cours", coursRouter);
 app.use("/cours/:cours/documents", documentsRouter);

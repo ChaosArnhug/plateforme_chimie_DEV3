@@ -3,7 +3,7 @@
 DROP procedure IF EXISTS `ajoutUtilisateur`;
 
 DELIMITER $$
-USE `educdb_v2`$$
+USE `educdb_test`$$
 CREATE PROCEDURE `ajoutUtilisateur` (
 IN _nom varchar(45),
 IN _prenom varchar(45),
@@ -30,7 +30,7 @@ DELIMITER ;
 DROP procedure IF EXISTS `ajoutQuestion`;
 
 DELIMITER $$
-USE `educdb_v2`$$
+USE `educdb_test`$$
 CREATE PROCEDURE `ajoutQuestion` (
 IN _titreQuestion varchar(45),
 IN _enonce varchar(300),
@@ -54,7 +54,7 @@ DELIMITER ;
 DROP procedure IF EXISTS `ajoutReponse`;
 
 DELIMITER $$
-USE `educdb_v2`$$
+USE `educdb_test`$$
 CREATE PROCEDURE `ajoutReponse` (
 IN _texteReponse varchar(300),
 IN _estCorrect tinyint,
@@ -80,7 +80,7 @@ DROP procedure IF EXISTS `liste_cours`;
 ;
 
 DELIMITER $$
-USE `educdb_v2`$$
+USE `educdb_test`$$
 CREATE PROCEDURE `liste_cours`(
 IN _domaine varchar(45)
 )
@@ -94,11 +94,11 @@ END$$
 DELIMITER ;
 
 -- --------------------------------------- endpoint /cours/{cours} -----------------------------------
-DROP procedure IF EXISTS `educdb_v2`.`data_cours`;
+DROP procedure IF EXISTS `educdb_test`.`data_cours`;
 ;
 
 DELIMITER $$
-USE `educdb_v2`$$
+USE `educdb_test`$$
 CREATE PROCEDURE `data_cours`(
 IN _domaine varchar(45),
 IN _nom_cours varchar(45),
@@ -128,7 +128,7 @@ DELIMITER ;
 
 
 -- ---------------------------------------- endpoint /quiz/{cours} ------------------------------------
-DROP procedure IF EXISTS `educdb_v2`.`liste_quiz`;
+DROP procedure IF EXISTS `educdb_test`.`liste_quiz`;
 ;
 
 DELIMITER $$
@@ -234,7 +234,7 @@ DELIMITER ;
 DROP procedure IF EXISTS `cours_utilisateurs`;
 
 DELIMITER $$
-USE `educdb_v2`$$
+USE `educdb_test`$$
 CREATE PROCEDURE `cours_utilisateurs` (
 IN _domaine varchar(45),
 IN _idUtilisateurs INT
@@ -255,7 +255,7 @@ DROP procedure IF EXISTS `liste_demande_cours`;
 ;
 
 DELIMITER $$
-USE `educdb_v2`$$
+USE `educdb_test`$$
 CREATE PROCEDURE `liste_demande_cours`(
 IN _domaine varchar(45),
 IN _responsable int
@@ -274,7 +274,7 @@ DELIMITER ;
 DROP procedure IF EXISTS `confirmation_inscription`;
 
 DELIMITER $$
-USE `educdb_v2`$$
+USE `educdb_test`$$
 CREATE PROCEDURE `confirmation_inscription` (
 IN _idUtilisateur int,
 IN _idCours int,
