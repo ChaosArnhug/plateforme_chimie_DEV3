@@ -34,15 +34,18 @@ initializePassport(passport);
 app.use(flash());
 app.use(session({   // !!!!!! SECU A FAIRE ICI !!!!!!!
     secret : '$2a$10$/XL50jdWZmHCtenhSXQaw.2GDtFSIfYfKUvJAUA3KFXlaUY66CQli',
-    resave : false,
-    saveUninitialized : false  
+    resave : true,
+    saveUninitialized : false
 }));
 app.use(passport.session());  
 
 /**
  * Traitement lors d'un callback sur le site
  */
-app.use(cors())
+ app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials : true
+}));
 app.use(bodyParser.json()); //transforme toutes les reqêtes en json
 app.use(bodyParser.urlencoded({ extended: false })); //same qu'au dessus mais pour les formulaires html
 app.use(methodOverride('_method'));
