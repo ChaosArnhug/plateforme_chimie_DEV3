@@ -1,4 +1,4 @@
-use educdb_v2;
+use educdb_test;
 
 -- -----------------------------------------------------
 -- Insert utilisateurs
@@ -62,7 +62,7 @@ insert into quiz values(7, 'Quiz 444', 'Quiz du chapitre 2.2', true, 2);
 insert into questions values (1, 'Q1', "Quelle est la formule de l'eau ?", False, 1, null, 1);
 insert into questions values (2, 'Q2', "Quelle est la formule de l'oxygène ?", True, 1, null, 1);
 insert into questions values (3, 'Q3', 'Quelle est la formule du zinc ?', False, 2, null, 1);
-insert into questions values (4, 'Q4', "Ces associations de molécules d'eau voisines sont elles possibles ?", True, 2, 'formule.jpg', 1);
+insert into questions values (4, 'Q4', "Ces associations de molécules d'eau voisines sont elles possibles ?", True, 2, 'img/formule1.jpg', 1);
 
 -- -----------------------------------------------------
 -- Insert reponses

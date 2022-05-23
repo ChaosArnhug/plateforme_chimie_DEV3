@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
+    "test": "jest",
     "devStart": "nodemon app.js"
   },
   "author": "groupe V04",
@@ -22,6 +23,7 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
+    "jest": "^28.1.0",
     "nodemon": "^2.0.16"
   }
 }

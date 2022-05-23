@@ -26,7 +26,8 @@ class InscriptionCours extends Component {
         event.preventDefault();
         fetch(this.state.inscription, {
             method: 'POST',
-            body: params
+            body: params,
+            credentials: 'include'
             
         }).then(res => {
                 console.log(res)
