@@ -6,10 +6,11 @@ import { unstable_styleFunctionSx, styled } from '@mui/system';
 //import { styled } from '@mui/material/styles';
 
 import CreationQuiz from './QuizProf/CreationQuiz.js'
-import PageCours from './pageCours/PageCours.js';
+import CoursPageTransi from './pageCours/PageCours.js';
 import theme from '../index.js'
 import Question from './QuizEleve/Question/Question.js';
-import Quiz from './QuizEleve/QuizMain.js';
+import QuizMain from './QuizEleve/QuizMain.js';
+import Result from './QuizEleve/Question/Result.js';
 import UserConnection from './GestionComptes/UserConnection.js';
 import UserInscription from './GestionComptes/UserInscription.js';
 import InscriptionCoursBox from './InscriptionCoursBox.js';
@@ -59,15 +60,16 @@ class InsideStructure extends Component{
         <Router>
           <Routes>
             <Route path="/" element={<Acceuil/>}> </Route>
-            <Route path="/quiz/:cours/creation" element={<CreationQuiz/>}> </Route>
-            <Route path="/cours/:cours" element={<PageCours/>}> </Route>
+            <Route path="/quiz/:cours/:chapitre/creation" element={<CreationQuiz/>}> </Route>
+            <Route path="/cours/:cours" element={<CoursPageTransi/>}> </Route>
             <Route path="/cours/:cours/creation" element={<PageCoursProf/>}> </Route>
-            <Route path="/cours/:cours/quiz/:quiz" element={<Quiz/>}></Route>
+            <Route path="/cours/:cours/quiz/:quiz" element={<QuizMain/>}></Route>
             <Route path="/utilisateurs/connexion" element={<UserConnection/>}> </Route>
             <Route path="/utilisateurs/inscription" element={<UserInscription/>}> </Route>
             <Route path="/cours" element={<InscriptionCoursBox/>}></Route>
             <Route path="/utilisateurs/demande" element={<ConfirmationInscriptionBox/>}></Route>
             <Route path="/quiz/1" element={<Question/>}></Route>
+            <Route path="/result" element={<Result/>}></Route>
           </Routes>
         </Router>
       )

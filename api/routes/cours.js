@@ -48,9 +48,31 @@ router.get("/:cours", permission.checkAuthentification, (req, res) =>{
     )
 })
 
-router.get("/:cours/quiz", permission.checkAuthentification, (req, res) =>{
+router.get("/:cours/quiz", /*permission.checkAuthentification,*/ (req, res) =>{
     database.query(`
-        call liste_quiz(?, ?, ?)`, [domain, req.params.cours, req.user.idUtilisateur], (err, rows) => {
+        call liste_quiz(?, ?, ?)`, [domain, req.params.cours, /*req.user.idUtilisateur*/1], (err, rows) => {
+
+        if (! err){
+            rows.forEach(element => {
+                if (element.constructor == Array) {
+                    if(element[0].Erreur){ //si pas accès au cours
+                        res.status(403);
+                    }
+                    res.send(element); 
+                }
+            });
+
+        }else{
+            res.send("An error occured");
+            res.status(500);
+            console.log(err);
+        }
+    })
+})
+
+router.post("/:cours/chapitre", /*permission.checkAuthentification,*/ (req, res) =>{
+    database.query(`
+        call creationAjoutChapitre(?, ?, ?)`, [req.body.titreChapitre, req.body.estVisible, req.params.cours], (err, rows) => {
 
         if (! err){
             rows.forEach(element => {

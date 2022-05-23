@@ -57,6 +57,7 @@ app.use("/quiz", quizRouter);
 app.use("/utilisateurs", utilisateursRouter);
 
 
+<<<<<<< HEAD
 app.post('/quiz/:cours/creation', async (req, res) =>{
     try {
         database.query(
@@ -68,3 +69,5 @@ app.post('/quiz/:cours/creation', async (req, res) =>{
         alert("Erreur lors de la création"); // Mettre un meilleur catch
     }
 });
+=======
+>>>>>>> 8a13d186a85c25a73f91360a7be754ae5c04a3c5

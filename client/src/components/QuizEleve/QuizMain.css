@@ -39,7 +39,7 @@
 
 .title {
   position: relative;
-  background-color: rgb(46, 182, 46);
+  background-color:  #10812D ;
   color: rgb(255, 255, 255);
   padding: 20px;
   font-size: 1.2em;
@@ -71,7 +71,7 @@
 .score {
   position: absolute;
   width: 1024px;
-  font-size: 3em;
+  font-size: 2em;
   top: 250px;
   text-align: center;
 }
