@@ -97,24 +97,35 @@ class CoursPageProf extends Component{
             loading : true,
             data : null,
             cours : null,
+            newChapitre : null
         }
 
     }
 
-    AddChap = (event) => {
-        const arg = event.target.nomChapitre.value
-        console.log(arg);
+    AddChap = (form) => {
+        //const arg = event.target.newChapitre.value
+        //console.log(arg);
         //let arg = this.champ.value;
-        const params = new URLSearchParams();
+     /*   const params = new URLSearchParams();
         params.append("titreChapitre", arg);
         params.append("estVisible", 1);
         axios.post(`http://localhost:5000/cours/${this.props.cours}/chapitre`, params)
         .then(res => console.log(res)).catch(err => console.log(err)) ;
         
-        let history = useNavigate();
-        history.push(`http://localhost:3000/quiz/${this.props.cours}/${arg}/creation`);   
+    */
+        form.preventDefault();
+        const params = new URLSearchParams();
+        params.append("titreChapitre", this.state.newChapitre);
+        params.append("estVisible", 1);
+        axios.post(`http://localhost:5000/cours/${this.props.cours}/chapitre`, params)
+        .then(res => console.log(res)).catch(err => console.log(err)) ;
+        window.location=`/quiz/${this.props.cours}/${this.state.newChapitre}/creation`;   
     }
     
+
+    changeHandler = (e) =>{
+        this.setState({newChapitre : e.target.value});
+    } 
 
     render() { 
 
@@ -150,8 +161,8 @@ class CoursPageProf extends Component{
                             <Button sx={{ml:3, py:1, bgcolor: "#fff"}} href={`http://localhost:3000/quiz/${this.props.cours}/${item[0].titreChapitre}/creation`}>+ creation de quiz +</Button>
                         </Fieldset>                  
                 ))}
-                <Form sx={{ml:5, mr:20, my:2, py:3}} onSubmit={(event) =>{this.AddChap(event)}}>
-                    <input name="nomChapitre" type="text" defaultValue="+ chapitre +"></input>
+                <Form sx={{ml:5, mr:20, my:2, py:3}} onSubmit={this.AddChap}>
+                    <input name="newChapitre" type="text" defaultValue="" onChange={this.changeHandler}></input>
                     <input type="submit"></input>
                 </Form>
             </div>
