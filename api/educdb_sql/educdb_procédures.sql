@@ -181,7 +181,7 @@ BEGIN
 
 	if acces = 1 then
     
-		select quiz.titre, quiz.description, quiz.estVisible, concat('[', group_concat('{', '"titreQuestion":"', QQ.titre, '",', '"enonce":"', QQ.enonce, '",', '"estQCM":"', QQ.estQCM, '",', '"points":', QQ.points, ',', '"reponses":',
+		select quiz.titre, quiz.description, quiz.estVisible, concat('[', group_concat('{', '"titreQuestion":"', QQ.titre, '",', '"enonce":"', QQ.enonce, '",','"img":"', IFNULL(QQ.img,""), '",', '"estQCM":"', QQ.estQCM, '",', '"points":', QQ.points, ',', '"reponses":',
 	        (select concat('[',group_concat('{','"texteReponse":"',reponses.texteResponse,'",', '"estCorrecte":',reponses.estCorrecte, '}'), ']' ) from questions QR
 	        inner join reponses on reponses.idQuestions = QR.idQuestions
 	        where QR.idQuestions = QQ.idQuestions
@@ -375,6 +375,29 @@ BEGIN
 	insert into quiz (titre, description, estVisible, idChapitre)
     value(_titre, _description, _estVisible, _idChapitre);
 	SELECT LAST_INSERT_ID() AS quizId;
+    
+END$$
+
+DELIMITER ;
+
+-- --------------------------- enpoint /quiz/{cours}/creation
+
+-- ---- procédure d'ajout d'un chapitre   // On ne mets pas le cours ? Info donnée par le chapitre
+DROP procedure IF EXISTS `creationAjoutChapitre`;
+
+DELIMITER $$
+CREATE  PROCEDURE `creationAjoutChapitre`(
+IN _titreChapitre varchar(45),
+IN _estVisible tinyint ,
+IN _cours varchar(45)
+)
+BEGIN
+
+	declare _idCours int;
+    select idCours into _idCours from cours where nom = _cours;
+
+	insert into chapitre (titreChapitre, estVisible, idCours)
+    value(_titreChapitre, _estVisible, _idCours);
     
 END$$
 

@@ -35,15 +35,18 @@ initializePassport(passport);
 app.use(flash());
 app.use(session({   // !!!!!! SECU A FAIRE ICI !!!!!!!
     secret : '$2a$10$/XL50jdWZmHCtenhSXQaw.2GDtFSIfYfKUvJAUA3KFXlaUY66CQli',
-    resave : false,
-    saveUninitialized : false  
+    resave : true,
+    saveUninitialized : false
 }));
 app.use(passport.session());  
 
 /**
  * Traitement lors d'un callback sur le site
  */
-app.use(cors())
+ app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials : true
+}));
 app.use(bodyParser.json()); //transforme toutes les reqêtes en json
 app.use(bodyParser.urlencoded({ extended: false })); //same qu'au dessus mais pour les formulaires html
 app.use(methodOverride('_method'));
@@ -57,3 +60,17 @@ app.use("/quiz", quizRouter);
 app.use("/utilisateurs", utilisateursRouter);
 
 
+<<<<<<< HEAD
+app.post('/quiz/:cours/creation', async (req, res) =>{
+    try {
+        database.query(
+            `CALL ajoutQuiz(?,?,?,?)`, [titre, description, estVisible, idCours]
+        )
+
+    }
+    catch{
+        alert("Erreur lors de la création"); // Mettre un meilleur catch
+    }
+});
+=======
+>>>>>>> 8a13d186a85c25a73f91360a7be754ae5c04a3c5

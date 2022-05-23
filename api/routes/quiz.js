@@ -42,9 +42,15 @@ router.get("/:quiz_id",  (req, res) =>{
 })
 
 
-router.post("/:quiz_id", permission.checkAuthentification, (req, res) =>{
-    database.query(`
-       CALL ajoutResultat(?, ?, ?, ?) `, [req.params.quiz_id, req.user.idUtilisateur, req.body.resultat, req.body.total], (err, rows) => {
+router.post("/:quiz_id", (req, res) =>{
+    console.log("le résultat: "+req.body);
+    req.body.map( 
+        (reponse,i) => (
+            console.log(" la question id: " + JSON.parse(reponse).questionid + " reponseid: "+JSON.parse(reponse).response)
+        )
+    )
+    /*database.query(`
+       CALL ajoutResultat(?, ?, ?, ?) `, [req.params.quiz_id, 1, req.body.resultat, req.body.total], (err, rows) => {
 
         if (! err){
             res.status(201);
@@ -55,7 +61,7 @@ router.post("/:quiz_id", permission.checkAuthentification, (req, res) =>{
             res.send("An error occured");
             console.log(err);
         }
-    })
+    })*/
 })
 
 

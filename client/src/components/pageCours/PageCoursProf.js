@@ -1,6 +1,6 @@
 import { Button, Checkbox } from '@mui/material';
 import React, {Component} from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import { unstable_styleFunctionSx, styled } from '@mui/system';
 
@@ -24,9 +24,16 @@ function tabForm (dataTraitement){
     for (let i=0; i<dataTraitement.length; i++){
         if (dataTraitement.length !=1){
             if ( i != 0 && (dataTraitement[i].idChapitre != dataTraitement[i-1].idChapitre || i==dataTraitement.length-1)) {
-                let implement = data.slice(startChap, i);
-                tableauData.push(implement);
-                startChap = i
+                if (i==dataTraitement.length-1) {
+                    let implement = data.slice(startChap, i+1);
+                    tableauData.push(implement);
+                }
+                else{
+                    let implement = data.slice(startChap, i);
+                    tableauData.push(implement);
+                    startChap = i
+                }
+                
             }
         }
         else{
@@ -37,10 +44,23 @@ function tabForm (dataTraitement){
     return tableauData;
 }
 
+/*
+function AddChap(arg){
+    console.log("arg = ");
+    console.log(arg);
+    console.log("cours = ");
+    console.log(this.props.cours);
+    //let arg = this.champ.value;
+    const params = new URLSearchParams();
+    params.append("titreChapitre", arg);
+    params.append("estVisible", 1);
+    axios.post(`http://localhost:5000/cours/${this.props.cours}/chapitre`, params)
+    .then(res => console.log(res)).catch(err => console.log(err)) ;
+    
+    let history = useNavigate();
+    history.push(`http://localhost:3000/quiz/${this.props.cours}/${arg}/creation`);
+}*/
 
-function AddChap(){
-    console.log("ca marche")
-}
 
 function ChangeVisibiliteChap(arg1, arg2, arg3){
     console.log("ca marche visibilité chapitre")
@@ -81,6 +101,21 @@ class CoursPageProf extends Component{
 
     }
 
+    AddChap = (event) => {
+        const arg = event.target.nomChapitre.value
+        console.log(arg);
+        //let arg = this.champ.value;
+        const params = new URLSearchParams();
+        params.append("titreChapitre", arg);
+        params.append("estVisible", 1);
+        axios.post(`http://localhost:5000/cours/${this.props.cours}/chapitre`, params)
+        .then(res => console.log(res)).catch(err => console.log(err)) ;
+        
+        let history = useNavigate();
+        history.push(`http://localhost:3000/quiz/${this.props.cours}/${arg}/creation`);   
+    }
+    
+
     render() { 
 
         let tabData = tabForm(this.props.data);
@@ -115,15 +150,15 @@ class CoursPageProf extends Component{
                             <Button sx={{ml:3, py:1, bgcolor: "#fff"}} href={`http://localhost:3000/quiz/${this.props.cours}/${item[0].titreChapitre}/creation`}>+ creation de quiz +</Button>
                         </Fieldset>                  
                 ))}
-                <Form sx={{ml:5, mr:20, my:2, py:3}} onSubmit={AddChap()}>
-                    <input type="text" defaultValue="+ chapitre +"></input>
+                <Form sx={{ml:5, mr:20, my:2, py:3}} onSubmit={(event) =>{this.AddChap(event)}}>
+                    <input name="nomChapitre" type="text" defaultValue="+ chapitre +"></input>
                     <input type="submit"></input>
                 </Form>
             </div>
         );
     }
 //<Checkbox id={`${item2.titre}`} onClick={ChangeVisibilite()}></Checkbox>
-
+//(event) =>{AddChap(event.target.value)}
 }
 
 class PageCoursProf extends Component{
