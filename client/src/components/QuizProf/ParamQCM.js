@@ -113,14 +113,14 @@ class ParamQCM extends Component{
     render(){
         return(
             
-            <Div>
-                <Div id="reponsesQCM" data-testid="ParamQCM">
+            <Div data-testid="ParamQCM">
+                <Div id="reponsesQCM" >
                     
                     
                 </Div>
                 <Div sx={{display:"flex"}}>
-                    <Button variant="outlined" sx={{ml:9, mr:2, mt:2}} onClick={()=> this.ajoutRetraitReponse("ajout")}>+</Button>
-                    <Button variant="outlined" sx={{ml:1, mr:2, mt:2}} onClick={()=> this.ajoutRetraitReponse("retrait")}>-</Button>
+                    <Button variant="outlined" data-testid="buttonAdd" sx={{ml:9, mr:2, mt:2}} onClick={()=> this.ajoutRetraitReponse("ajout")}>+</Button>
+                    <Button variant="outlined" data-testid="buttonSub" sx={{ml:1, mr:2, mt:2}} onClick={()=> this.ajoutRetraitReponse("retrait")}>-</Button>
                 </Div>
             </Div>
             

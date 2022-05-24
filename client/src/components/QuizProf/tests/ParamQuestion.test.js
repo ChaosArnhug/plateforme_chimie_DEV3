@@ -144,3 +144,161 @@ test("ParamQuestion rendering ParamOuverte back after clicking twice the change"
 })
 
 
+test("ParamQuestion rendering ParamQCM and adding one Response", async () => {
+    render(<ParamQuestion 
+        updateQuestionData={updateQuestionData}
+        updateReponseData={updateReponseData}
+        addQuestionInDataArray={addQuestionInDataArray} 
+        remQuestionInDataArray={remQuestionInDataArray}
+        addReponseInDataArray={addReponseInDataArray} 
+        generateUniqueID={generateUniqueID}
+        questionType={questionType}
+        remReponseInDataArray = {remReponseInDataArray}
+        remAllReponsesInDataArray ={remAllReponsesInDataArray}
+        />)
+
+        const check  = await screen.getByTestId('ouverteOrQCM').querySelector('input');
+        const paramReponse = await screen.getByTestId('ParamReponse');
+        
+        
+        await userEvent.click(check); // clique sur le chagement de type de question pour mettre un QCM
+
+        const buttonAdd  = await within(paramReponse).getByTestId('buttonAdd')
+        const buttonSub  = await within(paramReponse).getByTestId('buttonSub')
+
+        //await expect(buttonAdd).toBeInTheDocument();
+        
+        await userEvent.click(buttonAdd);
+
+        const Reponses  = await screen.getAllByTestId('Réponse QCM')
+
+
+        
+        await expect(Reponses).toHaveLength(2);
+        
+})
+
+
+test("ParamQuestion rendering ParamQCM and adding three Response", async () => {
+    render(<ParamQuestion 
+        updateQuestionData={updateQuestionData}
+        updateReponseData={updateReponseData}
+        addQuestionInDataArray={addQuestionInDataArray} 
+        remQuestionInDataArray={remQuestionInDataArray}
+        addReponseInDataArray={addReponseInDataArray} 
+        generateUniqueID={generateUniqueID}
+        questionType={questionType}
+        remReponseInDataArray = {remReponseInDataArray}
+        remAllReponsesInDataArray ={remAllReponsesInDataArray}
+        />)
+
+        const check  = await screen.getByTestId('ouverteOrQCM').querySelector('input');
+        const paramReponse = await screen.getByTestId('ParamReponse');
+        
+        
+        await userEvent.click(check); // clique sur le chagement de type de question pour mettre un QCM
+
+        const buttonAdd  = await within(paramReponse).getByTestId('buttonAdd')
+        const buttonSub  = await within(paramReponse).getByTestId('buttonSub')
+
+
+        
+        await userEvent.click(buttonAdd);
+        await userEvent.click(buttonAdd);
+        await userEvent.click(buttonAdd);
+
+        const Reponses  = await screen.getAllByTestId('Réponse QCM')
+
+
+        
+        await expect(Reponses).toHaveLength(4);
+        
+})
+
+
+test("ParamQuestion rendering ParamQCM and adding three and then remove two response", async () => {
+    render(<ParamQuestion 
+        updateQuestionData={updateQuestionData}
+        updateReponseData={updateReponseData}
+        addQuestionInDataArray={addQuestionInDataArray} 
+        remQuestionInDataArray={remQuestionInDataArray}
+        addReponseInDataArray={addReponseInDataArray} 
+        generateUniqueID={generateUniqueID}
+        questionType={questionType}
+        remReponseInDataArray = {remReponseInDataArray}
+        remAllReponsesInDataArray ={remAllReponsesInDataArray}
+        />)
+
+        const check  = await screen.getByTestId('ouverteOrQCM').querySelector('input');
+        const paramReponse = await screen.getByTestId('ParamReponse');
+        
+        
+        await userEvent.click(check); // clique sur le chagement de type de question pour mettre un QCM
+
+        const buttonAdd  = await within(paramReponse).getByTestId('buttonAdd')
+        const buttonSub  = await within(paramReponse).getByTestId('buttonSub')
+
+        
+        await userEvent.click(buttonAdd);
+        await userEvent.click(buttonAdd);
+        await userEvent.click(buttonAdd);
+        await userEvent.click(buttonSub);
+        await userEvent.click(buttonSub)
+        
+
+        //Problème -> quand j'en enlève un -> 4 réponses au lieu de 3
+        // quand j'en enlève 2 -> 2 réponses, ok
+
+        const Reponses  = await screen.getAllByTestId('Réponse QCM')
+
+
+        
+        await expect(Reponses).toHaveLength(2);
+        
+})
+
+
+test("ParamQuestion rendering ParamQCM and adding three and then remove three response", async () => {
+    render(<ParamQuestion 
+        updateQuestionData={updateQuestionData}
+        updateReponseData={updateReponseData}
+        addQuestionInDataArray={addQuestionInDataArray} 
+        remQuestionInDataArray={remQuestionInDataArray}
+        addReponseInDataArray={addReponseInDataArray} 
+        generateUniqueID={generateUniqueID}
+        questionType={questionType}
+        remReponseInDataArray = {remReponseInDataArray}
+        remAllReponsesInDataArray ={remAllReponsesInDataArray}
+        />)
+
+        const check  = await screen.getByTestId('ouverteOrQCM').querySelector('input');
+        const paramReponse = await screen.getByTestId('ParamReponse');
+        
+        
+        await userEvent.click(check); // clique sur le chagement de type de question pour mettre un QCM
+
+        const buttonAdd  = await within(paramReponse).getByTestId('buttonAdd')
+        const buttonSub  = await within(paramReponse).getByTestId('buttonSub')
+
+        
+        await userEvent.click(buttonAdd);
+        await userEvent.click(buttonAdd);
+        await userEvent.click(buttonAdd);
+        await userEvent.click(buttonSub);
+        await userEvent.click(buttonSub);
+        await userEvent.click(buttonSub);
+        
+
+        //Problème -> quand j'en enlève un -> 4 réponses au lieu de 3
+        // quand j'en enlève 2 -> 2 réponses, ok
+
+        const Reponses  = await screen.getAllByTestId('Réponse QCM')
+
+
+        
+        await expect(Reponses).toHaveLength(1);
+        
+})
+
+
+

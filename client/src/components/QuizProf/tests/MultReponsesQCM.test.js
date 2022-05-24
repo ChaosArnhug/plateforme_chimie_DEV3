@@ -61,7 +61,7 @@ test("Input text inside Response TextField is working", async () => {
 
     await expect(field).toBeInTheDocument();
     await expect(field).toHaveValue('coucou')
-    
+
 })
 
 
@@ -113,9 +113,9 @@ test("MultReponsesQCM rendering 2 responses ", async () => {
         updateReponseData={updateReponseData}
     />)
 
-    const uniqueReponse  = await screen.getAllByTestId('Réponse QCM')//.querySelector('input')
+    const Reponses  = await screen.getAllByTestId('Réponse QCM')//.querySelector('input')
 
-    await expect(uniqueReponse).toHaveLength(2);
+    await expect(Reponses).toHaveLength(2);
 
 })
 
@@ -129,9 +129,9 @@ test("MultReponsesQCM rendering 10 responses when too much", async () => {
         updateReponseData={updateReponseData}
     />)
 
-    const uniqueReponse  = await screen.getAllByTestId('Réponse QCM')
+    const Reponses  = await screen.getAllByTestId('Réponse QCM')
 
-    await expect(uniqueReponse).toHaveLength(10);
+    await expect(Reponses).toHaveLength(10);
 })
 
 
@@ -144,9 +144,9 @@ test("MultReponsesQCM rendering 1 response when too little", async () => {
         updateReponseData={updateReponseData}
     />)
 
-    const uniqueReponse  = await screen.getAllByTestId('Réponse QCM')
+    const Reponses  = await screen.getAllByTestId('Réponse QCM')
 
-    await expect(uniqueReponse).toHaveLength(1);
+    await expect(Reponses).toHaveLength(1);
 })
 
 
@@ -159,8 +159,8 @@ test("MultReponsesQCM rendering 1 response when negative", async () => {
         updateReponseData={updateReponseData}
     />)
 
-    const uniqueReponse  = await screen.getAllByTestId('Réponse QCM')
+    const Reponses  = await screen.getAllByTestId('Réponse QCM')
 
-    await expect(uniqueReponse).toHaveLength(1);
+    await expect(Reponses).toHaveLength(1);
 })
 
