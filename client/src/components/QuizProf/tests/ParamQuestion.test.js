@@ -3,6 +3,8 @@ import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 
 import ParamQuestion from '../ParamQuestion'
+import { Experimental_CssVarsProvider } from '@mui/material'
+import { wait } from '@testing-library/user-event/dist/utils'
 
 
 // différentes fonctions bidon, 
@@ -44,6 +46,10 @@ function generateUniqueID(type){
     return(type+num)
 }
 
+test('suite running', async() => {
+    await expect(1+2).toBe(3);
+})
+
 
 test("Correct rendering of ParamQuestion", async () => {
     render(<ParamQuestion 
@@ -77,12 +83,12 @@ test("ParamQuestion rendering ParamOuverte without clicking the change", async (
         remAllReponsesInDataArray ={remAllReponsesInDataArray}
         />)
 
-        const button  = await screen.getByTestId('ouverteOrQCM').querySelector('input');
+        const check  = await screen.getByTestId('ouverteOrQCM').querySelector('input');
         const paramOuverte  = await screen.getByTestId('ParamOuverte').querySelector('input');
 
         await expect(paramOuverte).toBeInTheDocument();
 
-        
+        screen.debug();
 
 })
 
@@ -100,12 +106,18 @@ test("ParamQuestion rendering ParamQCM after clicking the change", async () => {
         remAllReponsesInDataArray ={remAllReponsesInDataArray}
         />)
 
-        const button  = await screen.getByTestId('ouverteOrQCM').querySelector('input');
-        const paramQCM  = await screen.getByTestId('ParamQCM').querySelector('input');
+        const check  = await screen.getByTestId('ouverteOrQCM').querySelector('input');
+        
 
-        await userEvent.click(button);
-
+        await userEvent.click(check);
+        await wait(400);
+        //const paramQCM  = await screen.getByTestId('ParamQCM').querySelector('input');
+        const paramQCM  = await screen.findByTestId('ParamQCM').querySelector('input');
+        //const paramQCM  = await screen.getByTestId('Réponse QCM').querySelector('input');
+        
         await expect(paramQCM).toBeInTheDocument();
+
+        screen.debug();
 
 })
 
@@ -123,12 +135,18 @@ test("ParamQuestion rendering ParamOuverte back after clicking twice the change"
         remAllReponsesInDataArray ={remAllReponsesInDataArray}
         />)
 
-        const button  = await screen.getByTestId('ouverteOrQCM').querySelector('input');
-        const paramOuverte  = await screen.getByTestId('ParamOuverte').querySelector('input');
+        const check  = await screen.getByTestId('ouverteOrQCM').querySelector('input');
+        
 
-        await userEvent.click(button); // dblClick ? -> peut-être moyen
-        await userEvent.click(button);
+        await userEvent.click(check); // dblClick ? -> peut-être moyen
+        await userEvent.click(check);
+        await wait(400);
+        //const paramOuverte  = await screen.getByTestId('ParamOuverte').querySelector('input');
+        const paramOuverte  = await screen.findByTestId('ParamOuverte').querySelector('input');
 
         await expect(paramOuverte).toBeInTheDocument();
 
+        // Problème : trouve screen.getByTestId('ParamOuverte') au tout début, ne le trouve pas quand on render en décochant la case isQCM.
+
+        screen.debug();
 })

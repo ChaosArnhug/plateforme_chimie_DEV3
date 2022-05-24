@@ -114,7 +114,7 @@ class ParamQCM extends Component{
         return(
             
             <Div>
-                <Div id="reponsesQCM">
+                <Div id="reponsesQCM" data-testid="ParamQCM">
                     
                     
                 </Div>

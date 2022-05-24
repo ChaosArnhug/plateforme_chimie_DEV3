@@ -56,7 +56,7 @@ class ParamQuestion extends Component{
             ReactDOM.render(
                 <ParamOuverte 
                 questionId={this.state.questionId}
-                data-testid="ParamOuverte"
+                //data-testid="ParamOuverte"
                 updateQuestionData={this.props.updateQuestionData} 
                 updateReponseData={this.props.updateReponseData}
                 generateReponseId={this.props.generateQuestionId}
@@ -73,7 +73,7 @@ class ParamQuestion extends Component{
             ReactDOM.render(
                 <ParamQCM 
                 questionId={this.state.questionId}
-                data-testid="ParamQCM"
+                //data-testid="ParamQCM"
                 updateQuestionData={this.props.updateQuestionData} 
                 updateReponseData={this.props.updateReponseData}
                 generateReponseId={this.props.generateQuestionId}
@@ -98,7 +98,7 @@ class ParamQuestion extends Component{
         ReactDOM.render(
             <ParamOuverte 
             questionId={this.state.questionId}
-            data-testid="ParamOuverte"
+            //data-testid="ParamOuverte"
             updateQuestionData={this.props.updateQuestionData} 
             updateReponseData={this.props.updateReponseData}
             generateReponseId={this.props.generateQuestionId}
