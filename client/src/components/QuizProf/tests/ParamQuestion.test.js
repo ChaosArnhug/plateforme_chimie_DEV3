@@ -1,4 +1,4 @@
-import {render, screen, fireEvent} from '@testing-library/react'
+import {render, screen, fireEvent, within} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 
@@ -84,13 +84,12 @@ test("ParamQuestion rendering ParamOuverte without clicking the change", async (
         />)
 
         const check  = await screen.getByTestId('ouverteOrQCM').querySelector('input');
-        const paramOuverte  = await screen.getByTestId('ParamOuverte').querySelector('input');
+        const paramReponse = await screen.getByTestId('ParamReponse');
+        const paramOuverte  = await within(paramReponse).getByTestId('ParamOuverte').querySelector('input');
 
         await expect(paramOuverte).toBeInTheDocument();
-
-        screen.debug();
-
 })
+
 
 
 test("ParamQuestion rendering ParamQCM after clicking the change", async () => {
@@ -107,18 +106,14 @@ test("ParamQuestion rendering ParamQCM after clicking the change", async () => {
         />)
 
         const check  = await screen.getByTestId('ouverteOrQCM').querySelector('input');
+        const paramReponse = await screen.getByTestId('ParamReponse');
+        //const paramQCM  = await within(paramReponse).getByTestId('ParamQCM').querySelector('input'); -> pas ici, on dois chercher après avoir cliqué et render
         
-
         await userEvent.click(check);
-        await wait(400);
-        //const paramQCM  = await screen.getByTestId('ParamQCM').querySelector('input');
-        const paramQCM  = await screen.findByTestId('ParamQCM').querySelector('input');
-        //const paramQCM  = await screen.getByTestId('Réponse QCM').querySelector('input');
+
+        const paramQCM  = await within(paramReponse).getByTestId('ParamQCM').querySelector('input');
         
         await expect(paramQCM).toBeInTheDocument();
-
-        screen.debug();
-
 })
 
 
@@ -136,17 +131,16 @@ test("ParamQuestion rendering ParamOuverte back after clicking twice the change"
         />)
 
         const check  = await screen.getByTestId('ouverteOrQCM').querySelector('input');
+        const paramReponse = await screen.getByTestId('ParamReponse');
+        // const paramOuverte  = await within(paramReponse).getByTestId('ParamOuverte').querySelector('input'); -> pas ici, on dois chercher après avoir cliqué et render
         
 
         await userEvent.click(check); // dblClick ? -> peut-être moyen
         await userEvent.click(check);
-        await wait(400);
-        //const paramOuverte  = await screen.getByTestId('ParamOuverte').querySelector('input');
-        const paramOuverte  = await screen.findByTestId('ParamOuverte').querySelector('input');
+
+        const paramOuverte  = await within(paramReponse).getByTestId('ParamOuverte').querySelector('input');
 
         await expect(paramOuverte).toBeInTheDocument();
-
-        // Problème : trouve screen.getByTestId('ParamOuverte') au tout début, ne le trouve pas quand on render en décochant la case isQCM.
-
-        screen.debug();
 })
+
+

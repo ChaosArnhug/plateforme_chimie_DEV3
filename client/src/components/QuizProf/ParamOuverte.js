@@ -60,19 +60,21 @@ class ParamOuverte extends Component{
 
   render(){
       return(
+        <div data-testid="ParamOuverte">
           <TextField
           required
           id="outlined-required"
           label="Réponse"
           defaultValue=""
-          data-testid="ParamOuverte"
           sx={{ml:9, mr:4, mt:2}}
           onBlur={ (event)=>{
             this.props.updateReponseData(
                 this.props.questionId, this.state.reponseId, "texteReponse", event.target.value
             )   
           }}
-          />
+          /> 
+        </div>
+          
       )
   }
 }

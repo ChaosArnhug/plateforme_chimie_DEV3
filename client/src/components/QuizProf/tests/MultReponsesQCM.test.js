@@ -61,6 +61,7 @@ test("Input text inside Response TextField is working", async () => {
 
     await expect(field).toBeInTheDocument();
     await expect(field).toHaveValue('coucou')
+    
 })
 
 
