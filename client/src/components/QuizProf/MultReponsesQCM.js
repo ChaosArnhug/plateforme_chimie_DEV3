@@ -11,9 +11,9 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-import theme from "../../index.js"
+//import theme from "../../index.js"
 
-
+const H1 = styled('h1')(unstable_styleFunctionSx);
 
 // import theme from '../index.js'
 // Faire un import au lieu de recréer le theme fait que rien ne s'affiche -> ?
@@ -47,7 +47,6 @@ class ReponseQCM extends Component{
     constructor(props){
         super(props);
         this.state={
-            totReponseArr : ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"],
             isCorrect : false
         }
     }
@@ -73,13 +72,14 @@ class ReponseQCM extends Component{
     render(){
         return(
             <Div sx={{display:"flex"}}>
-                <h1>{this.props.numQuestion}</h1>
+                <H1 sx={{py:2, ml:5}}>{this.props.numQuestion}</H1>
                 <TextField
                 required
                 id="outlined-required"
                 label="Réponse QCM"
+                data-testid="Réponse QCM"
                 defaultValue=""
-                sx={{ml:9, mr:2, mt:2}}
+                sx={{ml:2, mr:2, mt:2}}
                 onBlur={ (event)=>{
                     this.props.updateReponseData(
                         this.props.questionId, this.state.reponseId, "texteReponse", event.target.value
@@ -87,7 +87,7 @@ class ReponseQCM extends Component{
                   }}
                 />
                 <FormGroup sx={{mr:4, my:"auto"}}>
-                    <FormControlLabel control={<Checkbox onClick={(event) => {
+                    <FormControlLabel data-testid="isCorrectOrNot" control={<Checkbox onClick={(event) => {
                         this.changeQCMResponseState();
                         
                     }}/>} label="Est une bonne réponse" />
@@ -112,10 +112,11 @@ class MultReponsesQCM extends Component{
             this.state.totReponseArr.slice(0, this.props.nmbreQCMReponses).map(item =>(
                 <ReponseQCM 
                 key={this.state.reponseId}
+                numQuestion={item}
                 questionId={this.props.questionId}
                 addReponseInDataArray={this.props.addReponseInDataArray}
                 updateReponseData={this.props.updateReponseData}
-                addReponseInState = {this.props.addReponseInState}
+                //addReponseInState = {this.props.addReponseInState}
                 />
               ))
             
@@ -125,4 +126,7 @@ class MultReponsesQCM extends Component{
 
 
 
-export default MultReponsesQCM;
+export {
+    MultReponsesQCM,
+    ReponseQCM,
+}

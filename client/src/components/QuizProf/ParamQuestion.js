@@ -56,6 +56,7 @@ class ParamQuestion extends Component{
             ReactDOM.render(
                 <ParamOuverte 
                 questionId={this.state.questionId}
+                data-testid="ParamOuverte"
                 updateQuestionData={this.props.updateQuestionData} 
                 updateReponseData={this.props.updateReponseData}
                 generateReponseId={this.props.generateQuestionId}
@@ -72,6 +73,7 @@ class ParamQuestion extends Component{
             ReactDOM.render(
                 <ParamQCM 
                 questionId={this.state.questionId}
+                data-testid="ParamQCM"
                 updateQuestionData={this.props.updateQuestionData} 
                 updateReponseData={this.props.updateReponseData}
                 generateReponseId={this.props.generateQuestionId}
@@ -96,6 +98,7 @@ class ParamQuestion extends Component{
         ReactDOM.render(
             <ParamOuverte 
             questionId={this.state.questionId}
+            data-testid="ParamOuverte"
             updateQuestionData={this.props.updateQuestionData} 
             updateReponseData={this.props.updateReponseData}
             generateReponseId={this.props.generateQuestionId}
@@ -150,6 +153,7 @@ class ParamQuestion extends Component{
 
                         <FormGroup sx={{ml:3, mr:4, my:"auto"}}>
                             <FormControlLabel 
+                            data-testid="ouverteOrQCM"
                             control={<Checkbox onClick={() => {
                                 this.choixParam(this.state.isQCM)}
                             }/>} 

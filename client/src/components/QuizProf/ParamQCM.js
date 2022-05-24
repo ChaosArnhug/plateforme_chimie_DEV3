@@ -6,12 +6,12 @@ import { createTheme } from '@mui/material/styles';
 import { unstable_styleFunctionSx, styled } from '@mui/system';
 //import { styled } from '@mui/material/styles';
 
-import theme from "../../index.js"
+//import theme from "../../index.js"
 
 import Button from '@mui/material/Button';
 
 
-import MultReponsesQCM from "./MultReponsesQCM.js";
+import {MultReponsesQCM} from "./MultReponsesQCM.js";
 
 
 // import theme from '../index.js'
@@ -64,7 +64,6 @@ class ParamQCM extends Component{
                     questionId={this.props.questionId}
                     addReponseInDataArray={this.props.addReponseInDataArray} 
                     updateReponseData={this.props.updateReponseData}
-                    addReponseInState = {this.addReponseInState}
                     />,
                     document.getElementById('reponsesQCM')
                 );
@@ -86,7 +85,6 @@ class ParamQCM extends Component{
                     questionId={this.props.questionId}
                     addReponseInDataArray={this.props.addReponseInDataArray} 
                     updateReponseData={this.props.updateReponseData}
-                    addReponseInState = {this.addReponseInState}
                     />,
                     document.getElementById('reponsesQCM')
                 );
@@ -102,7 +100,6 @@ class ParamQCM extends Component{
             questionId={this.props.questionId}
             addReponseInDataArray={this.props.addReponseInDataArray} 
             updateReponseData={this.props.updateReponseData}
-            addReponseInState = {this.addReponseInState}
             />,
             document.getElementById('reponsesQCM')
         );
