@@ -105,11 +105,24 @@ class MultReponsesQCM extends Component{
         }
     }
     
+    limitResponsesAmount(number){
+        if ((1<=number ) && (number<=10)){
+            return number
+        }
+        else if(number < 1){
+            return 1
+        }
+        else{ // si number > 10
+            return 10
+        }
+    }
+
 
     render(){
         return(
             // Générer un certain nombre de <ReponseQCM/> en fonction du nombre de réponses qu'on veut mettre
-            this.state.totReponseArr.slice(0, this.props.nmbreQCMReponses).map(item =>(
+
+            this.state.totReponseArr.slice(0, this.limitResponsesAmount(this.props.nmbreQCMReponses)).map(item =>(
                 <ReponseQCM 
                 key={this.state.reponseId}
                 numQuestion={item}

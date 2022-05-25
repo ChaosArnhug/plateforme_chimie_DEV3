@@ -61,6 +61,7 @@ test("Input text inside Res  ponse TextField is working", async () => {
 
     await expect(field).toBeInTheDocument();
     await expect(field).toHaveValue('coucou')
+
 })
 
 
@@ -103,7 +104,7 @@ test("MultReponsesQCM rendering ", async () => {
 
 
 
-test("MultReponsesQCM 2 responses rendering ", async () => {
+test("MultReponsesQCM rendering 2 responses ", async () => {
     
     render(<MultReponsesQCM 
         nmbreQCMReponses={2} 
@@ -112,24 +113,54 @@ test("MultReponsesQCM 2 responses rendering ", async () => {
         updateReponseData={updateReponseData}
     />)
 
-    const uniqueReponse  = await screen.getAllByTestId('Réponse QCM')//.querySelector('input')
+    const Reponses  = await screen.getAllByTestId('Réponse QCM')//.querySelector('input')
 
-    await expect(uniqueReponse).toHaveLength(2);
+    await expect(Reponses).toHaveLength(2);
 
 })
 
 
-test("MultReponsesQCM 3 responses rendering ", async () => {
+test("MultReponsesQCM rendering 10 responses when too much", async () => {
     
     render(<MultReponsesQCM 
-        nmbreQCMReponses={3} 
+        nmbreQCMReponses={15} 
         questionId={3}
         addReponseInDataArray={addReponseInDataArray} 
         updateReponseData={updateReponseData}
     />)
 
-    const uniqueReponse  = await screen.getAllByTestId('Réponse QCM')
+    const Reponses  = await screen.getAllByTestId('Réponse QCM')
 
-    await expect(uniqueReponse).toHaveLength(3);
-
+    await expect(Reponses).toHaveLength(10);
 })
+
+
+test("MultReponsesQCM rendering 1 response when too little", async () => {
+    
+    render(<MultReponsesQCM 
+        nmbreQCMReponses={0} 
+        questionId={3}
+        addReponseInDataArray={addReponseInDataArray} 
+        updateReponseData={updateReponseData}
+    />)
+
+    const Reponses  = await screen.getAllByTestId('Réponse QCM')
+
+    await expect(Reponses).toHaveLength(1);
+})
+
+
+test("MultReponsesQCM rendering 1 response when negative", async () => {
+    
+    render(<MultReponsesQCM 
+        nmbreQCMReponses={-4} 
+        questionId={3}
+        addReponseInDataArray={addReponseInDataArray} 
+        updateReponseData={updateReponseData}
+    />)
+
+    const Reponses  = await screen.getAllByTestId('Réponse QCM')
+
+    await expect(Reponses).toHaveLength(1);
+})
+
