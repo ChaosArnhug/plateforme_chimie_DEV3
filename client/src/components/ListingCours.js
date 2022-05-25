@@ -84,7 +84,7 @@ class ListingCours extends Component{
   } 
 
   async componentDidMount() {
-      const url = "http://localhost:5000/cours";
+      const url = "http://141.94.26.80:5000/cours";
       const response = await fetch(url);
       const data = await response.json();
       this.setState({loading : false, data : data});
