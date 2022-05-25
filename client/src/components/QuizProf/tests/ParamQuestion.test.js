@@ -299,6 +299,3 @@ test("ParamQuestion rendering ParamQCM and adding three and then remove three re
         await expect(Reponses).toHaveLength(1);
         
 })
-
-
-
