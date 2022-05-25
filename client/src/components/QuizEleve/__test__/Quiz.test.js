@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from 'react-dom';
-import Quiz from './Quiz';
+import Quiz from '../Quiz';
 import { render } from '@testing-library/react';
 import  "@testing-library/jest-dom/extend-expect";
 import { act } from "react-dom/test-utils";

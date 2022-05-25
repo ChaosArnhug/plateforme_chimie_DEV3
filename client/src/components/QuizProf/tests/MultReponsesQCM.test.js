@@ -45,7 +45,7 @@ test("Correct letter in <H1> in front of TextField in ReponseQCM", async () => {
 })
 
 
-test("Input text inside Response TextField is working", async () => {
+test("Input text inside Res  ponse TextField is working", async () => {
     
     render(<ReponseQCM 
     key={"myKey"} 

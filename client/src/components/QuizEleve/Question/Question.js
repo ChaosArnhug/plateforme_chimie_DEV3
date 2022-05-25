@@ -12,6 +12,7 @@ const Question = ({titreQuestion, isQCM, enonce,img, points, reponses,questionid
               <label className="custom-checkbox">
                 <li
                     key={questionid+","+index}
+                    data-testid={answer.texteReponse}
                 >
                 <input type="checkbox"  key={answer.texteReponse}  onClick={() => {
                   setAnswer(questionid,index);
@@ -27,14 +28,15 @@ const Question = ({titreQuestion, isQCM, enonce,img, points, reponses,questionid
           :<input type="text" id="fname" name="fname" key={questionid+","+index} onChange={evt => updateInputValue(evt.target.value,questionid) }>
           </input>
     ));
-        
+    
+    //console.log(img);  
     let image = img != "" ?  <img src={require('../img/formule.jpg')} />:null
  
 
   return (
       // renvoi le HTML de la liste des questions et les choix possible/ onglet input
       <div className="questionBox">
-      <h1 className="Answers"><i className="fa fa-question-circle" /> {titreQuestion}: {enonce} </h1> 
+      <h1 className="Answers"  data-testid={questionid} ><i className="fa fa-question-circle" /> {titreQuestion}: {enonce} </h1> 
         {image} 
         <ul className="Answers">
           {answers}
