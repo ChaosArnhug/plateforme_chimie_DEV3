@@ -31,44 +31,25 @@ export default class Quiz extends Component  {
         this.setState({questionList : JSON.parse(data[0].questions), titre: data[0].titre, description:data[0].description });
       };
   
-    // Insertion de la selection ou suppression d'une selection du tableau des réponses: responses
-    setAnswer = (questionid,index) => {     
-        let responses = this.state.responses;
-        //chercher si déjà selectionné
-        var indexRecord = responses.indexOf("{\"questionid\":"+questionid+",\"response\":\""+index+"\"}");
-        // si indexrecord est -1 alors réponses non sélectionnée au préalable alors on l'ajoute dans le tableau des réponses sinon on la supprime de ce tableau 
-        if (indexRecord === -1)
-            responses.push("{\"questionid\":"+questionid+",\"response\":\""+index+"\"}");    
-        else
-           responses.splice(indexRecord, 1);
-
-          
-        //mise à jour du tableau des réponses du state
-        this.setState({
-            responses:responses
-        });
-        console.log(this.state.responses);
-    };
-    
     //Insertion ou mise à jours des réponses encodées dans le tableau des réponses
-    updateInputValue = (evt,questionid) => {     
+    updateInputValue = (evt,question) => {     
         let responses = this.state.responses;
         //chercher si déjà encodée
-        let indexRecord= responses.findIndex(element => element.includes("{\"questionid\":"+questionid+","))
+        let indexRecord= responses.findIndex(element => element.includes("{\"question\":\""+question+"\","))
         
         //Si -1 alors pas encodée , on utilise push pour l'insérer dans le tableau des réponses
         //sinon on supprime l'ancienne réponse et on insère la nouvelle
         if (indexRecord === -1)
-            responses.push("{\"questionid\":"+questionid+",\"response\":\""+evt+"\"}");    
+            responses.push("{\"question\":\""+question+"\",\"response\":\""+evt+"\",\"estQCM\":0}");    
         else {
           responses.splice(indexRecord, 1);
-          responses.push("{\"questionid\":"+questionid+",\"response\":\""+evt+"\"}"); 
+          responses.push("{\"question\":\""+question+"\",\"response\":\""+evt+"\",\"estQCM\":0}"); 
         }
 
         this.setState({
             responses:responses
         });
-        console.log(this.state.responses);
+        //console.log(this.state.responses);
     };
 
 
@@ -87,7 +68,7 @@ export default class Quiz extends Component  {
     async envoiResponses(){        
 
         // On envoi les réponses vers l'API.
-        console.log(JSON.stringify(this.state.responses));
+        //console.log(JSON.stringify(this.state.responses));
         fetch(`http://localhost:5000/quiz/`+this.props.quiz,   
             {
                 method: "POST",
