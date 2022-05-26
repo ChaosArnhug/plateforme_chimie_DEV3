@@ -22,7 +22,7 @@ export default class Quiz extends Component  {
 
     //récupération des questions d'un quiz (appel de l'API) ex: http://localhost:5000/quiz/1
     async getQuestions (quizid)  {  
-        const url = "http://141.94.26.80:5000/quiz/"+quizid;
+        const url = "http://localhost:5000/quiz/"+quizid;
         const response = await fetch(url);
         //console.log(response);
         const data = await response.json();
@@ -68,7 +68,7 @@ export default class Quiz extends Component  {
 
         // On envoi les réponses vers l'API.
         //console.log(JSON.stringify(this.state.responses));
-        fetch(`http://141.94.26.80:5000/quiz/`+this.props.quiz,   
+        fetch(`http://localhost:5000/quiz/`+this.props.quiz,   
             {
                 method: "POST",
                 body: JSON.stringify(this.state.responses),
@@ -78,7 +78,7 @@ export default class Quiz extends Component  {
             }
         );
         
-        window.location = await ("http://141.94.26.80:3000/Result"); 
+        window.location = await ("http://localhost:3000/Result"); 
         return false
     
     }

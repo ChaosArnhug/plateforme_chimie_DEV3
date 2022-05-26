@@ -103,7 +103,7 @@ class CreationQuiz extends Component{
         // On mets à jour le cours et le chapitre du quiz. On les récupère de l'url via useParams() .
         // On utilise useParams() dans une fonction qui englobe CreationQuiz quand on l'export.
 
-        fetch(`http://141.94.26.80:5000/quiz/gestion/creation`,   // avec un await -> fetch ne finit jamais. Comme on ne récupères pas de données => OK
+        fetch(`http://localhost:5000/quiz/gestion/creation`,   // avec un await -> fetch ne finit jamais. Comme on ne récupères pas de données => OK
             {
                 method: "POST",
                 body: JSON.stringify(this.state.myQuizData),
@@ -113,7 +113,7 @@ class CreationQuiz extends Component{
             }
         )
         
-        window.location = await ("http://141.94.26.80:3000/cours/"+this.state.myQuizData.cours+"/creation"); // retour à la page de gestion du cours dans lequel on crée le quiz
+        window.location = await ("http://localhost:3000/cours/"+this.state.myQuizData.cours+"/creation"); // retour à la page de gestion du cours dans lequel on crée le quiz
 
         await alert("Votre quiz à bien été créé .")
         return false

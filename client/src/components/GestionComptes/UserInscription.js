@@ -43,7 +43,7 @@ class UserInscription extends Component{
       params.append("classe", this.state.classe);
       
       
-      axios.post("http://141.94.26.80:5000/utilisateurs/inscription", params)
+      axios.post("http://localhost:5000/utilisateurs/inscription", params)
         .then(res => console.log(res)).catch(err => console.log(err)) ;
     }
   
@@ -54,13 +54,6 @@ class UserInscription extends Component{
 
     render(){
       return(
-        /*<form onSubmit={this.submitHandler}>
-          <
-          <label for={"classe"}>Classe :</label>
-          <input type={"text"} id={"classe"} name={"classe"} onChange={this.changeHandler}></input>
-          <input type={"submit"} value={"Submit"}></input>
-
-        </form>*/
         <ThemeProvider theme={theme}>
           <Container  maxWidth="sm" sx={{ backgroundColor: 'box.main'}}>
           
