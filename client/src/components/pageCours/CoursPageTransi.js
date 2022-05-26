@@ -32,17 +32,17 @@ class CoursPageTransi extends Component{
         console.log("dataeleve = ");
         console.log(dataEleve);
 
-        this.setState({loading : false, data : data, cours : cours, dataEleve : dataEleve}); //rajouter dataEleve : dataEleve
+        this.setState({loading : false, data : data, cours : cours, dataEleve : dataEleve}); 
     }
     
     //appelle la classe qui affiche les informations si toutes les données sont arrivées, sinon afficher loading 
     render(){
         return(
             <div>
-            {this.state.loading || !this.state.data || !this.state.dataEleve ? (  //rajouter || !this.state.dataEleve
+            {this.state.loading || !this.state.data || !this.state.dataEleve ? ( 
                 <div> Loading ... </div>
             ) : (
-                <CoursPage data={this.state.data} cours={this.state.cours} dataEleve={this.state.dataEleve}/>  //rajouter dataEleve={this.props.dataEleve}   
+                <CoursPage data={this.state.data} cours={this.state.cours} dataEleve={this.state.dataEleve}/>  
             )}
         </div>
            

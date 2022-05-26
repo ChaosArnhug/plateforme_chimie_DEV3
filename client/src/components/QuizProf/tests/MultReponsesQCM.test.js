@@ -163,4 +163,3 @@ test("MultReponsesQCM rendering 1 response when negative", async () => {
 
     await expect(Reponses).toHaveLength(1);
 })
-
