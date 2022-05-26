@@ -46,7 +46,7 @@ app.use(passport.session());
  * Traitement lors d'un callback sur le site
  */
  app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'http://141.94.26.80:3000',
     credentials : true
 }));
 app.use(bodyParser.json()); //transforme toutes les reqêtes en json
