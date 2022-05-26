@@ -16,9 +16,9 @@ function boolToInt(boolean){
 
 
 //Il manque les images pour les questions et les réponses
-router.get("/:quiz_id",permission.checkAuthentification ,  (req, res) =>{
+router.get("/:quiz_id", /*permission.checkAuthentification ,*/  (req, res) =>{
     database.query(`
-       CALL data_quiz(?, ?) `, [req.params.quiz_id, req.user.idUtilisateur], (err, rows) => {
+       CALL data_quiz(?, ?) `, [req.params.quiz_id, /*req.user.idUtilisateur*/1], (err, rows) => {
 
         if (! err){
             rows.forEach(element => {
