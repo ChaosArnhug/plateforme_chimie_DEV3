@@ -29,8 +29,6 @@ class CoursPage extends Component{
     tabForm = (dataTraitement) => {
         let data = dataTraitement 
         let startChap = 0;
-        console.log("dataTraitement = ");   
-        console.log(dataTraitement);
         let tableauData = [];
         for (let i=0; i<dataTraitement.length; i++){
             if (dataTraitement.length !=1){

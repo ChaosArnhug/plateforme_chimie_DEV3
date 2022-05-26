@@ -23,7 +23,7 @@ it("render without crashing", ()=>{
     ReactDOM.render(<button></button>, div)
 })
 
-it("test render element ", async () => {
+it("test render text's element ", async () => {
     
     let datas = [{"idQuiz":1,"titre":"Quiz 1","description":"Quiz du chapitre 1","disponnible":1,"toQuiz":"http://localhost:5000/quiz/1","idChapitre":1,"titreChapitre":"chapitre 1","chapEstVisible":1}];
     let courss = "chimie 5ième";
@@ -37,7 +37,7 @@ it("test render element ", async () => {
     expect(com).toBeInTheDocument()
 })
 
-it('renders Question 0 correctly', async () => {
+it('renders button correctly', async () => {
     let datas = [{"idQuiz":1,"titre":"Quiz 1","description":"Quiz du chapitre 1","disponnible":1,"toQuiz":"http://localhost:5000/quiz/1","idChapitre":1,"titreChapitre":"chapitre 1","chapEstVisible":1}]
     let courss = "chimie 5ième";
     let dataEleves = [{"titre":"Quiz 1","resultat":1,"total":4,"quiz":"http://localhost:5000/quiz/1"}];

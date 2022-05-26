@@ -15,10 +15,9 @@ const P = styled('p')(unstable_styleFunctionSx);
 
 //fonction retournant le tableau de quiz recus en argument en tableau de tableaux de ces quizs trier par chapitre
 function tabForm (dataTraitement){
+    console.log(dataTraitement);
     let data = dataTraitement 
     let startChap = 0;
-    console.log("dataTraitement = ");   
-    console.log(dataTraitement);
     let tableauData = [];
     for (let i=0; i<dataTraitement.length; i++){
         if (dataTraitement.length !=1){
@@ -150,6 +149,7 @@ class PageCoursProf extends Component{
         const url1 = `http://localhost:5000/cours/${cours}/quiz`;
         const response1 = await fetch(url1);
         const data = await response1.json();
+        console.log(data)
 
         await this.setState({loading : false, data : data, cours : cours});
     }
