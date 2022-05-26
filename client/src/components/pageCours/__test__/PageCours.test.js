@@ -23,7 +23,6 @@ it("render without crashing", ()=>{
     ReactDOM.render(<button></button>, div)
 })
 
-
 it("test render element ", async () => {
     
     let datas = [{"idQuiz":1,"titre":"Quiz 1","description":"Quiz du chapitre 1","disponnible":1,"toQuiz":"http://localhost:5000/quiz/1","idChapitre":1,"titreChapitre":"chapitre 1","chapEstVisible":1}];
@@ -37,8 +36,6 @@ it("test render element ", async () => {
     expect(chap).toBeInTheDocument()
     expect(com).toBeInTheDocument()
 })
-
-
 
 it('renders Question 0 correctly', async () => {
     let datas = [{"idQuiz":1,"titre":"Quiz 1","description":"Quiz du chapitre 1","disponnible":1,"toQuiz":"http://localhost:5000/quiz/1","idChapitre":1,"titreChapitre":"chapitre 1","chapEstVisible":1}]
@@ -67,10 +64,7 @@ it("test transition", async () => {
 
 }) 
 
-// -------------------------------------
-
-
-it("test render element null ", async () => {
+it("test render d'un quizz si on push le bouton d'essai", async () => {
     
     let datas = [{"idQuiz":1,"titre":"Quiz 1","description":"Quiz du chapitre 1","disponnible":1,"toQuiz":"http://localhost:5000/quiz/1","idChapitre":1,"titreChapitre":"chapitre 1","chapEstVisible":1}];
     let courss = "chimie 5ième";
@@ -79,7 +73,8 @@ it("test render element null ", async () => {
 
     const correctCheck  = screen.queryByTestId('1')
     userEvent.click(correctCheck);
-    await expect(<QuizMain/>).toHaveBeenCalledTimes(1);
+    const button = screen.getByText('Quiz 1')
+    await expect(button).toBeInTheDocument()
 })
 
 
