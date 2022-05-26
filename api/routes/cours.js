@@ -25,9 +25,9 @@ router.get("/", (req, res) =>{
     })
 })
 
-router.get("/:cours", permission.checkAuthentification, (req, res) =>{
+router.get("/:cours", /*permission.checkAuthentification,*/ (req, res) =>{
     database.query(`
-        CALL data_cours(?, ?, ?)`, [domain, req.params.cours, req.user.idUtilisateur], (err, rows) => {
+        CALL data_cours(?, ?, ?)`, [domain, req.params.cours, /*req.user.idUtilisateur*/ 1], (err, rows) => {
 
             if (! err){
                 rows.forEach(element => {
@@ -49,9 +49,9 @@ router.get("/:cours", permission.checkAuthentification, (req, res) =>{
     )
 })
 
-router.get("/:cours/quiz", permission.checkAuthentification, (req, res) =>{
+router.get("/:cours/quiz", /*permission.checkAuthentification,*/ (req, res) =>{
     database.query(`
-        call liste_quiz(?, ?, ?)`, [domain, req.params.cours, req.user.idUtilisateur], (err, rows) => {
+        call liste_quiz(?, ?, ?)`, [domain, req.params.cours, /*req.user.idUtilisateur*/ 1], (err, rows) => {
 
         if (! err){
             rows.forEach(element => {
@@ -71,7 +71,7 @@ router.get("/:cours/quiz", permission.checkAuthentification, (req, res) =>{
     })
 })
 
-router.post("/:cours/chapitre", permission.checkAuthentification, (req, res) =>{
+router.post("/:cours/chapitre", /*permission.checkAuthentification,*/ (req, res) =>{
     database.query(`
         call creationAjoutChapitre(?, ?, ?)`, [req.body.titreChapitre, req.body.estVisible, req.params.cours], (err, rows) => {
 
@@ -87,9 +87,9 @@ router.post("/:cours/chapitre", permission.checkAuthentification, (req, res) =>{
     })
 })
 
-router.post("/:cours/inscription", permission.checkAuthentification, async (req, res) =>{
+router.post("/:cours/inscription", /*permission.checkAuthentification,*/ async (req, res) =>{
     database.query(`
-        CALL demande_cours(?, ?, ?) `, [req.user.idUtilisateur, req.params.cours, req.body.code], (err, rows) => {
+        CALL demande_cours(?, ?, ?) `, [/*req.user.idUtilisateur*/ 1, req.params.cours, req.body.code], (err, rows) => {
             if (! err){
                 if (rows.constructor == Array){
                     rows.forEach(element => {
