@@ -75,14 +75,8 @@ router.post("/:cours/chapitre", permission.checkAuthentification, (req, res) =>{
         call creationAjoutChapitre(?, ?, ?)`, [req.body.titreChapitre, req.body.estVisible, req.params.cours], (err, rows) => {
 
         if (! err){
-            rows.forEach(element => {
-                if (element.constructor == Array) {
-                    if(element[0].Erreur){ //si pas accès au cours
-                        res.status(403);
-                    }
-                    res.send(element); 
-                }
-            });
+            res.status(201);
+            res.send(rows);
 
         }else{
             res.send("An error occured");

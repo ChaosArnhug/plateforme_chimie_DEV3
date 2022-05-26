@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from 'react-dom';
-import Quiz from './Quiz';
+import Quiz from '../Quiz';
 import { render } from '@testing-library/react';
 import  "@testing-library/jest-dom/extend-expect";
 import { act } from "react-dom/test-utils";
@@ -25,7 +25,7 @@ const wait = (time = 0) =>
             cours={1}
             quiz={1} />);
         await wait(400).then(() => {
-            expect(getByTestId('0')).toHaveTextContent("Q1: Quelle est la formule de l'eau ?")
+            expect(getByTestId('Q1')).toHaveTextContent("Q1: Quelle est la formule de l'eau ?")
         });
     });
 
@@ -35,7 +35,7 @@ test('renders Question 1 correctly', async () => {
         cours={1}
         quiz={1} />);
     await wait(400).then(() => {
-        expect(getByTestId('1')).toHaveTextContent("Q2: Quelle est la formule de l'oxygène ?")
+        expect(getByTestId('Q2')).toHaveTextContent("Q2: Quelle est la formule de l'oxygène ?")
     });
 });
 
@@ -45,7 +45,7 @@ test('renders Question 2 correctly', async () => {
         cours={1}
         quiz={1} />);
     await wait(400).then(() => {
-        expect(getByTestId('2')).toHaveTextContent("Q3: Quelle est la formule du zinc ?")
+        expect(getByTestId('Q3')).toHaveTextContent("Q3: Quelle est la formule du zinc ?")
     });
 });
 
@@ -54,7 +54,7 @@ test('renders Question 3 correctly', async () => {
         cours={1}
         quiz={1} />);
     await wait(400).then(() => {
-        expect(getByTestId('3')).toHaveTextContent("Q4: Ces associations de molécules d'eau voisines sont elles possibles ?")
+        expect(getByTestId('Q4')).toHaveTextContent("Q4: Ces associations de molécules d'eau voisines sont elles possibles ?")
     });
 });
 

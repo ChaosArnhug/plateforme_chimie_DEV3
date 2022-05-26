@@ -6,15 +6,14 @@ import { unstable_styleFunctionSx, styled } from '@mui/system';
 
 
 
-//Les balises HTML de base ne peuvent pas être modifiée avec sx={{.....}}. On doit créer un nouveau 
-// type de balise à partir de celles-ci pouvant utiliser sx. 
+// permet de faire du CSS sur les balises 
 const Fieldset = styled('fieldset')(unstable_styleFunctionSx);
 const Div = styled('div')(unstable_styleFunctionSx);
 const H4 = styled('h4')(unstable_styleFunctionSx);
 const Form = styled('form')(unstable_styleFunctionSx);
 const P = styled('p')(unstable_styleFunctionSx);
 
-
+//fonction retournant le tableau de quiz recus en argument en tableau de tableaux de ces quizs trier par chapitre
 function tabForm (dataTraitement){
     let data = dataTraitement 
     let startChap = 0;
@@ -40,33 +39,11 @@ function tabForm (dataTraitement){
             tableauData.push(dataTraitement);
         }
     }
- //   this.setState({data: tableauData, cours: coursActu})
     return tableauData;
 }
 
-/*
-function AddChap(arg){
-    console.log("arg = ");
-    console.log(arg);
-    console.log("cours = ");
-    console.log(this.props.cours);
-    //let arg = this.champ.value;
-    const params = new URLSearchParams();
-    params.append("titreChapitre", arg);
-    params.append("estVisible", 1);
-    axios.post(`http://localhost:5000/cours/${this.props.cours}/chapitre`, params)
-    .then(res => console.log(res)).catch(err => console.log(err)) ;
-    
-    let history = useNavigate();
-    history.push(`http://localhost:3000/quiz/${this.props.cours}/${arg}/creation`);
-}*/
-
-
+// permet de changer la visibilité d'un chapitre, endpoint inexistant -> n'appelle rien
 function ChangeVisibiliteChap(arg1, arg2, arg3){
-    console.log("ca marche visibilité chapitre")
-    console.log(arg1)
-    console.log(arg2)
-    console.log(arg3)
     const params = new URLSearchParams();
     params.append("idChapitre", arg3);
     params.append("chapEstVisible", !arg2);
@@ -74,11 +51,8 @@ function ChangeVisibiliteChap(arg1, arg2, arg3){
     .then(res => console.log(res)).catch(err => console.log(err)) ;
 }
 
+// permet de changer la visibilité d'un quiz, endpoint inexistant -> n'appelle rien
 function ChangeVisibiliteQuiz(arg1, arg2, arg3){
-    console.log("ca marche visibilité quiz")
-    console.log(arg1)
-    console.log(arg2)
-    console.log(arg3)
     const params = new URLSearchParams();
     params.append("idQuiz", arg3);
     params.append("disponnible", !arg2);
@@ -87,7 +61,7 @@ function ChangeVisibiliteQuiz(arg1, arg2, arg3){
 
 }
 
-
+// classe affichant les pages de cours avec les fonctionnalités professeurs 
 class CoursPageProf extends Component{
 
 
@@ -97,30 +71,30 @@ class CoursPageProf extends Component{
             loading : true,
             data : null,
             cours : null,
+            newChapitre : null
         }
 
     }
 
-    AddChap = (event) => {
-        const arg = event.target.nomChapitre.value
-        console.log(arg);
-        //let arg = this.champ.value;
+    //fctn ajoutant un chapitre à la base de donnée, et redirigeant vers la création d'un quiz -> à réparer 
+    AddChap = (form) => {
+        form.preventDefault();
         const params = new URLSearchParams();
-        params.append("titreChapitre", arg);
+        params.append("titreChapitre", this.state.newChapitre);
         params.append("estVisible", 1);
         axios.post(`http://localhost:5000/cours/${this.props.cours}/chapitre`, params)
         .then(res => console.log(res)).catch(err => console.log(err)) ;
-        
-        let history = useNavigate();
-        history.push(`http://localhost:3000/quiz/${this.props.cours}/${arg}/creation`);   
+//        window.location=`/quiz/${this.props.cours}/${this.state.newChapitre}/creation`;   
     }
     
 
-    render() { 
+    changeHandler = (e) =>{
+        this.setState({newChapitre : e.target.value});
+    } 
 
+    // render tout les éléments visible de la page (chapitre (avec visibilité et bouton supprimer), quiz (avec desc, bouton, visibilité et bouton supprimer), bouton creation quiz, ajout chapitre)
+    render() { 
         let tabData = tabForm(this.props.data);
-        console.log("tabData = "); // a retirer final
-        console.log(tabData); // pareil
         return (
             <div>
                 <h1>{this.props.cours}</h1>  
@@ -150,17 +124,16 @@ class CoursPageProf extends Component{
                             <Button sx={{ml:3, py:1, bgcolor: "#fff"}} href={`http://localhost:3000/quiz/${this.props.cours}/${item[0].titreChapitre}/creation`}>+ creation de quiz +</Button>
                         </Fieldset>                  
                 ))}
-                <Form sx={{ml:5, mr:20, my:2, py:3}} onSubmit={(event) =>{this.AddChap(event)}}>
-                    <input name="nomChapitre" type="text" defaultValue="+ chapitre +"></input>
+                <Form sx={{ml:5, mr:20, my:2, py:3}} onSubmit={this.AddChap}>
+                    <input name="newChapitre" type="text" defaultValue="" onChange={this.changeHandler}></input>
                     <input type="submit"></input>
                 </Form>
             </div>
         );
     }
-//<Checkbox id={`${item2.titre}`} onClick={ChangeVisibilite()}></Checkbox>
-//(event) =>{AddChap(event.target.value)}
 }
 
+// classe appelant les données nécessaire pour l'affichage d'un cours coté prof, appelle ensuite la classe permettant de l'afficher
 class PageCoursProf extends Component{
     constructor(props){
         super(props)
@@ -171,7 +144,7 @@ class PageCoursProf extends Component{
         }
     }
     
-
+    //appelle les quiz créer du cours
     async componentDidMount() {   
         const {cours} = this.props.params;
         const url1 = `http://localhost:5000/cours/${cours}/quiz`;
@@ -180,7 +153,7 @@ class PageCoursProf extends Component{
 
         await this.setState({loading : false, data : data, cours : cours});
     }
-
+    //appelle la classe qui affiche les informations si toutes les données sont arrivées, sinon afficher loading 
     render(){
         return(
             <div>
@@ -195,44 +168,6 @@ class PageCoursProf extends Component{
 
     }
 }
-
-/*class ChangeVisibiliteChap2 extends Component{
-
-    state = {
-      email : '',
-      motDePasse : ''
-    }
-  
-  
-    submitHandler = form =>{
-      form.preventDefault();
-      const params = new URLSearchParams();
-      params.append("email", this.state.email);
-      params.append("motDePasse", this.state.motDePasse);
-      axios.post("http://localhost:5000/utilisateurs/connexion", params)
-        .then(res => console.log(res)).catch(err => console.log(err)) ;
-    }
-  
-    changeHandler = (e) =>{
-      this.setState({[e.target.name] : e.target.value});
-    } 
-  
-  
-      render(){
-        return(
-          <form onSubmit={this.submitHandler}>
-  
-            <label for={"eamil"}>Email :</label>
-            <input type={"text"} id={"email"} name={"email"} onChange={this.changeHandler}></input>
-            <label for={"motDePasse"}>Mot de passe:</label>
-            <input type={"text"} id={"motDePasse"} name={"motDePasse"} onChange={this.changeHandler}></input>
-            <input type={"submit"} value={"Submit"}></input>
-  
-          </form>
-        )
-      }
-      
-    }*/
 
 export default (props) => (
     <PageCoursProf {...props} params={useParams()}/>

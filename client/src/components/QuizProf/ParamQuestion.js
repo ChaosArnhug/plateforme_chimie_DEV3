@@ -150,6 +150,7 @@ class ParamQuestion extends Component{
 
                         <FormGroup sx={{ml:3, mr:4, my:"auto"}}>
                             <FormControlLabel 
+                            data-testid="ouverteOrQCM"
                             control={<Checkbox onClick={() => {
                                 this.choixParam(this.state.isQCM)}
                             }/>} 
@@ -158,7 +159,7 @@ class ParamQuestion extends Component{
                         </FormGroup>
                     </Div>
 
-                    <Div id="param_reponse">
+                    <Div id="param_reponse" data-testid="ParamReponse">
                         
                     </Div>
                     

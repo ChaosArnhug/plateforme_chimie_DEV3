@@ -261,7 +261,6 @@ class CreationQuiz extends Component{
                         addQuestionInDataArray={this.addQuestionInDataArray} 
                         remQuestionInDataArray={this.remQuestionInDataArray}
                         addReponseInDataArray={this.addReponseInDataArray} 
-                        addReponseInDataArray2={this.addReponseInDataArray2}
                         generateUniqueID={this.generateUniqueID}
                         questionType={this.questionType}
                         remReponseInDataArray = {this.remReponseInDataArray}

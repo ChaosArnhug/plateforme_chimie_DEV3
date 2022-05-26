@@ -5,7 +5,7 @@ import { createTheme } from '@mui/material/styles';
 import { unstable_styleFunctionSx, styled } from '@mui/system';
 //import { styled } from '@mui/material/styles';
 
-import theme from "../../index.js"
+//import theme from "../../index.js"
 
 import TextField from '@mui/material/TextField';
 
@@ -60,6 +60,7 @@ class ParamOuverte extends Component{
 
   render(){
       return(
+        <div data-testid="ParamOuverte">
           <TextField
           required
           id="outlined-required"
@@ -71,7 +72,9 @@ class ParamOuverte extends Component{
                 this.props.questionId, this.state.reponseId, "texteReponse", event.target.value
             )   
           }}
-          />
+          /> 
+        </div>
+          
       )
   }
 }
