@@ -16,7 +16,7 @@ function boolToInt(boolean){
 
 
 //Il manque les images pour les questions et les réponses
-router.get("/:quiz_id",permission.checkAuthentification ,  (req, res) =>{
+router.get("/:quiz_id", permission.checkAuthentification ,  (req, res) =>{
     database.query(`
        CALL data_quiz(?, ?) `, [req.params.quiz_id, req.user.idUtilisateur], (err, rows) => {
 
@@ -42,7 +42,7 @@ router.get("/:quiz_id",permission.checkAuthentification ,  (req, res) =>{
 })
 
 
-router.post("/:quiz_id", (req, res) =>{   
+router.post("/:quiz_id",permission.checkAuthentification, (req, res) =>{   
     
     let scores=0;
 
@@ -116,7 +116,7 @@ router.post("/:quiz_id", (req, res) =>{
 
 
 // Création d'un quiz
-router.post("/gestion/creation",/*permission.checkAuthentification,*/ async (req, res) =>{
+router.post("/gestion/creation",permission.checkAuthentification, async (req, res) =>{
 
     // query de l'id de chapitre, à l'interieur du callback je fait un query de la procédure qui ajoute un quiz
     await database.query( 
@@ -125,7 +125,7 @@ router.post("/gestion/creation",/*permission.checkAuthentification,*/ async (req
             chap_id = await result[0].chapId;  
             // Création du quiz en db
             await database.query(
-                `CALL creationAjoutQuiz(?,?,?,?)`, [req.body.titre, req.body.description, 1, chap_id], async (err, result) => {  //mis visible de base
+                `CALL creationAjoutQuiz(?,?,?,?)`, [req.body.titre, req.body.description, req.user.idUtilisateur, chap_id], async (err, result) => {  //mis visible de base
 
                     var quizId = await result[0][0].quizId; // id renvoyé par la procédure creationAjoutQuiz
                     

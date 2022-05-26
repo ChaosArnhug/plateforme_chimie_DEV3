@@ -106,6 +106,7 @@ router.post('/inscription',permission.checkNotAuthentification, async (req, res)
 
                 if (!err){
                     res.status(201);
+                    res.redirect('/utilisateurs/connexion');
                     
                 }else {
                     res.send('An error occured');
