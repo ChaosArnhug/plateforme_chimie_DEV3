@@ -55,6 +55,18 @@ it("test transition loading", async () => {
     expect(com).toBeInTheDocument()
 })
 
+it("test transition", async () => {   
+    render(<CoursPageTransi params="chimie 5ième"/>, () => {
+        const button = screen.getByText('Quiz 1')
+        const chap = screen.getByText('chapitre 1')
+        const com = screen.getByText('Quiz du chapitre 1')
+        expect(button).toBeInTheDocument()
+        expect(chap).toBeInTheDocument()
+        expect(com).toBeInTheDocument()
+    });
+
+}) 
+
 // -------------------------------------
 
 
@@ -70,17 +82,7 @@ it("test render element null ", async () => {
     await expect(<QuizMain/>).toHaveBeenCalledTimes(1);
 })
 
-it("test transition", async () => {   
-    render(<CoursPageTransi params="chimie 5ième"/>, () => {
-        const button = screen.getByText('Quiz 1')
-        const chap = screen.getByText('chapitre 1')
-        const com = screen.getByText('Quiz du chapitre 1')
-        expect(button).toBeInTheDocument()
-        expect(chap).toBeInTheDocument()
-        expect(com).toBeInTheDocument()
-    });
 
-})
 
 
 
