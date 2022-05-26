@@ -106,6 +106,9 @@ class MultReponsesQCM extends Component{
     }
     
     limitResponsesAmount(number){
+        /**
+         * Limite le nombres de ReponsesQCM générés. On ne devrait normalement pas être en dessous de 1 et au dessus de 10. 
+         */
         if ((1<=number ) && (number<=10)){
             return number
         }
@@ -129,7 +132,6 @@ class MultReponsesQCM extends Component{
                 questionId={this.props.questionId}
                 addReponseInDataArray={this.props.addReponseInDataArray}
                 updateReponseData={this.props.updateReponseData}
-                //addReponseInState = {this.props.addReponseInState}
                 />
               ))
             

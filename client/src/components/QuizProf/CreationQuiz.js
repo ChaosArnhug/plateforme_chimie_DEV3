@@ -39,12 +39,12 @@ const theme = createTheme({
 
 
 
-//Les balises HTML de base ne peuvent pas être modifiée avec sx={{.....}}. On doit créer un nouveau 
+// Les balises HTML de base ne peuvent pas être modifiée avec sx={{.....}}. On doit créer un nouveau 
 // type de balise à partir de celles-ci pouvant utiliser sx. 
 const Div = styled('div')(unstable_styleFunctionSx);
 
 
-
+// Définittion d'une variable MUI , retirer ?
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -74,19 +74,36 @@ class CreationQuiz extends Component{
         this.remAllReponsesInDataArray = this.remAllReponsesInDataArray.bind(this);
 
 
+        // L'ensemble des données relatives au quiz qu'on est en train de créer sont stockées dans this.state.myQuizData
+        // myQuizData contient : le cours et le chapitre du quiz, son titre et sa description ainsi qu'un array myQuestionsArray 
+        // contenant un objet pour chaque question qu'on a dans le quiz.
+        // Chacun des ces objets contiennent le titre et l'énoncé de la question, le nombre des points que vaut cette question (mis à 1 de base), 
+        // un booléen indiquant si la question est un qcm ou une question ouverte, un array myReponsesArray.
+        // myReponsesArray contient un objet pour chaque réponse liée à la question. Pour une question ouvrte il n'y aura qu'un objet,
+        // pour un qcm cela dépends du choix de celui qui crée. 
+        // On indique dans ces objets si la réponse est correcte et le texte de la réponse.
+
+        // questionId et reponseId sont des id générés aléatoirement pour gérer le fonctionnement frontend. Ils ne représentent pas les id en db qui seront,
+        // eux, créés en incrémental.
+
         // dans myQuestionsArray: liste d'objets : {"questionId": "", "titreQuestion" : "", "enonce" : "", "isQCM" : false, "points" : 1, "myReponsesArray" : []}
         // dans myReponsesArray: liste d'objets : {"reponseId": "", "texteReponse" : "", "isCorrect" : false}
     }
 
 
     async finishQuiz(){
+        /**
+         * Fonction gérant la fin de la création. Elle est liée au bouton d'envoi du quiz.
+         * Elle mets a jour les valeurs de cours et chapitre dans myQuizData et fait ensuite un fetch de l'endpoint gérant la création du quiz.
+         * On redirige vers la page de gestion du cours dans lequel on a créé le quiz. Un message de confirmation est envoyé.
+         */
         await this.updateQuizData("cours", this.props.params.cours);
         await this.updateQuizData("chapitre", this.props.params.chapitre); 
         
         // On mets à jour le cours et le chapitre du quiz. On les récupère de l'url via useParams() .
         // On utilise useParams() dans une fonction qui englobe CreationQuiz quand on l'export.
 
-        fetch(`http://localhost:5000/quiz/gestion/creation`,   // avec un await -> fetch ne finit jamais. Comme on ne récupères pas de données => OK
+        fetch(`http://141.94.26.80:5000/quiz/gestion/creation`,   // avec un await -> fetch ne finit jamais. Comme on ne récupères pas de données => OK
             {
                 method: "POST",
                 body: JSON.stringify(this.state.myQuizData),
@@ -96,8 +113,7 @@ class CreationQuiz extends Component{
             }
         )
         
-        await console.log(this.state.myQuizData.cours)
-        window.location = await ("http://localhost:3000/cours/"+this.state.myQuizData.cours+"/creation"); // retour à la page de gestion du cours dans lequel on crée le quiz
+        window.location = await ("http://141.94.26.80:3000/cours/"+this.state.myQuizData.cours+"/creation"); // retour à la page de gestion du cours dans lequel on crée le quiz
 
         await alert("Votre quiz à bien été créé .")
         return false
@@ -105,20 +121,28 @@ class CreationQuiz extends Component{
     }
 
     generateUniqueID(type){
-        // type représente le type : "Q" -> Question, "R"-> Réponse
+        /**
+         * Fonction générant les id (semi) aléatoires pour les id de questions et de quiz.
+         * type représente le type d'id : "Q" -> Question, "R"-> Réponse
+         */
+        
         let num = Math.floor(Math.random() * Date.now());
         return(type+num)
     }
 
     numFromQuestionId(questionId){
-        // Récupère la position de l'objet représentant une question en fonction de son id
+        /**
+         * Récupère la position de l'objet représentant une question en fonction de son id
+         */
         
         let num = this.state.myQuizData.myQuestionsArray.map(object => object.questionId).indexOf(questionId);
         return num
     }
 
     numFromReponseId(questionNum, reponseId){
-        // Récupère la position de l'objet représentant une question en fonction de son id
+        /**
+         * Récupère la position de l'objet représentant une question en fonction de son id
+         */
         let num = this.state.myQuizData.myQuestionsArray[questionNum].myReponsesArray.map(object => object.reponseId).indexOf(reponseId);
 
         if(num == -1){
@@ -129,14 +153,23 @@ class CreationQuiz extends Component{
     }
 
     async updateQuizData(dataToChange, newData){
-        // Fonction changeant la valeur d'une clé dans myQuizData (ex: titre, description), 
-        // dataToChange représente la clé dont on doit changer la valeur, newData la nouvelle valeur
+        /**
+         * Fonction changeant la valeur d'une clé dans myQuizData (ex: titre, description), 
+         *  dataToChange représente la clé dont on doit changer la valeur, newData la nouvelle valeur
+         */
+        
         let newObject = await {...this.state.myQuizData};
         newObject[dataToChange] = await newData;
         await this.setState({"myQuizData" : newObject});
     }
 
     async updateQuestionData(questionId, questionDataToChange, newData){
+        /**
+         * Change une valeur dans un objet question.
+         * questionId : permets de cibler l'objet où on doit changer une valeur
+         * questionDataToChange : valeur à changer
+         * newData : nouvelle valeur
+         */
         let questionNum = await this.numFromQuestionId(questionId);
         let newObject = await {...this.state.myQuizData};
         
@@ -145,6 +178,13 @@ class CreationQuiz extends Component{
     }
 
     async updateReponseData(questionId, reponseId, reponseDataToChange, newData){
+        /**
+         * Change une valeur dans un objet réponse.
+         * questionId : permets de cibler l'objet question où on doit changer une valeur
+         * reponseId : permets de cibler l'objet réponse où on doit changer une valeur
+         * reponseDataToChange : valeur à changer
+         * newData : nouvelle valeur
+         */
         let questionNum = await this.numFromQuestionId(questionId);
         let reponseNum = await this.numFromReponseId(questionNum, reponseId);
 
@@ -278,9 +318,6 @@ class CreationQuiz extends Component{
                     
                     <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> {this.finishQuiz()}}>Terminer</Button>
 
-                    <Button variant="contained" sx={{ml:9, mr:2, mt:2, bgcolor:"secondary.button"}} onClick={()=> { console.log(this.state.myQuizData)} }>console.log</Button>
-                    
-                    
 
                 </ThemeProvider>
                 

@@ -50,6 +50,11 @@ class ParamQCM extends Component{
     }
 
     async ajoutRetraitReponse(action){
+        /**
+         * Gère l'ajout ou le retrait de réponses pour lun QCM. Lié à deux boutons (un ajoute, l'autre retire)
+         * action: ["ajout", "retrait"], indique quelle action sera faite.
+         * On fait une vérification sur le nombre de réponses possibles. minimum une réponse, maximum 2.
+         */
         if(action === "ajout"){
             if(this.state.nmbreQCMReponses > 9 ){
                 alert("Maximum 10 réponses possibles s'il vous plait");
