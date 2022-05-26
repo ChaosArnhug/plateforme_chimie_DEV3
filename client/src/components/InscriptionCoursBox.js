@@ -3,6 +3,7 @@ import InscriptionCours from './InscriptionCours';
 
 import { Container} from '@mui/material';
 
+//Génère un conteneur contenant les box d'inscription à un cours
 class InscriptionCoursBox extends Component {
     state = { 
         url : "http://localhost:5000/cours",

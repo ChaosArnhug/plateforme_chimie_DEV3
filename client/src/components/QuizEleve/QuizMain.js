@@ -5,7 +5,7 @@ import {useParams} from 'react-router-dom';
 
 class QuizMain extends Component {
 
-    // Initialisation du state locale
+    // Initialisation du state local
     constructor(props){
         super(props)
         this.state = {

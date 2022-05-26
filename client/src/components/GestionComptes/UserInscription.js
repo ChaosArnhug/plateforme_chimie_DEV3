@@ -20,7 +20,7 @@ const theme = createTheme({
   },
 });
 
-
+//Génère le formulaire de connexion
 class UserInscription extends Component{
     state = {
       email : '',
@@ -31,6 +31,7 @@ class UserInscription extends Component{
       classe:''
     }
 
+    //Fait la requête API pour s'inscrire'
     submitHandler = form =>{
       form.preventDefault();
       const params = new URLSearchParams();
@@ -46,19 +47,13 @@ class UserInscription extends Component{
         .then(res => console.log(res)).catch(err => console.log(err)) ;
     }
   
+    //Update le state du commonent avec l'input de l'utilisateur
     changeHandler = (e) =>{
       this.setState({[e.target.name] : e.target.value});
     } 
 
     render(){
       return(
-        /*<form onSubmit={this.submitHandler}>
-          <
-          <label for={"classe"}>Classe :</label>
-          <input type={"text"} id={"classe"} name={"classe"} onChange={this.changeHandler}></input>
-          <input type={"submit"} value={"Submit"}></input>
-
-        </form>*/
         <ThemeProvider theme={theme}>
           <Container  maxWidth="sm" sx={{ backgroundColor: 'box.main'}}>
           

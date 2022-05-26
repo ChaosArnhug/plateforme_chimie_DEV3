@@ -22,11 +22,11 @@ class CoursPageTransi extends Component{
     //appelle les données nécessaire a l'affichage de la page de cours coté élèves
     async componentDidMount() {   
         const {cours} = this.props.params;
-        const url1 = `http://141.94.26.80:5000/cours/${cours}/quiz`;
+        const url1 = `http://localhost:5000/cours/${cours}/quiz`;
         const response1 = await fetch(url1);
         const data = await response1.json();
 
-        const url2 = `http://141.94.26.80:5000/utilisateurs/quiz`;
+        const url2 = `http://localhost:5000/utilisateurs/quiz`;
         const response2 = await fetch(url2);
         const dataEleve = await response2.json();
 

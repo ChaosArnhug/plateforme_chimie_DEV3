@@ -51,6 +51,9 @@ class ParamQuestion extends Component{
     
 
     choixParam(isQCM){
+        /**
+         * Change le type de question. On passe d'une question ouverte à un qcm et inversement
+         */
         if (isQCM === true){
             this.setState({isQCM:false});
             ReactDOM.render(
@@ -87,11 +90,12 @@ class ParamQuestion extends Component{
     }
 
     async componentDidMount(){
-        let questionId = await this.props.addQuestionInDataArray(); // La fonction renvoie l'id de question qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
+        let questionId = await this.props.addQuestionInDataArray(); 
+        // La fonction renvoie l'id de question qu'elle à générée et ajoutée dans l'objet dans myQuestionsArray
         await this.setState({"questionId" : questionId});
-        //alert(this.state.questionId);
 
         // Quand on render une nouvelle question -> ok, nouvel questionId, quand on en render plusieurs -> ont tous le même questionId
+        // à gérer quand on fait l'ajout de questions
     
         ReactDOM.render(
             <ParamOuverte 

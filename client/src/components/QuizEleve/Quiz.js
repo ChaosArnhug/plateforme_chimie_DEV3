@@ -1,11 +1,10 @@
 import React, {Component } from 'react';
 import './QuizMain.css';
 import Question from "./Question/Question";
-import Result from "./Question/Result"
 
 export default class Quiz extends Component  {
 
-     // Initialisation du state locale
+     // Initialisation du state local
    
     constructor(props){
         super(props)
@@ -21,7 +20,7 @@ export default class Quiz extends Component  {
     }
     
 
-    //recuperation des questions d'un quiz (appel de l'API) ex: http://localhost:5000/quiz/1
+    //récupération des questions d'un quiz (appel de l'API) ex: http://localhost:5000/quiz/1
     async getQuestions (quizid)  {  
         const url = "http://localhost:5000/quiz/"+quizid;
         const response = await fetch(url);
@@ -34,10 +33,10 @@ export default class Quiz extends Component  {
     //Insertion ou mise à jours des réponses encodées dans le tableau des réponses
     updateInputValue = (evt,question) => {     
         let responses = this.state.responses;
-        //chercher si déjà encodée
+        //chercher si réponse déjà encodée
         let indexRecord= responses.findIndex(element => element.includes("{\"question\":\""+question+"\","))
         
-        //Si -1 alors pas encodée , on utilise push pour l'insérer dans le tableau des réponses
+        //Si -1 alors réponse pas encodée , on utilise push pour l'insérer dans le tableau des réponses
         //sinon on supprime l'ancienne réponse et on insère la nouvelle
         if (indexRecord === -1)
             responses.push("{\"question\":\""+question+"\",\"response\":\""+evt+"\",\"estQCM\":0}");    
@@ -53,7 +52,7 @@ export default class Quiz extends Component  {
     };
 
 
-    //refaire le quiz, utilisée avec le bouton Reset
+    //refaire le quiz, avec le bouton Reset
     tryAgain = () => {
         this.setState({
             questionList: [],
@@ -90,7 +89,7 @@ export default class Quiz extends Component  {
         this.getQuestions(this.props.quiz);
      }
      
-    // Parcour du tableau des questions et appel du composant Question pour l'affichage de chaque question et le choix possible , l'image , ou le input box 
+    // Parcours du tableau des questions et appel du composant Question pour l'affichage de chaque question et le choix possible , l'image , ou le input box 
     render(){
         
         let { questionList, titre, description }= this.state

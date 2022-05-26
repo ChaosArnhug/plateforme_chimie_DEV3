@@ -82,7 +82,7 @@ class CoursPageProf extends Component{
         const params = new URLSearchParams();
         params.append("titreChapitre", this.state.newChapitre);
         params.append("estVisible", 1);
-        axios.post(`http://141.94.26.80:5000/cours/${this.props.cours}/chapitre`, params)
+        axios.post(`http://localhost:5000/cours/${this.props.cours}/chapitre`, params)
         .then(res => console.log(res)).catch(err => console.log(err)) ;
 //        window.location=`/quiz/${this.props.cours}/${this.state.newChapitre}/creation`;   
     }
@@ -111,7 +111,7 @@ class CoursPageProf extends Component{
                             {item.map((item2) => (        
                                 <Div sx={{ml:3, my:2, display: 'flex'}}>
                                     <P sx={{py:1}}>{item2.description}</P>
-                                    <Button sx={{ml:3, mr:2}} href={`http://141.94.26.80:3000/cours/${this.props.cours}/quiz/${item2.idQuiz}`} >{item2.titre}</Button>
+                                    <Button sx={{ml:3, mr:2}} href={`http://localhost:3000/cours/${this.props.cours}/quiz/${item2.idQuiz}`} >{item2.titre}</Button>
                                     <Form sx={{ml:3, mr:3, py:1}}>
                                         <label>
                                             visible:  
@@ -121,7 +121,7 @@ class CoursPageProf extends Component{
                                     <Button >supprimer</Button>                            
                                 </Div>       
                             ))}
-                            <Button sx={{ml:3, py:1, bgcolor: "#fff"}} href={`http://141.94.26.80:3000/quiz/${this.props.cours}/${item[0].titreChapitre}/creation`}>+ creation de quiz +</Button>
+                            <Button sx={{ml:3, py:1, bgcolor: "#fff"}} href={`http://localhost:3000/quiz/${this.props.cours}/${item[0].titreChapitre}/creation`}>+ creation de quiz +</Button>
                         </Fieldset>                  
                 ))}
                 <Form sx={{ml:5, mr:20, my:2, py:3}} onSubmit={this.AddChap}>
@@ -147,7 +147,7 @@ class PageCoursProf extends Component{
     //appelle les quiz créer du cours
     async componentDidMount() {   
         const {cours} = this.props.params;
-        const url1 = `http://141.94.26.80:5000/cours/${cours}/quiz`;
+        const url1 = `http://localhost:5000/cours/${cours}/quiz`;
         const response1 = await fetch(url1);
         const data = await response1.json();
 
