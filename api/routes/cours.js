@@ -6,6 +6,7 @@ const permission = require("../authentication/permission")
 
 
 router.get("/", (req, res) =>{
+    
     database.query(`
         CALL liste_cours(?)`, [domain], (err, rows) => {
 

@@ -70,24 +70,23 @@ router.post("/:quiz_id", (req, res) =>{
 
 // Création d'un quiz
 router.post("/gestion/creation",/*permission.checkAuthentification,*/ async (req, res) =>{
-    // Ajout du quiz dans la DB
-    //await console.log(req.sessions.passport)
 
     // query de l'id de chapitre, à l'interieur du callback je fait un query de la procédure qui ajoute un quiz
     await database.query( 
         `SELECT getChapId(?,?) AS chapId`, [req.body.cours, req.body.chapitre], async (err, result) => {
-            //await console.log(result)
-            chap_id = await result[0].chapId;  // moyen de changer le nom ?
-            //await console.log(chap_id);
+
+            chap_id = await result[0].chapId;  
+            // Création du quiz en db
             await database.query(
                 `CALL creationAjoutQuiz(?,?,?,?)`, [req.body.titre, req.body.description, 1, chap_id], async (err, result) => {  //mis visible de base
-                    //await console.log(result);
+
                     var quizId = await result[0][0].quizId; // id renvoyé par la procédure creationAjoutQuiz
                     
+                    // Pour chaque question dans myQuestionsArray on crée une question en db
                     await req.body.myQuestionsArray.map(async (item) => {
                         await database.query(
                             `CALL creationAjoutQuestion(?,?,?,?,?)`, [item.titreQuestion, item.enonce, boolToInt(item.isQCM), item.points, quizId], async (err, result) => {  // quiz_id bon ?
-                                //await console.log(result[0][0])
+
                                 var questionId = await result[0][0].questionId;
 
                                 if (err){
@@ -96,11 +95,9 @@ router.post("/gestion/creation",/*permission.checkAuthentification,*/ async (req
                                             
                                 }
                                 // mettre en place d'autres codes erreur
-                                //question_id = await result[0].idQuestions  // result = array avec un seul objet ?
+
+                                // Pour chaque réponse dans myReponsesArray dans l'objet question, on ajoute une réponse liée à cette question en db
                                 await item.myReponsesArray.map(async(item2) => {
-                                    //await console.log(item2.texteReponse)
-                                    //await console.log(item2.isCorrect)
-                                    //await console.log(questionId)
                                     await database.query(
                                         `CALL creationAjoutReponse(?,?,?)`, [item2.texteReponse, boolToInt(item2.isCorrect), questionId], async (err) => {   // Changer isCorrect de booléen à int
                                         
@@ -126,13 +123,11 @@ router.post("/gestion/creation",/*permission.checkAuthentification,*/ async (req
 
 
 
-// Pas sur de pouvoir utiliser quiz_id et question_id correctement. Elles sont définies avec var à l'interieur de la fonction de callback du post.
-// On leur attribue une aleur dans les callbacks de database.query(...)  -> Est-ce que la valeur sera changée ?
 
 
-// Modification d'un quiz
+// Modification d'un quiz : Ne fait rien pour le moment
 router.post("/gestion/modification", (req, res) =>{
-    res.send({ title: 'QUIZ_CREATION' });
+    res.send({ error: "La modification n'est pas encore implémentée" });
 })
 
 module.exports = router;
