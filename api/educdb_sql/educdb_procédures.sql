@@ -319,14 +319,20 @@ IN _code varchar(60)
 BEGIN
 
 	declare bonCode int default null;
+    declare coursExiste int default null;
 	# Gestion si utilisateur déjà existant
 	declare exit handler for 1062 select "La demande a déjà été effectuée" Erreur1 ;
-    declare exit handler for 1048 select "Le cours n'existe pas" Erreur2 ;
     
     select 1 into bonCode from cours
 	where nom = _nomCours and code_acces = _code; 
     
-    if bonCode is NULL then
+    select 1 into coursExiste from cours
+    where nom = _nomCours;
+    
+    if coursExiste is null then
+		select "Le cours n'existe pas" Erreur2;
+        
+    elseif bonCode is NULL then
 		select "Mauvais code" Erreur3;
 	else
 		# Nouvelle demande

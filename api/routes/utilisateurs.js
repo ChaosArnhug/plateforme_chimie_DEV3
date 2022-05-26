@@ -6,12 +6,9 @@ const passport = require('passport');
 const bcrypt = require ('bcrypt');
 const permission = require("../authentication/permission");
 
-router.get("/quiz", (req, res) =>{
-    //, permission.checkAuthentification
+router.get("/quiz", permission.checkAuthentification, (req, res) =>{
     database.query(`
-        call resultats_utilisateurs(?, ?) `,[domain, 3 ], (err, rows) =>{
-            //, req.user.idUtilisateur
-
+        call resultats_utilisateurs(?, ?) `,[domain, req.user.idUtilisateur ], (err, rows) =>{
         if (! err){
             rows.forEach(element => {
                 if (element.constructor == Array) {
@@ -26,9 +23,9 @@ router.get("/quiz", (req, res) =>{
     })
 })
 
-router.get("/cours", /*permission.checkAuthentification,*/ (req, res) =>{
+router.get("/cours", permission.checkAuthentification, (req, res) =>{
     database.query(`
-        call cours_utilisateurs(?, ?)`,[domain, /*req.user.idUtilisateur*/3], (err, rows) => {
+        call cours_utilisateurs(?, ?)`,[domain, req.user.idUtilisateur], (err, rows) => {
 
         if (! err){
             rows.forEach(element => {
