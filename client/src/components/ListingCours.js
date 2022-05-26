@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import HubCours from './HubCours'
 
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -10,14 +9,12 @@ import MenuItem from '@mui/material/MenuItem';
 
 // Render le bouton d'un cours dans le menu déroulant déroulant.
 class CoursButton extends Component{
-  goToCours(e){
-    e.preventDefault();
-    this.props.handleClose();
-    ReactDOM.render(
-      <HubCours nom={this.props.nom}/>,
-      document.getElementById('main')
-    )
+
+  render(){
+    return <MenuItem onClick={()=>{window.location = `http://141.94.26.80:3000/cours/${this.props.nom}/creation`}}>{this.props.nom}</MenuItem>
   }
+
+  /*
   render(){
       return(
         (req.user.idUtilisateur == 1 &&
@@ -25,6 +22,7 @@ class CoursButton extends Component{
         (req.user.idUtilisateur != 1 &&
           <MenuItem onClick={()=>{window.location = `http://localhost:3000/cours/${this.props.nom}`}}>{this.props.nom}</MenuItem>)
   )}
+  */
 }
 
 // Fait un .map() de l'array de données reçu et appelles CoursButton pour chacun. Envoie le nom du cours à afficher 
@@ -94,7 +92,7 @@ class ListingCours extends Component{
   } 
 
   async componentDidMount() {
-      const url = "http://141.94.26.80:5000/cours";  
+      const url = "http://localhost:5000/cours";  
       const response = await fetch(url);
       const data = await response.json();
       console.log(data)

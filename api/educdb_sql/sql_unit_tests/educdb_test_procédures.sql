@@ -86,8 +86,8 @@ IN _domaine varchar(45)
 )
 BEGIN
 
-	select cours.nom, DATE_FORMAT(cours.dateCreation, '%Y-%m-%d') as dateCreation, CONCAT(utilisateurs.nom,' ',utilisateurs.prenom) as responsable from cours
-	inner join utilisateurs on cours.responsable = utilisateurs.idUtilisateur; 
+    select cours.nom, DATE_FORMAT(cours.dateCreation, '%Y-%m-%d') as dateCreation, CONCAT(utilisateurs.nom,' ',utilisateurs.prenom) as responsable, concat(CAST(_domaine AS CHAR CHARACTER SET utf8), 'cours/',urlencode(cours.nom)) as url, concat(CAST(_domaine AS CHAR CHARACTER SET utf8), 'cours/',urlencode(cours.nom), '/inscription') as inscription   from cours
+    inner join utilisateurs on cours.responsable = utilisateurs.idUtilisateur; 
     
 END$$
 
