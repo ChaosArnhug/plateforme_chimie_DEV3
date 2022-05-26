@@ -31,7 +31,7 @@ class UserConnection extends Component{
 
   //Fait la requête API pour se connecter et redirige vers page d'acceuil si réussi
   submitHandler = form =>{
-    const urlToconnexion = "http://141.94.26.80/utilisateurs/connexion";
+    const urlToconnexion = "http://141.94.26.80:5000/utilisateurs/connexion";
 
     form.preventDefault();
     const params = new URLSearchParams();

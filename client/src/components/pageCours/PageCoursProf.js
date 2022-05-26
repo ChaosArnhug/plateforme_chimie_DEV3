@@ -47,7 +47,7 @@ function ChangeVisibiliteChap(arg1, arg2, arg3){
     const params = new URLSearchParams();
     params.append("idChapitre", arg3);
     params.append("chapEstVisible", !arg2);
-    axios.post("http://localhost:5000/ChapitreVisibilite", params)
+    axios.post("http://141.94.26.80:5000/ChapitreVisibilite", params)
     .then(res => console.log(res)).catch(err => console.log(err)) ;
 }
 
@@ -56,7 +56,7 @@ function ChangeVisibiliteQuiz(arg1, arg2, arg3){
     const params = new URLSearchParams();
     params.append("idQuiz", arg3);
     params.append("disponnible", !arg2);
-    axios.post("http://localhost:5000/quizVisibilite", params)
+    axios.post("http://141.94.26.80:5000/quizVisibilite", params)
     .then(res => console.log(res)).catch(err => console.log(err)) ;
 
 }
