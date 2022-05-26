@@ -29,8 +29,6 @@ class CoursPageTransi extends Component{
         const url2 = `http://141.94.26.80:5000/utilisateurs/quiz`;
         const response2 = await fetch(url2);
         const dataEleve = await response2.json();
-        console.log("dataeleve = ");
-        console.log(dataEleve);
 
         this.setState({loading : false, data : data, cours : cours, dataEleve : dataEleve}); 
     }
