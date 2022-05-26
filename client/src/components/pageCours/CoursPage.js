@@ -68,7 +68,7 @@ class CoursPage extends Component{
                                 (item2.disponnible == 1 &&
                                 <Div sx={{ml:3, display: 'flex'}}>
                                     <P sx={{py: 1}}>{item2.description}</P>
-                                    <Button sx={{ml:3, mr:3}} type="button" data-testid={`${item2.idQuiz}`} href={`http://localhost:3000/cours/${this.state.cours}/quiz/${item2.idQuiz}`} >{item2.titre}</Button> 
+                                    <Button sx={{ml:3, mr:3}} type="button" data-testid={`${item2.idQuiz}`} href={`http://141.94.26.80:3000/cours/${this.state.cours}/quiz/${item2.idQuiz}`} >{item2.titre}</Button> 
                                     {this.state.dataEleve.map((item3) =>(
                                         item3.titre == item2.titre  && <P sx={{ml: 1, py: 1}}>✅ {item3.resultat}/{item3.total}</P>
                                     ))}                             

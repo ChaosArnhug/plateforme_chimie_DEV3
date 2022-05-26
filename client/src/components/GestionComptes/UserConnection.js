@@ -21,6 +21,7 @@ const theme = createTheme({
   },
 });
 
+//Génère le formulaire de connexion
 class UserConnection extends Component{
 
   state = {
@@ -28,9 +29,9 @@ class UserConnection extends Component{
     motDePasse : ''
   }
 
-
+  //Fait la requête API pour se connecter et redirige vers page d'acceuil si réussi
   submitHandler = form =>{
-    const urlToconnexion = "http://localhost:5000/utilisateurs/connexion";
+    const urlToconnexion = "http://141.94.26.80/utilisateurs/connexion";
 
     form.preventDefault();
     const params = new URLSearchParams();
@@ -46,6 +47,7 @@ class UserConnection extends Component{
       .catch(err => console.log(err)) ;
   }
 
+  //Update le state du commonent avec l'input de l'utilisateur
   changeHandler = (e) =>{
     this.setState({[e.target.name] : e.target.value});
   } 

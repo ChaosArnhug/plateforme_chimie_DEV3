@@ -22,27 +22,27 @@ class CoursPageTransi extends Component{
     //appelle les données nécessaire a l'affichage de la page de cours coté élèves
     async componentDidMount() {   
         const {cours} = this.props.params;
-        const url1 = `http://localhost:5000/cours/${cours}/quiz`;
+        const url1 = `http://141.94.26.80:5000/cours/${cours}/quiz`;
         const response1 = await fetch(url1);
         const data = await response1.json();
 
-        const url2 = `http://localhost:5000/utilisateurs/quiz`;
+        const url2 = `http://141.94.26.80:5000/utilisateurs/quiz`;
         const response2 = await fetch(url2);
         const dataEleve = await response2.json();
         console.log("dataeleve = ");
         console.log(dataEleve);
 
-        this.setState({loading : false, data : data, cours : cours, dataEleve : dataEleve}); //rajouter dataEleve : dataEleve
+        this.setState({loading : false, data : data, cours : cours, dataEleve : dataEleve}); 
     }
     
     //appelle la classe qui affiche les informations si toutes les données sont arrivées, sinon afficher loading 
     render(){
         return(
             <div>
-            {this.state.loading || !this.state.data || !this.state.dataEleve ? (  //rajouter || !this.state.dataEleve
+            {this.state.loading || !this.state.data || !this.state.dataEleve ? ( 
                 <div> Loading ... </div>
             ) : (
-                <CoursPage data={this.state.data} cours={this.state.cours} dataEleve={this.state.dataEleve}/>  //rajouter dataEleve={this.props.dataEleve}   
+                <CoursPage data={this.state.data} cours={this.state.cours} dataEleve={this.state.dataEleve}/>  
             )}
         </div>
            

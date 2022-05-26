@@ -49,9 +49,9 @@ router.get("/:cours", permission.checkAuthentification, (req, res) =>{
     )
 })
 
-router.get("/:cours/quiz", /*permission.checkAuthentification,*/ (req, res) =>{
+router.get("/:cours/quiz", permission.checkAuthentification, (req, res) =>{
     database.query(`
-        call liste_quiz(?, ?, ?)`, [domain, req.params.cours, /*req.user.idUtilisateur*/1], (err, rows) => {
+        call liste_quiz(?, ?, ?)`, [domain, req.params.cours, req.user.idUtilisateur], (err, rows) => {
 
         if (! err){
             rows.forEach(element => {
@@ -71,7 +71,7 @@ router.get("/:cours/quiz", /*permission.checkAuthentification,*/ (req, res) =>{
     })
 })
 
-router.post("/:cours/chapitre", /*permission.checkAuthentification,*/ (req, res) =>{
+router.post("/:cours/chapitre", permission.checkAuthentification, (req, res) =>{
     database.query(`
         call creationAjoutChapitre(?, ?, ?)`, [req.body.titreChapitre, req.body.estVisible, req.params.cours], (err, rows) => {
 

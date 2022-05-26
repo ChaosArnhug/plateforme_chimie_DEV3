@@ -36,8 +36,10 @@ app.use(flash());
 app.use(session({   // !!!!!! SECU A FAIRE ICI !!!!!!!
     secret : '$2a$10$/XL50jdWZmHCtenhSXQaw.2GDtFSIfYfKUvJAUA3KFXlaUY66CQli',
     resave : true,
-    saveUninitialized : false
+    saveUninitialized : false,
+    cookie:{maxAge:86400000}
 }));
+app.use(passport.initialize())
 app.use(passport.session());  
 
 /**
@@ -58,6 +60,5 @@ app.use("/cours", coursRouter);
 app.use("/cours/:cours/documents", documentsRouter);
 app.use("/quiz", quizRouter);
 app.use("/utilisateurs", utilisateursRouter);
-
 
 

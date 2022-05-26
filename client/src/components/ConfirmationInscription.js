@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../index.js';
 
+//Génère une box contenant les informations d'une demande d'inscription à un cours et du bouton de validation
 class ConfirmationInscription extends Component {
     state = {  
         utilisateur : this.props.utilisateur,
@@ -15,6 +16,7 @@ class ConfirmationInscription extends Component {
         confirmation : this.props.confirmation
     } 
 
+    //Appel la requête API pour confirmer l'inscription
     submitValidation = event =>{
         event.preventDefault();
         fetch(this.state.confirmation, {

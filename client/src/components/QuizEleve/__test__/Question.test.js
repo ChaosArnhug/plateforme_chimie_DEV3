@@ -4,7 +4,7 @@ import Question from '../Question/Question';
 import { render } from '@testing-library/react';
 import  "@testing-library/jest-dom/extend-expect";
 
-let question1= {
+question1= {
     "titreQuestion": "Q1",
     "enonce": "Quelle est la formule de l'oxygène ?",
     "img": "",
@@ -12,20 +12,16 @@ let question1= {
     "points": 1,
     "reponses": [
         {
-            "texteReponse": "CO2",
-            "estCorrecte": 0
+            "texteReponse": "CO2"
         },
         {
-            "texteReponse": "HH",
-            "estCorrecte": 0
+            "texteReponse": "HH"
         },
         {
-            "texteReponse": "O2",
-            "estCorrecte": 1
+            "texteReponse": "O2"
         },
         {
-            "texteReponse": "O",
-            "estCorrecte": 0
+            "texteReponse": "O"
         }
     ]
 }
@@ -38,8 +34,7 @@ let question2= {
     "points": 1,
     "reponses": [
         {
-            "texteReponse": "CO2",
-            "estCorrecte": 1
+            "texteReponse": "CO2"
         }
     ]
 }
@@ -114,6 +109,7 @@ test('renders Question 3 correctly', async () => {
     ></Question>));
     
     expect(getByTestId('Q3')).toHaveTextContent("Q3: Quelle est la formule de l'oxygène ?")
+    expect(getByTestId('this is a test of a longer message')).toHaveTextContent("this is a test of a longer message")
     expect(getByTestId('this is a test of a longer message')).toHaveTextContent("this is a test of a longer message")
 
 });

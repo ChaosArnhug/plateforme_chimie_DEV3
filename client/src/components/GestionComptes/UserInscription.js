@@ -20,7 +20,7 @@ const theme = createTheme({
   },
 });
 
-
+//Génère le formulaire de connexion
 class UserInscription extends Component{
     state = {
       email : '',
@@ -31,6 +31,7 @@ class UserInscription extends Component{
       classe:''
     }
 
+    //Fait la requête API pour s'inscrire'
     submitHandler = form =>{
       form.preventDefault();
       const params = new URLSearchParams();
@@ -42,10 +43,11 @@ class UserInscription extends Component{
       params.append("classe", this.state.classe);
       
       
-      axios.post("http://localhost:5000/utilisateurs/inscription", params)
+      axios.post("http://141.94.26.80:5000/utilisateurs/inscription", params)
         .then(res => console.log(res)).catch(err => console.log(err)) ;
     }
   
+    //Update le state du commonent avec l'input de l'utilisateur
     changeHandler = (e) =>{
       this.setState({[e.target.name] : e.target.value});
     } 

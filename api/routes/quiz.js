@@ -16,9 +16,9 @@ function boolToInt(boolean){
 
 
 //Il manque les images pour les questions et les réponses
-router.get("/:quiz_id",  (req, res) =>{
+router.get("/:quiz_id",permission.checkAuthentification ,  (req, res) =>{
     database.query(`
-       CALL data_quiz(?, ?) `, [req.params.quiz_id, 1], (err, rows) => {
+       CALL data_quiz(?, ?) `, [req.params.quiz_id, req.user.idUtilisateur], (err, rows) => {
 
         if (! err){
             rows.forEach(element => {
@@ -42,16 +42,61 @@ router.get("/:quiz_id",  (req, res) =>{
 })
 
 
-router.post("/:quiz_id", (req, res) =>{
-    console.log("le résultat: "+req.body);
+router.post("/:quiz_id", (req, res) =>{   
+    
+    let scores=0;
+
+    //Parcour du tableau des réponses et calcul du score
     req.body.map( 
-        (reponse,i) => (
-            console.log(" la question id: " + JSON.parse(reponse).questionid + " reponseid: "+JSON.parse(reponse).response)
+        (reponse,i) => (                                        
+        database.query(`
+            select a.points from questions a, reponses b 
+            where  a.idQuestions=B.idQuestions and b.estCorrecte=1 and a.enonce=? and b.texteResponse = ?; `,[JSON.parse(reponse).question, JSON.parse(reponse).response], (err, rows, fields) => {
+            
+            if (! err){
+                res.status(201);
+                res.send()
+                rows.forEach( (row) => {
+                    scores += row.points;
+                });  
+                console.log("le score est :"+scores);     
+            }
+            else{
+                res.send("An error occured");
+                console.log(err);
+            }
+              
+            }
+            
+        )
+                   
         )
     )
-    /*database.query(`
-       CALL ajoutResultat(?, ?, ?, ?) `, [req.params.quiz_id, 1, req.body.resultat, req.body.total], (err, rows) => {
-
+    
+    //calcul du total des points
+    let total=0;
+    database.query(`
+    select sum(points) as total from questions  
+    where  idQuiz= ?; `,[req.params.quiz_id], (err, rows, fields) => {
+        
+        if (! err){
+            res.status(201);
+            res.send()
+            rows.forEach( (row) => {
+                console.log("total="+row.total);
+                total=row.total;
+            });    
+            
+        }else{
+            res.status(500);
+            res.send("An error occured");
+            console.log(err);
+        }
+    })
+    
+    //Insertion du score dans la base de données
+    database.query(`
+        CALL ajoutResultat(?, ?, ?, ?) `, [req.params.quiz_id, 1, scores, total], (err, rows) => {
         if (! err){
             res.status(201);
             res.send()
@@ -61,7 +106,9 @@ router.post("/:quiz_id", (req, res) =>{
             res.send("An error occured");
             console.log(err);
         }
-    })*/
+    })
+
+   
 })
 
 
