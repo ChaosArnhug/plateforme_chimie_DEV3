@@ -32,7 +32,6 @@ class InscriptionCours extends Component {
             credentials: 'include'
             
         }).then(res => {
-                console.log(res)
                 if (res.redirected){
                     window.location = "/utilisateurs/connexion"
                 }
