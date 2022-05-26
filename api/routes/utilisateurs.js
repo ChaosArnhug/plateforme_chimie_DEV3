@@ -6,9 +6,9 @@ const passport = require('passport');
 const bcrypt = require ('bcrypt');
 const permission = require("../authentication/permission");
 
-router.get("/quiz", permission.checkAuthentification, (req, res) =>{
+router.get("/quiz", /*permission.checkAuthentification,*/ (req, res) =>{
     database.query(`
-        call resultats_utilisateurs(?, ?) `,[domain, req.user.idUtilisateur ], (err, rows) =>{
+        call resultats_utilisateurs(?, ?) `,[domain, /*req.user.idUtilisateur*/1 ], (err, rows) =>{
         if (! err){
             rows.forEach(element => {
                 if (element.constructor == Array) {
@@ -23,9 +23,9 @@ router.get("/quiz", permission.checkAuthentification, (req, res) =>{
     })
 })
 
-router.get("/cours", permission.checkAuthentification, (req, res) =>{
+router.get("/cours", /*permission.checkAuthentification,*/ (req, res) =>{
     database.query(`
-        call cours_utilisateurs(?, ?)`,[domain, req.user.idUtilisateur], (err, rows) => {
+        call cours_utilisateurs(?, ?)`,[domain, /*req.user.idUtilisateur*/1], (err, rows) => {
 
         if (! err){
             rows.forEach(element => {
@@ -41,9 +41,9 @@ router.get("/cours", permission.checkAuthentification, (req, res) =>{
     })
 })
 
-router.get("/demande", permission.checkAuthentification, (req, res) =>{
+router.get("/demande", /*permission.checkAuthentification,*/ (req, res) =>{
     database.query(`
-    CALL liste_demande_cours(?, ?)`,[domain, req.user.idUtilisateur], (err, rows) =>{
+    CALL liste_demande_cours(?, ?)`,[domain, /*req.user.idUtilisateur*/], (err, rows) =>{
         if (! err){
             rows.forEach(element => {
                 if (element.constructor == Array) {
@@ -59,9 +59,9 @@ router.get("/demande", permission.checkAuthentification, (req, res) =>{
     } )
 })
 
-router.post("/demande", permission.checkAuthentification, (req, res) =>{
+router.post("/demande", /*permission.checkAuthentification,*/ (req, res) =>{
     database.query(`
-    CALL confirmation_inscription(?, ?, ?)`,[req.query.idUtilisateur, req.query.idCours, req.user.idUtilisateur], (err, rows) =>{
+    CALL confirmation_inscription(?, ?, ?)`,[req.query.idUtilisateur, req.query.idCours, /*req.user.idUtilisateur*/1], (err, rows) =>{
         if (! err){
             if (rows.constructor == Array){
                 rows.forEach(element => {
