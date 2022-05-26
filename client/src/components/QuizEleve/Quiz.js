@@ -69,7 +69,7 @@ export default class Quiz extends Component  {
 
         // On envoi les réponses vers l'API.
         //console.log(JSON.stringify(this.state.responses));
-        fetch(`http://localhost:5000/quiz/`+this.props.quiz,   
+        fetch(`http://141.94.26.80:5000/quiz/`+this.props.quiz,   
             {
                 method: "POST",
                 body: JSON.stringify(this.state.responses),
@@ -90,7 +90,7 @@ export default class Quiz extends Component  {
         this.getQuestions(this.props.quiz);
      }
      
-    // Parcour du tableau des questions et appel du composant Question pour l'affichage de chaque question et le choix possible , l'image , ou le input box 
+    // Parcours du tableau des questions et appel du composant Question pour l'affichage de chaque question et le choix possible , l'image , ou le input box 
     render(){
         
         let { questionList, titre, description }= this.state
