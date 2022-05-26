@@ -43,7 +43,7 @@ router.get("/cours", /*permission.checkAuthentification,*/ (req, res) =>{
 
 router.get("/demande", /*permission.checkAuthentification,*/ (req, res) =>{
     database.query(`
-    CALL liste_demande_cours(?, ?)`,[domain, /*req.user.idUtilisateur*/], (err, rows) =>{
+    CALL liste_demande_cours(?, ?)`,[domain, /*req.user.idUtilisateur*/1], (err, rows) =>{
         if (! err){
             rows.forEach(element => {
                 if (element.constructor == Array) {
