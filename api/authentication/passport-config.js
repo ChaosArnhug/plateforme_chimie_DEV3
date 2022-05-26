@@ -2,6 +2,7 @@ const localStrategy = require('passport-local').Strategy;
 const bcrypt = require ('bcrypt');
 const database = require ('../mySqlDb');
 
+//Récupère des informations en DB sur base de l'émail envoyé par l'utilisateur
 function queryPromiseAuthenticateUser (email) {
     return new Promise((resolve) =>{
         database.query(
@@ -20,6 +21,7 @@ function queryPromiseAuthenticateUser (email) {
     })
 }
 
+//Vérifie que les informations de connexion de l'utilisateur (email + MDP) correspondent à un utilisateur en DB
 async function authenticateUser (email, motDePasse, done) { 
     try { 
         const user = await queryPromiseAuthenticateUser(email);
@@ -40,6 +42,7 @@ async function authenticateUser (email, motDePasse, done) {
 
 }
 
+//Récupère des informations sur l'utilisateur connecté sur base de son ID sauvegardé dans un cookie
 function queryPromiseGetUserById (id) {
     return new Promise((resolve) =>{
         database.query(
@@ -57,7 +60,7 @@ function queryPromiseGetUserById (id) {
         });
     })
 }
-
+//Ajoute un les informations de l'utilisateur connecté dans les requêtes API qu'il fait
 async function getUserById (id){
     try {
         const user =  await queryPromiseGetUserById(id);
@@ -74,6 +77,7 @@ async function getUserById (id){
 
 }
 
+//Initialisation + traitement de passport
 function initialize (passport){
     
     passport.use(new localStrategy ({usernameField: 'email' , passwordField: 'motDePasse'}, authenticateUser));

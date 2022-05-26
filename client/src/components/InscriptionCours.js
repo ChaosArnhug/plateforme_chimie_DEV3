@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../index.js';
 
+//Génère une box contenant les informations d'un cours et le bouton de demande d'inscription
 class InscriptionCours extends Component {
     state = {  
         nom : this.props.nom,
@@ -19,6 +20,7 @@ class InscriptionCours extends Component {
         this.setState({[e.target.name] : e.target.value});
       } 
 
+    //Fait la requête API pour s'inscire à un cours + traitement de la réponse  
     submitHandler = event => {
         const params = new URLSearchParams();
         params.append("code", this.state.code);

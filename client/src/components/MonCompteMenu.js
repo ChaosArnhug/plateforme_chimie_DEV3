@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-
 import {Button, MenuItem, Menu} from '@mui/material'
 
+//Génère un menu déroulant pour accéder à des services liés au compte utilisateurs
 class MonCompteMenu extends Component{
 
     render(){

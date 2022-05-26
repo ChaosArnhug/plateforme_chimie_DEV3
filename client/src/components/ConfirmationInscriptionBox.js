@@ -3,9 +3,10 @@ import ConfirmationInscription from './ConfirmationInscription';
 
 import { Container} from '@mui/material';
 
+//Génère un conteneur contenant les box de confirmation d'inscription des utilisateurs
 class ConfirmationInscriptionBox extends Component {
     state = { 
-        url : "http://localhost:5000/utilisateurs/demande",
+        url : "http://141.94.26.80:5000/utilisateurs/demande",
         loading : true,
         data : null
     } 
