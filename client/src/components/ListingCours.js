@@ -19,7 +19,7 @@ class CoursButton extends Component{
     )
   }
   render(){
-      return <MenuItem onClick={()=>{window.location = `http://141.94.26.80:3000/cours/${this.props.nom}`}}>{this.props.nom}</MenuItem>
+      return <MenuItem onClick={()=>{window.location = `http://141.94.26.80:3000/cours/${this.props.nom}/creation`}}>{this.props.nom}</MenuItem>
   }
 }
 
