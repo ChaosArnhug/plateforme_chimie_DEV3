@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
+
+// Render le bouton d'un cours dans le menu déroulant déroulant.
 class CoursButton extends Component{
   goToCours(e){
     e.preventDefault();
@@ -17,17 +19,19 @@ class CoursButton extends Component{
     )
   }
   render(){
-      return <MenuItem onClick={this.goToCours.bind(this)}>{this.props.nom}</MenuItem>
+      return <MenuItem onClick={()=>{window.location = `http://141.94.26.80:3000/cours/${this.props.nom}`}}>{this.props.nom}</MenuItem>
   }
 }
 
+// Fait un .map() de l'array de données reçu et appelles CoursButton pour chacun. Envoie le nom du cours à afficher 
+// et la fonction pour gérer la fermeture du menu déroulant
 class CoursButtonList extends Component{
   render(){
     return(
       <div>
     {
       this.props.data.map(item =>(
-        <CoursButton nom={item.nom} handleClose={this.props.handleClose}/>
+        <CoursButton key={item.nom} nom={item.nom} handleClose={this.props.handleClose}/>
       ))
     }
     </div>)
@@ -35,7 +39,9 @@ class CoursButtonList extends Component{
 }
 
 
-
+// Composant MUI, menu déroulant. Voir Documentation MUI. 
+// Appelles CoursButtonList en lui donnant les données récupérées lors du fetch de la liste des cours. 
+// Si le fetch n'a pas encore renvoyé on envoie {nom:"nom_vide_chargement"}
 function BasicMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -54,7 +60,7 @@ function BasicMenu(props) {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        sx={{ml:3, mr:4, my:2, py:2, bgcolor:"secondary.button", fontSize:20, color:"#000000"}}
+        sx={{ml:3, mr:4, my:2, py:2, bgcolor:"secondary.button", fontSize:12, color:"#000000"}}
       >
         Mes cours
       </Button>
@@ -67,7 +73,7 @@ function BasicMenu(props) {
           'aria-labelledby': 'basic-button',
         }}
       >
-
+        
         <CoursButtonList data={props?.data ?? [{"nom":"nom_vide_chargement"}]} handleClose={handleClose}/>
 
       </Menu>
@@ -75,6 +81,8 @@ function BasicMenu(props) {
   );
 }
 
+
+// Composant contenant le menu déroulant, effectue le fetch des données et les envoie à BasicMenu
 class ListingCours extends Component{
   state = { 
     loading : true,
@@ -82,9 +90,10 @@ class ListingCours extends Component{
   } 
 
   async componentDidMount() {
-      const url = "http://localhost:5000/cours";
+      const url = "http://141.94.26.80:5000/cours";  
       const response = await fetch(url);
       const data = await response.json();
+      console.log(data)
       this.setState({loading : false, data : data});
   }
 
