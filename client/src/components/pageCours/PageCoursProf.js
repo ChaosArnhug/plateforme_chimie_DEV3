@@ -16,9 +16,7 @@ const P = styled('p')(unstable_styleFunctionSx);
 //fonction retournant le tableau de quiz recus en argument en tableau de tableaux de ces quizs trier par chapitre
 function tabForm (dataTraitement){
     let data = dataTraitement 
-    let startChap = 0;
-    console.log("dataTraitement = ");   
-    console.log(dataTraitement);
+    let startChap = 0;   
     let tableauData = [];
     for (let i=0; i<dataTraitement.length; i++){
         if (dataTraitement.length !=1){
