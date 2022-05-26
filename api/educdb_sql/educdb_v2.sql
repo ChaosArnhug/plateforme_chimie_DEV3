@@ -167,7 +167,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `educdb_v2`.`scores` ;
 
 CREATE TABLE IF NOT EXISTS `educdb_v2`.`scores` (
-  `idScores` INT NOT NULL,
+  `idScores` INT NOT NULL AUTO_INCREMENT,
   `idUtilisateurs` INT NOT NULL,
   `idQuizs` INT NOT NULL,
   `resultat` FLOAT NOT NULL DEFAULT 0,

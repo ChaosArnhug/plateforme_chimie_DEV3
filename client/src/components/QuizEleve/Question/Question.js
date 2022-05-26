@@ -15,7 +15,7 @@ const Question = ({titreQuestion, isQCM, enonce,img, points, reponses,questionid
                     data-testid={answer.texteReponse}
                 >
                 <input type="checkbox"  key={answer.texteReponse}  onClick={() => {
-                  setAnswer(questionid,index);
+                  updateInputValue(answer.texteReponse,enonce);
                 }}/> 
                 <i className="fa fa-fw fa fa-square-o unchecked"></i>
                 <i className="fa fa-fw fa fa-check-square-o checked"></i>
@@ -25,7 +25,7 @@ const Question = ({titreQuestion, isQCM, enonce,img, points, reponses,questionid
           </div>
       
           //sinon on affiche input   
-          :<input type="text" id="fname" name="fname" data-testid="input" key={questionid+","+index} onChange={evt => updateInputValue(evt.target.value,questionid) }>
+          :<input type="text" id="fname" name="fname" data-testid="input" key={questionid+","+index} onChange={evt => updateInputValue(evt.target.value,enonce) }>
           </input>
     ) );
     
