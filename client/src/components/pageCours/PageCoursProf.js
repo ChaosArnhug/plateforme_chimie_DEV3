@@ -82,7 +82,7 @@ class CoursPageProf extends Component{
         const params = new URLSearchParams();
         params.append("titreChapitre", this.state.newChapitre);
         params.append("estVisible", 1);
-        axios.post(`http://localhost:5000/cours/${this.props.cours}/chapitre`, params)
+        axios.post(`http://141.94.26.80:5000/cours/${this.props.cours}/chapitre`, params)
         .then(res => console.log(res)).catch(err => console.log(err)) ;
 //        window.location=`/quiz/${this.props.cours}/${this.state.newChapitre}/creation`;   
     }
@@ -147,7 +147,7 @@ class PageCoursProf extends Component{
     //appelle les quiz créer du cours
     async componentDidMount() {   
         const {cours} = this.props.params;
-        const url1 = `http://localhost:5000/cours/${cours}/quiz`;
+        const url1 = `http://141.94.26.80:5000/cours/${cours}/quiz`;
         const response1 = await fetch(url1);
         const data = await response1.json();
 
